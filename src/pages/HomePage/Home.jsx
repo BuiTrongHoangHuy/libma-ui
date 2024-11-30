@@ -1,9 +1,10 @@
+import {Button} from "@/components/ui/button.jsx";
 
 
 export const HomePage = () => {
     return (
         <div>
-            <h1 className="text-5xl bg-blue-500">Home Page</h1>
+            <Button variant="destructive">Click me</Button>
         </div>
     );
 }
