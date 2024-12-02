@@ -10,7 +10,7 @@ import {HomePage} from "../pages/HomePage/Home.jsx";
 const router = createBrowserRouter(
     createRoutesFromElements(
         <Route>
-            <Route path="*" element={<DefaultLayout />}>
+            <Route path="/" element={<DefaultLayout />}>
                 <Route index element={<HomePage />} />
             </Route>
         </Route>
