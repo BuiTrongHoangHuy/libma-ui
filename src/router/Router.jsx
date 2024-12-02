@@ -2,7 +2,7 @@ import {
     createBrowserRouter,
     createRoutesFromElements,
     Route,
-    Navigate
+    Navigate, Routes
 } from "react-router-dom";
 import DefaultLayout from "@/layouts/DefaultLayout.jsx";
 import {HomePage} from "../pages/HomePage/Home.jsx";
