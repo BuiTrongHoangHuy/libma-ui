@@ -3,7 +3,7 @@ import {
     SidebarContent,
     SidebarFooter,
     SidebarGroup, SidebarGroupContent, SidebarGroupLabel,
-    SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem,
+    SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarTrigger,
 } from "@/components/ui/sidebar"
 import {Calendar, Home, Inbox, Search, Settings} from "lucide-react";
 import LogoIcon from "@/assets/LogoIcon.jsx";
@@ -41,7 +41,8 @@ const items = [
 export function AppSidebar() {
     return (
         <Sidebar collapsible="icon">
-            <SidebarHeader/>
+            <SidebarHeader>
+            </SidebarHeader>
             <SidebarContent>
 
                 <SidebarGroup>
@@ -67,7 +68,9 @@ export function AppSidebar() {
                 </SidebarGroup>
 
             </SidebarContent>
-            <SidebarFooter/>
+            <SidebarFooter>
+                <SidebarTrigger/>
+            </SidebarFooter>
         </Sidebar>
     )
 }

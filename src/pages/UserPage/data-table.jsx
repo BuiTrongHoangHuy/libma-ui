@@ -59,9 +59,9 @@ export const DataTable = ({ data, columns, addButton })=> {
             <div className="flex items-center py-4">
                 <Input
                     placeholder="Filter..."
-                    value={(table.getColumn(columns[0].accessorKey)?.getFilterValue() ?? "")}
+                    value={(table.getColumn(columns[2].accessorKey)?.getFilterValue() ?? "")}
                     onChange={(event) =>
-                        table.getColumn(columns[0].accessorKey)?.setFilterValue(event.target.value)
+                        table.getColumn(columns[2].accessorKey)?.setFilterValue(event.target.value)
                     }
                     className="max-w-sm"
                 />
