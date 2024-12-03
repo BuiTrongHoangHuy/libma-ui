@@ -8,7 +8,7 @@ import {
     DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu.jsx";
 
-export const user_columns = [
+export const userColumns = [
     {
         id: "select",
         header: ({ table }) => (
