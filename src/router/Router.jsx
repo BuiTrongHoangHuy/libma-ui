@@ -6,12 +6,14 @@ import {
 } from "react-router-dom";
 import DefaultLayout from "@/layouts/DefaultLayout.jsx";
 import {HomePage} from "../pages/HomePage/Home.jsx";
+import {UsersPage} from "@/pages/UserPage/UserPage.jsx";
 
 const router = createBrowserRouter(
     createRoutesFromElements(
         <Route>
             <Route path="/" element={<DefaultLayout />}>
                 <Route index element={<HomePage />} />
+                <Route path="/users" element={<UsersPage />} />
             </Route>
         </Route>
     ),

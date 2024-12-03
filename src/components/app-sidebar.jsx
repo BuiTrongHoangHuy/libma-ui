@@ -7,6 +7,7 @@ import {
 } from "@/components/ui/sidebar"
 import {Calendar, Home, Inbox, Search, Settings} from "lucide-react";
 import LogoIcon from "@/assets/LogoIcon.jsx";
+import {Link, useNavigate} from "react-router-dom";
 
 // Menu items.
 const items = [
@@ -17,7 +18,7 @@ const items = [
     },
     {
         title: "User",
-        url: "#",
+        url: "/users",
         icon: Inbox,
     },
     {
@@ -40,23 +41,25 @@ const items = [
 export function AppSidebar() {
     return (
         <Sidebar collapsible="icon">
-            <SidebarHeader />
+            <SidebarHeader/>
             <SidebarContent>
 
                 <SidebarGroup>
                     <SidebarGroupContent>
-                        <div className={"flex items-center justify-center"}>
+                        <div className={"flex items-center pt-5 justify-center"}>
                             <LogoIcon></LogoIcon>
                         </div>
-                        <SidebarMenu className="py-5">
+                        <SidebarMenu className="py-6">
                             {items.map((item) => (
                                 <SidebarMenuItem className="gap-2" key={item.title}>
-                                    <SidebarMenuButton className="min-h-10 items-center text-base" asChild>
-                                        <a href={item.url}>
-                                            <item.icon/>
-                                            <span>{item.title}</span>
-                                        </a>
-                                    </SidebarMenuButton>
+                                    <Link to={`${item.url}`}>
+                                        <SidebarMenuButton className="min-h-10 items-center text-base" asChild>
+                                            <a href={item.url}>
+                                                <item.icon/>
+                                                <span>{item.title}</span>
+                                            </a>
+                                        </SidebarMenuButton>
+                                    </Link>
                                 </SidebarMenuItem>
                             ))}
                         </SidebarMenu>
