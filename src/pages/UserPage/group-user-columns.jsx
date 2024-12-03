@@ -8,7 +8,7 @@ import {
     DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu.jsx";
 
-export const columns = [
+export const groupUserColumns = [
     {
         id: "select",
         header: ({ table }) => (
@@ -37,14 +37,34 @@ export const columns = [
     },
     {
         accessorKey: "name",
-        header: "Name",
+        header: ({ column }) => (
+            <Button
+                variant="ghost"
+                onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+            >
+                Name
+                <ArrowUpDown />
+            </Button>
+        ),
+        cell: ({ row }) => (
+            <div className="px-5">{row.getValue("name")}</div>
+        ),
     },
     {
         accessorKey: "allowUse",
-        header: "Allow Use",
+        header: ({ column }) => (
+            <Button
+                variant="ghost"
+                onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+            >
+                Allow use
+                <ArrowUpDown />
+            </Button>
+        ),
         cell: ({ row }) => {
             return (
                 <Checkbox
+                    className="ml-10"
                     checked={row.getValue("allowUse")}
                     aria-label="Allow Use"
                 />
@@ -61,6 +81,9 @@ export const columns = [
                 Created At
                 <ArrowUpDown />
             </Button>
+        ),
+        cell: ({ row }) => (
+            <div className="px-5">{row.getValue("createdAt")}</div>
         ),
     },
     {
