@@ -2,7 +2,9 @@ import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/ui/tabs"
 
 import {groupUserColumns} from "@/pages/UserPage/group-user-columns.jsx";
 import {DataTable} from "@/pages/UserPage/data-table.jsx";
-import {user_columns} from "@/pages/UserPage/user-columns.jsx";
+import {userColumns} from "@/pages/UserPage/user-columns.jsx";
+import {AddGroupUserDialog} from "@/pages/UserPage/components/add-group-user-dialog.jsx";
+import {AddUserDialog} from "@/pages/UserPage/components/add-user-dialog.jsx";
 
 const groupUserData = [
     {
@@ -114,7 +116,7 @@ const userData = [
 
 export const UsersPage = () => {
     return (
-        <div className="px-10 flex flex-col space-y-5">
+        <div className="p-10 flex flex-col space-y-5">
             <div>
                 <p className="text-display/lg/bold font-bold">User Management</p>
             </div>
@@ -131,11 +133,11 @@ export const UsersPage = () => {
                 </TabsList>
 
                 <TabsContent className="py-5" value="group_user">
-                    <DataTable data={groupUserData} columns={groupUserColumns}/>
+                    <DataTable data={groupUserData} columns={groupUserColumns} addButton={<AddGroupUserDialog/>}/>
 
                 </TabsContent>
                 <TabsContent className="py-5" value="user">
-                    <DataTable data={userData} columns={user_columns}/>
+                    <DataTable data={userData} columns={userColumns} addButton={<AddUserDialog/>}/>
                 </TabsContent>
             </Tabs>
 

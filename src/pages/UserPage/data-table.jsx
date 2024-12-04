@@ -25,10 +25,11 @@ import {
     useReactTable
 } from "@tanstack/react-table";
 import { Input } from "@/components/ui/input"
+import {AddUserDialog} from "@/pages/UserPage/components/add-user-dialog.jsx";
 
 
 // eslint-disable-next-line react/prop-types
-export const DataTable = ({ data, columns })=> {
+export const DataTable = ({ data, columns, addButton })=> {
     const [sorting, setSorting] = React.useState([])
     const [columnFilters, setColumnFilters] = React.useState([])
     const [columnVisibility, setColumnVisibility] = React.useState({})
@@ -58,15 +59,17 @@ export const DataTable = ({ data, columns })=> {
             <div className="flex items-center py-4">
                 <Input
                     placeholder="Filter..."
-                    value={(table.getColumn(columns[0].accessorKey)?.getFilterValue() ?? "")}
+                    value={(table.getColumn(columns[2].accessorKey)?.getFilterValue() ?? "")}
                     onChange={(event) =>
-                        table.getColumn(columns[0].accessorKey)?.setFilterValue(event.target.value)
+                        table.getColumn(columns[2].accessorKey)?.setFilterValue(event.target.value)
                     }
                     className="max-w-sm"
                 />
-                <Button className="ml-auto">+ Add</Button>
-                <Button className="ml-2">Delete</Button>
-                <Button className="ml-2">Export file</Button>
+                <div className="ml-auto">
+                    {addButton}
+                </div>
+                <Button className="ml-2">Xóa</Button>
+                <Button className="ml-2">Xuất file</Button>
 
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
