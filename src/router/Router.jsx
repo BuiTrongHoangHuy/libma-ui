@@ -7,6 +7,7 @@ import {
 import DefaultLayout from "@/layouts/DefaultLayout.jsx";
 import {HomePage} from "../pages/HomePage/Home.jsx";
 import {UsersPage} from "@/pages/UserPage/UserPage.jsx";
+import { ReaderPage } from "@/pages/ReaderPage/ReaderPage.jsx";
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -14,6 +15,7 @@ const router = createBrowserRouter(
             <Route path="/" element={<DefaultLayout />}>
                 <Route index element={<HomePage />} />
                 <Route path="/users" element={<UsersPage />} />
+                <Route path="/readers" element={<ReaderPage/>} />
             </Route>
         </Route>
     ),

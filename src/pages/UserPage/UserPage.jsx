@@ -118,18 +118,18 @@ export const UsersPage = () => {
     return (
         <div className="p-10 flex flex-col space-y-5">
             <div>
-                <p className="text-display/lg/bold font-bold">User Management</p>
+                <p className="text-display/lg/bold font-bold">Người dùng</p>
             </div>
             <Tabs defaultValue="group_user">
                 <TabsList className="border-y-2  w-full flex justify-start space-x-5 bg-white rounded-none h-fit p-0">
                     <TabsTrigger className=" text-text/lg/semibold text-black-300 px-4 py-2 border-b border-gray-500
                                                 focus:outline-none focus:text-black-500 focus:border-b-4 focus:border-primary
                                                 aria-selected:border-primary aria-selected:border-b-4 aria-selected:text-black-500"
-                                 value="group_user">Group User</TabsTrigger>
+                                 value="group_user">Nhóm người dùng</TabsTrigger>
                     <TabsTrigger className=" text-text/lg/semibold text-black-300 px-4 py-2 border-b border-gray-500
                                                 focus:outline-none focus:text-black-500 focus:border-b-4 focus:border-primary
                                                 aria-selected:border-primary aria-selected:border-b-4 aria-selected:text-black-500"
-                                 value="user">User</TabsTrigger>
+                                 value="user">Người dùng</TabsTrigger>
                 </TabsList>
 
                 <TabsContent className="py-5" value="group_user">
