@@ -23,7 +23,7 @@ const items = [
     },
     {
         title: "Reader",
-        url: "#",
+        url: "/readers",
         icon: Calendar,
     },
     {

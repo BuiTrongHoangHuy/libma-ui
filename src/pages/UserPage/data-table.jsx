@@ -152,7 +152,7 @@ export const DataTable = ({ data, columns, addButton })=> {
                         onClick={() => table.previousPage()}
                         disabled={!table.getCanPreviousPage()}
                     >
-                        Previous
+                        Trước
                     </Button>
                     <Button
                         variant="outline"
@@ -160,7 +160,7 @@ export const DataTable = ({ data, columns, addButton })=> {
                         onClick={() => table.nextPage()}
                         disabled={!table.getCanNextPage()}
                     >
-                        Next
+                        Sau
                     </Button>
                 </div>
             </div>
