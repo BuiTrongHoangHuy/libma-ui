@@ -5,6 +5,7 @@ import { DataTable } from "@/components/data-table";
 import { Button } from "@/components/ui/button"
 import { addTicketColumns } from "./add-ticket-columns";
 import { DataTableAddTicket } from "@/components/data-table-add-ticket";
+import { AddBorrowingTicketDialog } from "./components/add-borrowing-ticket-dialog";
 
 
 const borrowTicketData = [
@@ -70,7 +71,7 @@ export const BookBorrowingPage = () => {
                     <DataTable data={borrowTicketData} columns={borrowTicketColumns} addButton={<Button onClick={handleAddButtonClick}>+ Thêm mới</Button>} />
                 </TabsContent>
                 <TabsContent className="py-5" value="add_ticket">
-                    <DataTableAddTicket data={addTicketData} columns={addTicketColumns} addButton={<Button type="button">+ Thêm mới</Button>} />
+                    <DataTableAddTicket data={addTicketData} columns={addTicketColumns} addButton={<AddBorrowingTicketDialog/>} />
                 </TabsContent>
             </Tabs>
 
