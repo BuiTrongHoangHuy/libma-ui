@@ -36,7 +36,7 @@ export const handleViolationsColumns = [
         header: "Số thẻ",
     },
     {
-        accessorKey: "readername",
+        accessorKey: "readerName",
         header: ({ column }) => (
             <Button
                 variant="ghost"
@@ -47,7 +47,7 @@ export const handleViolationsColumns = [
             </Button>
         ),
         cell: ({ row }) => (
-            <div className="px-5">{row.getValue("readername")}</div>
+            <div className="px-5">{row.getValue("readerName")}</div>
         ),
     },
     {
