@@ -2,7 +2,7 @@ import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/ui/tabs"
 
 import { handleViolationsColumns } from "./handle-violations-columns";
 import { readerCardColumns } from "./reader-card-columns";
-import {DataTable} from "@/pages/UserPage/data-table.jsx";
+import {DataTable} from "@/components/data-table.jsx";
 import {AddGroupUserDialog} from "@/pages/UserPage/components/add-group-user-dialog.jsx";
 import { AddReaderCardDialog } from "./components/add-reader-card-dialog";
 import { AddHandleViolationDialog } from "./components/add-handle-violation-dialog";
@@ -10,7 +10,7 @@ import { AddHandleViolationDialog } from "./components/add-handle-violation-dial
 const violationsData = [
     {
         id: "VL001",
-        readername: "Huy",
+        readerName: "Huy",
         reason: "Rách sách",
         punishmentType: "Thu hồi thẻ",
         expense: "100.000",
@@ -19,7 +19,7 @@ const violationsData = [
     },
     {
         id: "VL002",
-        readername: "Hoang",
+        readerName: "Hoang",
         reason: "Mất sách",
         punishmentType: "Phạt tiền",
         expense: "100.000",
@@ -30,7 +30,7 @@ const violationsData = [
 const readerCardData = [
     {
         id: "RD001",
-        readername: "john_doe",
+        readerName: "john_doe",
         createdAt: "03/12/2024",
         expiredAt: "01/01/2025",
         cardType: "Student Card",
@@ -39,7 +39,7 @@ const readerCardData = [
     },
     {
         id: "RD002",
-        readername: "jane_smith",
+        readerName: "jane_smith",
         createdAt: "04/12/2024",
         expiredAt: "30/12/2024",
         cardType: "Guest Card",

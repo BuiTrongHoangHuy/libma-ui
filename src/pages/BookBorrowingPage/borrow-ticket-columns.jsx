@@ -8,7 +8,7 @@ import {
     DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu.jsx";
 
-export const readerCardColumns = [
+export const borrowTicketColumns = [
     {
         id: "select",
         header: ({ table }) => (
@@ -32,8 +32,12 @@ export const readerCardColumns = [
         enableHiding: false,
     },
     {
-        accessorKey: "id",
-        header: "ID",
+        accessorKey: "ticketId",
+        header: "Số phiếu mượn",
+    },
+    {
+        accessorKey: "readerId",
+        header: "Số thẻ bạn đọc",
     },
     {
         accessorKey: "readerName",
@@ -81,10 +85,10 @@ export const readerCardColumns = [
         ),
     },
     {
-        accessorKey: "cardType",
-        header: "Loại thẻ",
+        accessorKey: "borrowQuantity",
+        header: "SL mượn",
         cell: ({ row }) => (
-            <div className="capitalize">{row.getValue("cardType")}</div>
+            <div className="capitalize">{row.getValue("borrowQuantity")}</div>
         ),
     },
     {
@@ -94,32 +98,4 @@ export const readerCardColumns = [
             <div className="capitalize">{row.getValue("status")}</div>
         ),
     },
-    // {
-    //     id: "actions",
-    //     enableHiding: false,
-    //     cell: ({ row }) => {
-    //         const user = row.original;
-
-    //         return (
-    //             <DropdownMenu>
-    //                 <DropdownMenuTrigger asChild>
-    //                     <Button variant="ghost" className="h-8 w-8 p-0">
-    //                         <span className="sr-only">Open menu</span>
-    //                         <MoreHorizontal />
-    //                     </Button>
-    //                 </DropdownMenuTrigger>
-    //                 <DropdownMenuContent align="end">
-    //                     <DropdownMenuLabel>Actions</DropdownMenuLabel>
-    //                     <DropdownMenuItem
-    //                         onClick={() => navigator.clipboard.writeText(user.id)}
-    //                     >
-    //                         Copy user ID
-    //                     </DropdownMenuItem>
-    //                     <DropdownMenuSeparator />
-    //                     <DropdownMenuItem>View user details</DropdownMenuItem>
-    //                 </DropdownMenuContent>
-    //             </DropdownMenu>
-    //         );
-    //     },
-    // },
 ];
