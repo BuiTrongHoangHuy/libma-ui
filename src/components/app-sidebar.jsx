@@ -13,7 +13,7 @@ import {Link, useNavigate} from "react-router-dom";
 const items = [
     {
         title: "Home",
-        url: "#",
+        url: "/home",
         icon: Home,
     },
     {
