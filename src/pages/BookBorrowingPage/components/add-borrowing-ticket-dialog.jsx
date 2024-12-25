@@ -9,13 +9,7 @@ import {
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { ScrollArea } from "@/components/ui/scroll-area"
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select"
+
 import { useState } from "react"
 import { bookColumns } from "./book-columns"
 
@@ -59,10 +53,11 @@ export function AddBorrowingTicketDialog() {
                             // Handle save logic here
                             setOpen(false)
                         }}
-                    >
+                    >   
                         Lưu
                     </Button>
                     <Button
+                        type="button"
                         variant="secondary"
                         onClick={() => setOpen(false)}
                     >
