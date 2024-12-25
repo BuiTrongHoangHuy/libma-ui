@@ -9,6 +9,7 @@ import {HomePage} from "../pages/HomePage/Home.jsx";
 import {UsersPage} from "@/pages/UserPage/UserPage.jsx";
 import { ReaderPage } from "@/pages/ReaderPage/ReaderPage.jsx";
 import { BookBorrowingPage } from "@/pages/BookBorrowingPage/BookBorrowingPage.jsx";
+import { CategoryPage } from "@/pages/CategoryPage/CategoryPage.jsx";
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -18,6 +19,7 @@ const router = createBrowserRouter(
                 <Route path="/users" element={<UsersPage />} />
                 <Route path="/readers" element={<ReaderPage/>} />
                 <Route path="/borrowingbook" element={ <BookBorrowingPage/> }/>
+                <Route path="/categories" element={ <CategoryPage/> }/>
             </Route>
         </Route>
     ),

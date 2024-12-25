@@ -84,7 +84,7 @@ export const DataTableAddTicket = ({ data, columns, addButton }) => {
                                     {...field}
                                     id="borrowCode"
                                     readOnly
-                                    className="w-[270px] bg-gray-200 text-gray-800 text-sm px-4 py-2 rounded border"
+                                    className="w-[270px] bg-gray-500 text-gray-800 text-sm px-4 py-2 border-gray-600 rounded border"
                                 />
                             )}
                         />
@@ -101,7 +101,7 @@ export const DataTableAddTicket = ({ data, columns, addButton }) => {
                                     {...field}
                                     id="cardCode"
                                     placeholder="Nhập số thẻ"
-                                    className="w-[270px] text-gray-800 text-sm px-4 py-2 rounded border"
+                                    className="w-[270px] text-gray-800 text-sm px-4 py-2 border-gray-600 rounded border"
                                 />
                             )}
                         />
@@ -118,7 +118,7 @@ export const DataTableAddTicket = ({ data, columns, addButton }) => {
                                     {...field}
                                     id="fullName"
                                     readOnly
-                                    className="w-[270px] bg-gray-200 text-gray-800 text-sm px-4 py-2 rounded border"
+                                    className="w-[270px] bg-gray-500 text-gray-800 text-sm px-4 py-2 border-gray-600 rounded border"
                                 />
                             )}
                         />
@@ -135,7 +135,7 @@ export const DataTableAddTicket = ({ data, columns, addButton }) => {
                                     {...field}
                                     id="creationDate"
                                     type="date"
-                                    className="w-[270px] text-gray-800 text-sm px-4 py-2 rounded border"
+                                    className="w-[270px] text-gray-800 text-sm px-4 py-2 border-gray-600 rounded border"
                                 />
                             )}
                         />

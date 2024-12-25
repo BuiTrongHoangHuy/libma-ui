@@ -59,10 +59,11 @@ export function AddBorrowingTicketDialog() {
                             // Handle save logic here
                             setOpen(false)
                         }}
-                    >
+                    >   
                         Lưu
                     </Button>
                     <Button
+                        type="button"
                         variant="secondary"
                         onClick={() => setOpen(false)}
                     >
