@@ -1,7 +1,6 @@
 'use client'
 
 import { Card } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
 import { Pen, TreePine, Clock, Ban } from 'lucide-react'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer } from 'recharts'
 import { PieChart, Pie, Cell } from 'recharts'

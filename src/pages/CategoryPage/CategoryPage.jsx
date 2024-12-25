@@ -1,10 +1,6 @@
 import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/ui/tabs"
 
-import {groupUserColumns} from "@/pages/UserPage/group-user-columns.jsx";
 import {DataTable} from "@/components/data-table.jsx";
-import {userColumns} from "@/pages/UserPage/user-columns.jsx";
-import {AddGroupUserDialog} from "@/pages/UserPage/components/add-group-user-dialog.jsx";
-import {AddUserDialog} from "@/pages/UserPage/components/add-user-dialog.jsx";
 import { publicationsColumns } from "./publications-columns";
 import { AddPublicationDialog } from "./components/add-publication-dialog";
 

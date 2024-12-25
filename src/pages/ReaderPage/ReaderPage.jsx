@@ -3,7 +3,6 @@ import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/ui/tabs"
 import { handleViolationsColumns } from "./handle-violations-columns";
 import { readerCardColumns } from "./reader-card-columns";
 import {DataTable} from "@/components/data-table.jsx";
-import {AddGroupUserDialog} from "@/pages/UserPage/components/add-group-user-dialog.jsx";
 import { AddReaderCardDialog } from "./components/add-reader-card-dialog";
 import { AddHandleViolationDialog } from "./components/add-handle-violation-dialog";
 
