@@ -60,10 +60,10 @@ export function AppSidebar() {
                                 <SidebarMenuItem className="gap-2" key={item.title}>
                                     <Link to={`${item.url}`}>
                                         <SidebarMenuButton className="min-h-10 items-center text-base" asChild>
-                                            <a href={item.url}>
+                                            <div >
                                                 <item.icon/>
                                                 <span>{item.title}</span>
-                                            </a>
+                                            </div>
                                         </SidebarMenuButton>
                                     </Link>
                                 </SidebarMenuItem>
