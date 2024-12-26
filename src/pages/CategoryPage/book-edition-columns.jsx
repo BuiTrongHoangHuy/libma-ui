@@ -2,7 +2,7 @@ import {Checkbox} from "@/components/ui/checkbox.jsx";
 import {Button} from "@/components/ui/button.jsx";
 import {ArrowUpDown} from "lucide-react";
 
-export const borrowTicketColumns = [
+export const bookEditionColumns = [
     {
         id: "select",
         header: ({ table }) => (
@@ -16,7 +16,7 @@ export const borrowTicketColumns = [
             />
         ),
         cell: ({ row }) => (
-            <div className="w-[25px]">
+            <div className="w-[30px]">
                 <Checkbox
                 checked={row.getIsSelected()}
                 onCheckedChange={(value) => row.toggleSelected(!!value)}
@@ -28,70 +28,52 @@ export const borrowTicketColumns = [
         enableHiding: false,
     },
     {
-        accessorKey: "ticketId",
-        header: "Số phiếu mượn",
+        accessorKey: "editionId",
+        header: "Mã đầu sách",
+        cell: ({ row }) => (
+            <div className="w-[80px]">{row.getValue("editionId")}</div>
+        ),
     },
     {
-        accessorKey: "readerId",
-        header: "Số thẻ bạn đọc",
-    },
-    {
-        accessorKey: "readerName",
+        accessorKey: "title",
         header: ({ column }) => (
             <Button
                 variant="ghost"
                 onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
             >
-                Tên bạn đọc
+                Tên sách
                 <ArrowUpDown />
             </Button>
         ),
         cell: ({ row }) => (
-            <div className="px-5">{row.getValue("readerName")}</div>
+            <div className="px-5">{row.getValue("title")}</div>
         ),
     },
     {
-        accessorKey: "createdAt",
+        accessorKey: "editionNumber",
+        header: "Số phiên bản",
+    },
+    {
+        accessorKey: "publicationYear",
         header: ({ column }) => (
             <Button
                 variant="ghost"
                 onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
             >
-                Ngày tạo
+                Năm xuất bản
                 <ArrowUpDown />
             </Button>
         ),
         cell: ({ row }) => (
-            <div className="px-5">{row.getValue("createdAt")}</div>
+            <div className="px-5">{row.getValue("publicationYear")}</div>
         ),
     },
     {
-        accessorKey: "expiredAt",
-        header: ({ column }) => (
-            <Button
-                variant="ghost"
-                onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-            >
-                Ngày hết hạn
-                <ArrowUpDown />
-            </Button>
-        ),
-        cell: ({ row }) => (
-            <div className="px-5">{row.getValue("expiredAt")}</div>
-        ),
+        accessorKey: "publisher",
+        header: "Nhà xuất bản",
     },
     {
-        accessorKey: "borrowQuantity",
-        header: "SL mượn",
-        cell: ({ row }) => (
-            <div className="capitalize">{row.getValue("borrowQuantity")}</div>
-        ),
-    },
-    {
-        accessorKey: "status",
-        header: "Trạng thái",
-        cell: ({ row }) => (
-            <div className="capitalize">{row.getValue("status")}</div>
-        ),
-    },
+        accessorKey: "isbn",
+        header: "ISNBN",
+    }
 ];

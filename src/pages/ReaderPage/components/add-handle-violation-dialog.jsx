@@ -24,9 +24,9 @@ export function AddHandleViolationDialog() {
     return (
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
-                <Button>+ Thêm mới xử lý vi phạm</Button>
+                <Button>+ Thêm mới</Button>
             </DialogTrigger>
-            <DialogContent className=" max-w-3xl h-[80vh] flex flex-col">
+            <DialogContent className=" max-w-xl h-[80vh] flex flex-col">
                 <DialogHeader>
                     <DialogTitle className="text-xl font-bold">Thêm mới xử lý vi phạm</DialogTitle>
                 </DialogHeader>

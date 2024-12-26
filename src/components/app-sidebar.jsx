@@ -12,17 +12,17 @@ import {Link, useNavigate} from "react-router-dom";
 // Menu items.
 const items = [
     {
-        title: "Home",
+        title: "Trang chủ",
         url: "/home",
         icon: Home,
     },
     {
-        title: "User",
+        title: "Người dùng",
         url: "/users",
         icon: Inbox,
     },
     {
-        title: "Reader",
+        title: "Bạn đọc",
         url: "/readers",
         icon: Calendar,
     },
@@ -32,12 +32,12 @@ const items = [
         icon: SquareLibrary,
     },
     {
-        title: "Categories",
+        title: "Danh mục",
         url: "/categories",
         icon: Search,
     },
     {
-        title: "Settings",
+        title: "Cài đặt",
         url: "#",
         icon: Settings,
     },

@@ -58,7 +58,7 @@ export const HomePage = () => {
             <span className="text-2xl font-bold">1</span>
           </div>
           <div className="mt-4 flex justify-between items-center">
-            <span>Sắp đáng mượn</span>
+            <span>Số đang mượn</span>
             <span>→</span>
           </div>
         </Card>
@@ -69,7 +69,7 @@ export const HomePage = () => {
             <span className="text-2xl font-bold">1</span>
           </div>
           <div className="mt-4 flex justify-between items-center">
-            <span>Số đáng mượn</span>
+            <span>Số đang mượn</span>
             <span>→</span>
           </div>
         </Card>
