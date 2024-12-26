@@ -5,7 +5,7 @@ import {
     SidebarGroup, SidebarGroupContent, SidebarGroupLabel,
     SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarTrigger,
 } from "@/components/ui/sidebar"
-import {Calendar, Home, Inbox, Search, Settings} from "lucide-react";
+import {Calendar, Home, Inbox, Search, Settings, SquareLibrary} from "lucide-react";
 import LogoIcon from "@/assets/LogoIcon.jsx";
 import {Link, useNavigate} from "react-router-dom";
 
@@ -13,7 +13,7 @@ import {Link, useNavigate} from "react-router-dom";
 const items = [
     {
         title: "Home",
-        url: "#",
+        url: "/home",
         icon: Home,
     },
     {
@@ -27,8 +27,13 @@ const items = [
         icon: Calendar,
     },
     {
+        title: "Mượn sách",
+        url: "/borrowingbook",
+        icon: SquareLibrary,
+    },
+    {
         title: "Categories",
-        url: "#",
+        url: "/categories",
         icon: Search,
     },
     {

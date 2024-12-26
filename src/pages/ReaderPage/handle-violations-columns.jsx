@@ -1,12 +1,6 @@
 import {Checkbox} from "@/components/ui/checkbox.jsx";
 import {Button} from "@/components/ui/button.jsx";
-import {ArrowUpDown, MoreHorizontal} from "lucide-react";
-import {
-    DropdownMenu,
-    DropdownMenuContent, DropdownMenuItem,
-    DropdownMenuLabel, DropdownMenuSeparator,
-    DropdownMenuTrigger
-} from "@/components/ui/dropdown-menu.jsx";
+import {ArrowUpDown} from "lucide-react";
 
 export const handleViolationsColumns = [
     {
@@ -36,7 +30,7 @@ export const handleViolationsColumns = [
         header: "Số thẻ",
     },
     {
-        accessorKey: "readername",
+        accessorKey: "readerName",
         header: ({ column }) => (
             <Button
                 variant="ghost"
@@ -47,7 +41,7 @@ export const handleViolationsColumns = [
             </Button>
         ),
         cell: ({ row }) => (
-            <div className="px-5">{row.getValue("readername")}</div>
+            <div className="px-5">{row.getValue("readerName")}</div>
         ),
     },
     {
