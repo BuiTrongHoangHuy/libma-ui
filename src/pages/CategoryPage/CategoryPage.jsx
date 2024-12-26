@@ -7,6 +7,8 @@ import { bookTitleColumns } from "./book-title-columns";
 import { AddBookTitleDialog } from "./components/add-book-title-dialog";
 import { bookEditionColumns } from "./book-edition-columns";
 import { AddBookEditionDialog } from "./components/add-book-edition-dialog";
+import { bookCopyColumns } from "./book-copy-columns";
+import { AddBookCopyDialog } from "./components/add-book-copy-dialog";
 
 const publicationsData = [
     {
@@ -153,6 +155,44 @@ const bookEditionData = [
     }
 ];
 
+const bookCopyData = [
+    {
+        bookId: "B001",
+        bookTitle: "Lập Trình Web Căn Bản",
+        location: "Kệ 1, Tầng 2",
+        condition: "Mới",
+        status: "Có sẵn"
+    },
+    {
+        bookId: "B002",
+        bookTitle: "Kỹ Thuật Phần Mềm",
+        location: "Kệ 2, Tầng 3",
+        condition: "Cũ",
+        status: "Mượn"
+    },
+    {
+        bookId: "B003",
+        bookTitle: "Lịch Sử Việt Nam",
+        location: "Kệ 3, Tầng 1",
+        condition: "Mới",
+        status: "Có sẵn"
+    },
+    {
+        bookId: "B004",
+        bookTitle: "Công Nghệ Thông Tin",
+        location: "Kệ 1, Tầng 1",
+        condition: "Tốt",
+        status: "Có sẵn"
+    },
+    {
+        bookId: "B005",
+        bookTitle: "Toán Học Đại Cương",
+        location: "Kệ 4, Tầng 2",
+        condition: "Cũ",
+        status: "Mượn"
+    }
+]
+
 export const CategoryPage = () => {
     return (
         <div className="p-10 flex flex-col space-y-5">
@@ -176,7 +216,7 @@ export const CategoryPage = () => {
                     <TabsTrigger className=" text-text/lg/semibold text-black-300 px-4 py-2 border-b border-gray-500
                                                 focus:outline-none focus:text-black-500 focus:border-b-4 focus:border-primary
                                                 aria-selected:border-primary aria-selected:border-b-4 aria-selected:text-black-500"
-                        value="book_copy">Quản lý cuốn sách</TabsTrigger>
+                        value="book_copy">Quản lý sách</TabsTrigger>
                 </TabsList>
 
                 <TabsContent className="py-5" value="publications">
@@ -187,6 +227,9 @@ export const CategoryPage = () => {
                 </TabsContent>
                 <TabsContent className="py-5" value="book_edition">
                     <DataTable data={bookEditionData} columns={bookEditionColumns} addButton={<AddBookEditionDialog />} />
+                </TabsContent>
+                <TabsContent className="py-5" value="book_copy">
+                    <DataTable data={bookCopyData} columns={bookCopyColumns} addButton={<AddBookCopyDialog />} />
                 </TabsContent>
             </Tabs>
 
