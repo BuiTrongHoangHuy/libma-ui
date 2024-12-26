@@ -147,12 +147,12 @@ export const DataTableAddTicket = ({ data, columns, addButton }) => {
             </div>
             <div className="rounded-md border">
                 <Table>
-                    <TableHeader>
+                    <TableHeader className="border border-gray-500">
                         {table.getHeaderGroups().map((headerGroup) => (
                             <TableRow key={headerGroup.id}>
                                 {headerGroup.headers.map((header) => {
                                     return (
-                                        <TableHead key={header.id}>
+                                        <TableHead key={header.id} className="border border-gray-500">
                                             {header.isPlaceholder
                                                 ? null
                                                 : flexRender(
@@ -169,11 +169,12 @@ export const DataTableAddTicket = ({ data, columns, addButton }) => {
                         {table.getRowModel().rows?.length ? (
                             table.getRowModel().rows.map((row) => (
                                 <TableRow
+
                                     key={row.id}
                                     data-state={row.getIsSelected() && "selected"}
                                 >
                                     {row.getVisibleCells().map((cell) => (
-                                        <TableCell key={cell.id}>
+                                        <TableCell key={cell.id} className="border border-gray-500">
                                             {flexRender(cell.column.columnDef.cell, cell.getContext())}
                                         </TableCell>
                                     ))}

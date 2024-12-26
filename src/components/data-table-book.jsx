@@ -56,7 +56,7 @@ export const DataTableBook = ({ data, columns }) => {
 
     return (
         <div className="w-full">
-            <div className="flex flex-row items-center py-4">
+            <div className="flex flex-row items-center py-4 px-1">
                 <div>
                     <div className="space-y-2">
                         <label htmlFor="date">Ngày hẹn trả</label>
@@ -69,17 +69,17 @@ export const DataTableBook = ({ data, columns }) => {
                     onChange={(event) =>
                         table.getColumn(columns[2].accessorKey)?.setFilterValue(event.target.value)
                     }
-                    className="w-[450px] ml-auto mt-auto"
+                    className="w-[400px] ml-auto mt-auto"
                 />
             </div>
             <div className="rounded-md border">
                 <Table>
-                    <TableHeader>
+                    <TableHeader className="border border-gray-500">
                         {table.getHeaderGroups().map((headerGroup) => (
                             <TableRow key={headerGroup.id}>
                                 {headerGroup.headers.map((header) => {
                                     return (
-                                        <TableHead key={header.id}>
+                                        <TableHead key={header.id} className="border border-gray-500">
                                             {header.isPlaceholder
                                                 ? null
                                                 : flexRender(
@@ -96,11 +96,12 @@ export const DataTableBook = ({ data, columns }) => {
                         {table.getRowModel().rows?.length ? (
                             table.getRowModel().rows.map((row) => (
                                 <TableRow
+
                                     key={row.id}
                                     data-state={row.getIsSelected() && "selected"}
                                 >
                                     {row.getVisibleCells().map((cell) => (
-                                        <TableCell key={cell.id}>
+                                        <TableCell key={cell.id} className="border border-gray-500">
                                             {flexRender(cell.column.columnDef.cell, cell.getContext())}
                                         </TableCell>
                                     ))}
