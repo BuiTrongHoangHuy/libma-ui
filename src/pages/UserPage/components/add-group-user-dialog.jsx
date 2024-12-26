@@ -28,9 +28,9 @@ export function AddGroupUserDialog() {
     return (
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
-                <Button>+ Thêm nhóm người dùng</Button>
+                <Button>+ Thêm mới</Button>
             </DialogTrigger>
-            <DialogContent className=" max-w-3xl h-[80vh] flex flex-col">
+            <DialogContent className=" max-w-xl h-[80vh] flex flex-col">
                 <DialogHeader>
                     <DialogTitle className="text-xl font-bold">Thêm mới nhóm người dùng</DialogTitle>
                 </DialogHeader>

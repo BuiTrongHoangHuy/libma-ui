@@ -22,7 +22,7 @@ export function AddReaderCardDialog() {
     return (
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
-                <Button>+ Thêm mới thẻ bạn đọc</Button>
+                <Button>+ Thêm mới</Button>
             </DialogTrigger>
             <DialogContent className="max-w-3xl">
                 <DialogHeader>

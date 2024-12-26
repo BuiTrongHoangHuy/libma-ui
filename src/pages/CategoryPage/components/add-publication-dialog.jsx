@@ -18,13 +18,13 @@ export function AddPublicationDialog() {
     return (
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
-                <Button>+ Thêm mới phân loại ấn phẩm</Button>
+                <Button>+ Thêm mới</Button>
             </DialogTrigger>
-            <DialogContent className=" max-w-3xl h-[80vh] flex flex-col">
+            <DialogContent className=" max-w-xl h-[80vh] flex flex-col">
                 <DialogHeader>
                     <DialogTitle className="text-xl font-bold">Thêm mới phân loại ấn phẩm</DialogTitle>
                 </DialogHeader>
-                <ScrollArea className="flex-grow p-4">
+                <ScrollArea className="flex-grow p-2">
                     <div className="grid gap-4 px-2">
                         <div className="space-y-2">
                             <label htmlFor="groupCode" className="text-sm font-medium">

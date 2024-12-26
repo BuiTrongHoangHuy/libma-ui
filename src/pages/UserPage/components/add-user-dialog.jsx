@@ -23,7 +23,7 @@ export function AddUserDialog() {
     return (
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
-                <Button>+ Thêm người dùng</Button>
+                <Button>+ Thêm mới</Button>
             </DialogTrigger>
             <DialogContent className="max-w-3xl">
                 <DialogHeader>
