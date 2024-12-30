@@ -5,7 +5,7 @@ import {
     SidebarGroup, SidebarGroupContent, SidebarGroupLabel,
     SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarTrigger,
 } from "@/components/ui/sidebar"
-import {Calendar, Home, Inbox, Search, Settings, SquareLibrary} from "lucide-react";
+import {Calendar, Home, Inbox, Search, Settings, SquareLibrary, NotebookTabs} from "lucide-react";
 import LogoIcon from "@/assets/LogoIcon.jsx";
 import {Link, useNavigate} from "react-router-dom";
 
@@ -34,7 +34,7 @@ const items = [
     {
         title: "Danh mục",
         url: "/categories",
-        icon: Search,
+        icon: NotebookTabs,
     },
     {
         title: "Cài đặt",
