@@ -42,7 +42,7 @@ export const userColumns = [
                 variant="ghost"
                 onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
             >
-                Username
+                Email
                 <ArrowUpDown />
             </Button>
         ),
@@ -57,7 +57,7 @@ export const userColumns = [
                 variant="ghost"
                 onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
             >
-                Full Name
+                Họ và tên
                 <ArrowUpDown />
             </Button>
         ),
@@ -72,7 +72,7 @@ export const userColumns = [
                 variant="ghost"
                 onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
             >
-                Role
+                Phân quyền
                 <ArrowUpDown />
             </Button>
         ),
@@ -82,7 +82,7 @@ export const userColumns = [
     },
     {
         accessorKey: "status",
-        header: "Status",
+        header: "Trạng thái",
         cell: ({ row }) => (
             <div className="capitalize">{row.getValue("status")}</div>
         ),
@@ -94,7 +94,7 @@ export const userColumns = [
                 variant="ghost"
                 onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
             >
-                Created At
+                Thời gian tạo
                 <ArrowUpDown />
             </Button>
         ),

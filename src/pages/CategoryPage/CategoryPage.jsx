@@ -9,6 +9,7 @@ import { bookEditionColumns } from "./book-edition-columns";
 import { AddBookEditionDialog } from "./components/add-book-edition-dialog";
 import { bookCopyColumns } from "./book-copy-columns";
 import { AddBookCopyDialog } from "./components/add-book-copy-dialog";
+import BookForm from "./components/add-book-by-isbn";
 
 const publicationsData = [
     {
@@ -217,6 +218,10 @@ export const CategoryPage = () => {
                                                 focus:outline-none focus:text-black-500 focus:border-b-4 focus:border-primary
                                                 aria-selected:border-primary aria-selected:border-b-4 aria-selected:text-black-500"
                         value="book_copy">Quản lý sách</TabsTrigger>
+                    <TabsTrigger className=" text-text/lg/semibold text-black-300 px-4 py-2 border-b border-gray-500
+                                                focus:outline-none focus:text-black-500 focus:border-b-4 focus:border-primary
+                                                aria-selected:border-primary aria-selected:border-b-4 aria-selected:text-black-500"
+                        value="isbn_add">Thêm sách bằng isbn</TabsTrigger>
                 </TabsList>
 
                 <TabsContent className="py-5" value="publications">
@@ -230,6 +235,9 @@ export const CategoryPage = () => {
                 </TabsContent>
                 <TabsContent className="py-5" value="book_copy">
                     <DataTable data={bookCopyData} columns={bookCopyColumns} addButton={<AddBookCopyDialog />} />
+                </TabsContent>
+                <TabsContent className="py-5" value="isbn_add">
+                    <BookForm/>
                 </TabsContent>
             </Tabs>
 

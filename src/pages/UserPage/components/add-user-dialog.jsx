@@ -34,8 +34,8 @@ export function AddUserDialog() {
                     <div className="space-y-4">
                         <h3 className="text-lg font-semibold">Thông tin tài khoản</h3>
                         <div className="space-y-2">
-                            <label htmlFor="username">Tên đăng nhập (*)</label>
-                            <Input id="username" placeholder="Nhập tên đăng nhập" />
+                            <label htmlFor="username">Email (*)</label>
+                            <Input id="username" placeholder="Nhập email đăng nhập" />
                         </div>
                         <div className="space-y-2">
                             <label htmlFor="password">Mật khẩu</label>
