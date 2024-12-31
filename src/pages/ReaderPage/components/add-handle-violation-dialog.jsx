@@ -28,7 +28,7 @@ export function AddHandleViolationDialog() {
             </DialogTrigger>
             <DialogContent className=" max-w-xl h-[80vh] flex flex-col">
                 <DialogHeader>
-                    <DialogTitle className="text-xl font-bold">Thêm mới xử lý vi phạm</DialogTitle>
+                    <DialogTitle className="text-xl font-bold">Thêm mới vi phạm</DialogTitle>
                 </DialogHeader>
                 <ScrollArea className="flex-grow p-4">
                     <div className="grid gap-4 px-2">

@@ -72,7 +72,7 @@ export function AddBookCopyDialog() {
             </DialogTrigger>
             <DialogContent className="max-w-xl h-[80vh] flex flex-col">
                 <DialogHeader>
-                    <DialogTitle className="text-xl font-bold">Thêm mới đầu sách</DialogTitle>
+                    <DialogTitle className="text-xl font-bold">Thêm mới sách</DialogTitle>
                 </DialogHeader>
                 <ScrollArea className="flex-grow p-2">
                     <div className="grid gap-4 px-2">

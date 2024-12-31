@@ -42,7 +42,7 @@ export function AddPublicationDialog() {
                             <label htmlFor="notes" className="text-sm font-medium">
                                 Ghi chú
                             </label>
-                            <Textarea id="note" placeholder="Nội dung vi phạm" />
+                            <Textarea id="note" placeholder="Ghi chú" />
                         </div>
                         <div className="flex items-center space-x-2">
                             <Checkbox id="isActive" />

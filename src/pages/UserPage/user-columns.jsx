@@ -36,7 +36,7 @@ export const userColumns = [
         header: "ID",
     },
     {
-        accessorKey: "username",
+        accessorKey: "email",
         header: ({ column }) => (
             <Button
                 variant="ghost"
@@ -47,7 +47,7 @@ export const userColumns = [
             </Button>
         ),
         cell: ({ row }) => (
-            <div className="px-5">{row.getValue("username")}</div>
+            <div className="px-5">{row.getValue("email")}</div>
         ),
     },
     {
@@ -62,7 +62,7 @@ export const userColumns = [
             </Button>
         ),
         cell: ({ row }) => (
-            <div className="px-5">{row.getValue("username")}</div>
+            <div className="px-5">{row.getValue("fullname")}</div>
         ),
     },
     {
