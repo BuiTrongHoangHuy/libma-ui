@@ -24,9 +24,9 @@ const COLORS = ['#f6ad55', '#68d391', '#63b3ed']
 
 export const HomePage = () => {
   return (
-    <div className="p-10 max-w-7xl mx-auto space-y-8">
+    <div className="p-10 mx-auto space-y-8">
       <div className="flex justify-between items-center">
-        <h1 className="text-display/lg/bold font-bold">Dashboards</h1>
+        <h1 className="text-display/lg/bold font-bold">Trang chủ</h1>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -58,7 +58,7 @@ export const HomePage = () => {
             <span className="text-2xl font-bold">1</span>
           </div>
           <div className="mt-4 flex justify-between items-center">
-            <span>Số đang mượn</span>
+            <span>Đến hạn trả</span>
             <span>→</span>
           </div>
         </Card>
@@ -69,7 +69,7 @@ export const HomePage = () => {
             <span className="text-2xl font-bold">1</span>
           </div>
           <div className="mt-4 flex justify-between items-center">
-            <span>Số đang mượn</span>
+            <span>Quá hạn trả</span>
             <span>→</span>
           </div>
         </Card>
