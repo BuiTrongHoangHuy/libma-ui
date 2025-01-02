@@ -11,7 +11,7 @@ import {
 export const userColumns = [
     {
         id: "select",
-        header: ({ table }) => (
+        header: ({table}) => (
             <Checkbox
                 checked={
                     table.getIsAllPageRowsSelected() ||
@@ -21,7 +21,7 @@ export const userColumns = [
                 aria-label="Select all"
             />
         ),
-        cell: ({ row }) => (
+        cell: ({row}) => (
             <Checkbox
                 checked={row.getIsSelected()}
                 onCheckedChange={(value) => row.toggleSelected(!!value)}
@@ -32,80 +32,82 @@ export const userColumns = [
         enableHiding: false,
     },
     {
-        accessorKey: "id",
+        accessorKey: "user_id",
         header: "ID",
+        cell: ({row}) => <div className="capitalize">{row.getValue("user_id")}</div>,
+
     },
     {
         accessorKey: "email",
-        header: ({ column }) => (
+        header: ({column}) => (
             <Button
                 variant="ghost"
                 onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
             >
                 Email
-                <ArrowUpDown />
+                <ArrowUpDown/>
             </Button>
         ),
-        cell: ({ row }) => (
+        cell: ({row}) => (
             <div className="px-5">{row.getValue("email")}</div>
         ),
     },
     {
-        accessorKey: "fullname",
-        header: ({ column }) => (
+        accessorKey: "fullName",
+        header: ({column}) => (
             <Button
                 variant="ghost"
                 onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
             >
                 Họ và tên
-                <ArrowUpDown />
+                <ArrowUpDown/>
             </Button>
         ),
-        cell: ({ row }) => (
-            <div className="px-5">{row.getValue("fullname")}</div>
+        cell: ({row}) => (
+            <div className="px-5">{row.getValue("fullName")}</div>
         ),
     },
     {
         accessorKey: "role",
-        header: ({ column }) => (
+        header: ({column}) => (
             <Button
                 variant="ghost"
                 onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
             >
                 Phân quyền
-                <ArrowUpDown />
+                <ArrowUpDown/>
             </Button>
         ),
-        cell: ({ row }) => (
+        cell: ({row}) => (
             <div className="px-5">{row.getValue("role")}</div>
         ),
     },
     {
         accessorKey: "status",
         header: "Trạng thái",
-        cell: ({ row }) => (
+        cell: ({row}) => (
             <div className="capitalize">{row.getValue("status")}</div>
         ),
     },
     {
-        accessorKey: "createdAt",
-        header: ({ column }) => (
+        accessorKey: "updatedAt",
+        header: ({column}) => (
             <Button
                 variant="ghost"
                 onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
             >
                 Thời gian tạo
-                <ArrowUpDown />
+                <ArrowUpDown/>
             </Button>
         ),
-        cell: ({ row }) => (
-            <div className="px-5">{row.getValue("createdAt")}</div>
+        cell: ({row}) => (
+            <div className="px-5">{new Date(row.getValue("updatedAt")).toLocaleDateString()}</div>
         ),
     },
     {
         id: "actions",
         enableHiding: false,
-        cell: ({ row }) => {
+        cell: ({row}) => {
             const user = row.original;
 
             return (
@@ -113,7 +115,7 @@ export const userColumns = [
                     <DropdownMenuTrigger asChild>
                         <Button variant="ghost" className="h-8 w-8 p-0">
                             <span className="sr-only">Open menu</span>
-                            <MoreHorizontal />
+                            <MoreHorizontal/>
                         </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
@@ -123,7 +125,7 @@ export const userColumns = [
                         >
                             Copy user ID
                         </DropdownMenuItem>
-                        <DropdownMenuSeparator />
+                        <DropdownMenuSeparator/>
                         <DropdownMenuItem>View user details</DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>
