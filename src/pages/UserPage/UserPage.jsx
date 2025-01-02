@@ -5,6 +5,10 @@ import {DataTable} from "@/components/data-table.jsx";
 import {userColumns} from "@/pages/UserPage/user-columns.jsx";
 import {AddGroupUserDialog} from "@/pages/UserPage/components/add-group-user-dialog.jsx";
 import {AddUserDialog} from "@/pages/UserPage/components/add-user-dialog.jsx";
+import {useToast} from "@/hooks/useToast.js";
+import {useEffect, useState} from "react";
+import {userApi} from "@/pages/UserPage/api/userApi.js";
+import {number} from "zod";
 
 const groupUserData = [
     {
@@ -114,7 +118,40 @@ const userData = [
     // Add more user data as needed
 ]
 
+
 export const UsersPage = () => {
+    const {toast} = useToast()
+
+    const [allUser, setAllUser] = useState([{
+        user_id: number,
+        fullName: String,
+        phoneNumber: String,
+        email: String,
+        address: String,
+        role: String,
+        status: number,
+        createdAt: Date,
+        updatedAt: Date,
+    }])
+    const getAllUser = async () => {
+        try {
+            console.log("get api")
+            const users = await userApi.getAllUsers()
+            console.log(users.data)
+            setAllUser(users.data)
+        } catch (error) {
+            console.log(error)
+            toast({
+                title: <p className=" text-error">Lấy dữ liệu thất bại</p>,
+                description: "Lỗi hệ thống",
+                status: "error",
+                duration: 2000
+            });
+        }
+    }
+    useEffect(() => {
+        getAllUser()
+    }, []);
     return (
         <div className="p-10 flex flex-col space-y-5">
             <div>
@@ -137,7 +174,7 @@ export const UsersPage = () => {
 
                 </TabsContent> */}
                 <TabsContent className="py-5" value="user">
-                    <DataTable data={userData} columns={userColumns} addButton={<AddUserDialog/>}/>
+                    <DataTable data={allUser} columns={userColumns} addButton={<AddUserDialog/>}/>
                 </TabsContent>
             </Tabs>
 

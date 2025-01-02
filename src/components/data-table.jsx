@@ -1,4 +1,3 @@
-
 import {
     Table,
     TableBody,
@@ -14,7 +13,7 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import {Button} from "@/components/ui/button.jsx";
-import { ChevronDown } from "lucide-react"
+import {ChevronDown} from "lucide-react"
 import React from "react";
 import {
     flexRender,
@@ -24,20 +23,20 @@ import {
     getSortedRowModel,
     useReactTable
 } from "@tanstack/react-table";
-import { Input } from "@/components/ui/input"
+import {Input} from "@/components/ui/input"
 import {AddUserDialog} from "@/pages/UserPage/components/add-user-dialog.jsx";
 
 
 // eslint-disable-next-line react/prop-types
-export const DataTable = ({ data, columns, addButton })=> {
+export const DataTable = ({data, columns, addButton}) => {
     const [sorting, setSorting] = React.useState([])
     const [columnFilters, setColumnFilters] = React.useState([])
     const [columnVisibility, setColumnVisibility] = React.useState({})
     const [rowSelection, setRowSelection] = React.useState({})
 
     const table = useReactTable({
-        data,
-        columns,
+        data: data,
+        columns: columns,
         onSortingChange: setSorting,
         onColumnFiltersChange: setColumnFilters,
         getCoreRowModel: getCoreRowModel(),
@@ -74,7 +73,7 @@ export const DataTable = ({ data, columns, addButton })=> {
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <Button variant="outline" className="ml-2">
-                            Columns <ChevronDown className="ml-2 h-4 w-4" />
+                            Columns <ChevronDown className="ml-2 h-4 w-4"/>
                         </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
@@ -120,7 +119,7 @@ export const DataTable = ({ data, columns, addButton })=> {
                         {table.getRowModel().rows?.length ? (
                             table.getRowModel().rows.map((row) => (
                                 <TableRow
-                                    
+
                                     key={row.id}
                                     data-state={row.getIsSelected() && "selected"}
                                 >
