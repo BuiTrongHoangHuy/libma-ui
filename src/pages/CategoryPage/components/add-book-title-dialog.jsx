@@ -54,6 +54,7 @@ export function AddBookTitleDialog() {
     const {toast} = useToast();
     const handleAddTitle = async (data) => {
         try {
+            console.log("add title")
             await addTitle(data).unwrap();
             toast({
                 title: <p className=" text-success">Thêm thành công</p>,
@@ -99,7 +100,7 @@ export function AddBookTitleDialog() {
                         </div>
                         <div className="space-y-2">
                             <label htmlFor="titleName" className="text-sm font-medium">
-                                Tên tựa sách
+                                Tên tựa sách(*)
                             </label>
                             <Input id="titleName"
                                    {...register("titleName")}
@@ -110,7 +111,7 @@ export function AddBookTitleDialog() {
                         </div>
                         <div className="space-y-2">
                             <label htmlFor="author" className="text-sm font-medium">
-                                Tác giả
+                                Tác giả(*)
                             </label>
                             <Input id="author" {...register("author")}
                                    placeholder="Nhập tên tác giả"
@@ -119,7 +120,7 @@ export function AddBookTitleDialog() {
                             {errors.author && <span className="text-red-500 text-sm">{errors.author.message}</span>}
                         </div>
                         <div className="space-y-2">
-                            <label className="text-sm font-medium">Thể loại</label>
+                            <label className="text-sm font-medium">Thể loại(*)</label>
                             <Controller
                                 control={control}
                                 name="categoryId"
@@ -139,7 +140,7 @@ export function AddBookTitleDialog() {
                                 )}
                             />
                             {errors.categoryId && (
-                                <span className="text-red-500 text-sm">{errors.categoryId.message}</span>
+                                <span className="text-red-500 text-sm">{"Chọn thể loại sách"}</span>
                             )}
                         </div>
                         <div className="space-y-2 pb-2">
