@@ -61,14 +61,48 @@ export const bookRTKApi = createApi({
                 url: `editions/${editionId}`,
                 method: 'GET',
             }),
-            providesTags: ['Edition'],
+            providesTags: ['BookCopy'],
         }),
         deleteEdition: builder.mutation({
             query: (itemId) => ({
-                url: `editions/${itemId}`,
+                url: `editions/delete/${itemId}`,
                 method: 'DELETE',
             }),
-            invalidatesTags: ['Edition'],
+            invalidatesTags: ['BookCopy'],
+        }),
+        getBookCopy: builder.query({
+            query: () => 'bookCopies/list',
+            providesTags: ['BookCopy'],
+        }),
+        addBookCopy: builder.mutation({
+            query: (payload) => ({
+                url: 'bookCopies/add',
+                method: 'POST',
+                body: payload,
+            }),
+            invalidatesTags: ['BookCopy'],
+        }),
+        getBookCopyById: builder.query({
+            query: (editionId) => ({
+                url: `bookCopies/${editionId}`,
+                method: 'GET',
+            }),
+            providesTags: ['BookCopy'],
+        }),
+        updateBookCopy: builder.mutation({
+            query: (itemId, payload) => ({
+                url: `bookCopies/delete/${itemId}`,
+                method: 'DELETE',
+                body: payload,
+            }),
+            invalidatesTags: ['BookCopy'],
+        }),
+        deleteBookCopy: builder.mutation({
+            query: (itemId) => ({
+                url: `bookCopies/delete/${itemId}`,
+                method: 'DELETE',
+            }),
+            invalidatesTags: ['BookCopy'],
         }),
     }),
 });
@@ -84,4 +118,8 @@ export const {
     useGetEditionByIdQuery,
     useAddEditionMutation,
     useDeleteEditionMutation,
+    useGetBookCopyQuery,
+    useGetBookCopyByIdQuery,
+    useAddBookCopyMutation,
+    useDeleteBookCopyMutation,
 } = bookRTKApi;
