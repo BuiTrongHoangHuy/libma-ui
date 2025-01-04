@@ -1,15 +1,17 @@
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/ui/tabs"
 
-import { DataTable } from "@/components/data-table.jsx";
-import { publicationsColumns } from "./publications-columns";
-import { AddPublicationDialog } from "./components/add-publication-dialog";
-import { bookTitleColumns } from "./book-title-columns";
-import { AddBookTitleDialog } from "./components/add-book-title-dialog";
-import { bookEditionColumns } from "./book-edition-columns";
-import { AddBookEditionDialog } from "./components/add-book-edition-dialog";
-import { bookCopyColumns } from "./book-copy-columns";
-import { AddBookCopyDialog } from "./components/add-book-copy-dialog";
+import {DataTable} from "@/components/data-table.jsx";
+import {publicationsColumns} from "./publications-columns";
+import {AddPublicationDialog} from "./components/add-publication-dialog";
+import {bookTitleColumns} from "./book-title-columns";
+import {AddBookTitleDialog} from "./components/add-book-title-dialog";
+import {bookEditionColumns} from "./book-edition-columns";
+import {AddBookEditionDialog} from "./components/add-book-edition-dialog";
+import {bookCopyColumns} from "./book-copy-columns";
+import {AddBookCopyDialog} from "./components/add-book-copy-dialog";
 import BookForm from "./components/add-book-by-isbn";
+import {useGetTitleQuery} from "@/store/rtk/book.service.js";
+import {useState} from "react";
 
 const publicationsData = [
     {
@@ -195,46 +197,57 @@ const bookCopyData = [
 ]
 
 export const CategoryPage = () => {
+    const [activeTab, setActiveTab] = useState('publications');
+    const {data: titlesData, isLoading: isLoadingTitles} = useGetTitleQuery(undefined, {
+            skip: activeTab !== 'book_title',
+        }
+    );
+
     return (
         <div className="p-10 flex flex-col space-y-5">
             <div>
                 <p className="text-display/lg/bold font-bold">Danh mục</p>
             </div>
-            <Tabs defaultValue="publications">
+            <Tabs value={activeTab} onValueChange={(tab => setActiveTab(tab))}>
                 <TabsList className="border-y-2  w-full flex justify-start space-x-5 bg-white rounded-none h-fit p-0">
                     <TabsTrigger className=" text-text/lg/semibold text-black-300 px-4 py-2 border-b border-gray-500
                                                 focus:outline-none focus:text-black-500 focus:border-b-4 focus:border-primary
                                                 aria-selected:border-primary aria-selected:border-b-4 aria-selected:text-black-500"
-                        value="publications">Phân loại ấn phẩm</TabsTrigger>
+                                 value="publications">Phân loại ấn phẩm</TabsTrigger>
                     <TabsTrigger className=" text-text/lg/semibold text-black-300 px-4 py-2 border-b border-gray-500
                                                 focus:outline-none focus:text-black-500 focus:border-b-4 focus:border-primary
                                                 aria-selected:border-primary aria-selected:border-b-4 aria-selected:text-black-500"
-                        value="book_title">Quản lý tựa sách</TabsTrigger>
+                                 value="book_title">Quản lý tựa sách</TabsTrigger>
                     <TabsTrigger className=" text-text/lg/semibold text-black-300 px-4 py-2 border-b border-gray-500
                                                 focus:outline-none focus:text-black-500 focus:border-b-4 focus:border-primary
                                                 aria-selected:border-primary aria-selected:border-b-4 aria-selected:text-black-500"
-                        value="book_edition">Quản lý đầu sách</TabsTrigger>
+                                 value="book_edition">Quản lý đầu sách</TabsTrigger>
                     <TabsTrigger className=" text-text/lg/semibold text-black-300 px-4 py-2 border-b border-gray-500
                                                 focus:outline-none focus:text-black-500 focus:border-b-4 focus:border-primary
                                                 aria-selected:border-primary aria-selected:border-b-4 aria-selected:text-black-500"
-                        value="book_copy">Quản lý sách</TabsTrigger>
+                                 value="book_copy">Quản lý sách</TabsTrigger>
                     <TabsTrigger className=" text-text/lg/semibold text-black-300 px-4 py-2 border-b border-gray-500
                                                 focus:outline-none focus:text-black-500 focus:border-b-4 focus:border-primary
                                                 aria-selected:border-primary aria-selected:border-b-4 aria-selected:text-black-500"
-                        value="isbn_add">Thêm sách bằng isbn</TabsTrigger>
+                                 value="isbn_add">Thêm sách bằng isbn</TabsTrigger>
                 </TabsList>
 
                 <TabsContent className="py-5" value="publications">
-                    <DataTable data={publicationsData} columns={publicationsColumns} addButton={<AddPublicationDialog />} />
+                    <DataTable data={publicationsData} columns={publicationsColumns}
+                               addButton={<AddPublicationDialog/>}/>
                 </TabsContent>
                 <TabsContent className="py-5" value="book_title">
-                    <DataTable data={bookTitleData} columns={bookTitleColumns} addButton={<AddBookTitleDialog />} />
+                    {isLoadingTitles ? (
+                        <p>Loading...</p>
+                    ) : (
+                        <DataTable data={titlesData} columns={bookTitleColumns} addButton={<AddBookTitleDialog/>}/>
+                    )}
                 </TabsContent>
                 <TabsContent className="py-5" value="book_edition">
-                    <DataTable data={bookEditionData} columns={bookEditionColumns} addButton={<AddBookEditionDialog />} />
+                    <DataTable data={bookEditionData} columns={bookEditionColumns} addButton={<AddBookEditionDialog/>}/>
                 </TabsContent>
                 <TabsContent className="py-5" value="book_copy">
-                    <DataTable data={bookCopyData} columns={bookCopyColumns} addButton={<AddBookCopyDialog />} />
+                    <DataTable data={bookCopyData} columns={bookCopyColumns} addButton={<AddBookCopyDialog/>}/>
                 </TabsContent>
                 <TabsContent className="py-5" value="isbn_add">
                     <BookForm/>
