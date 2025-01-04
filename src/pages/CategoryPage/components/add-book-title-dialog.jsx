@@ -62,11 +62,11 @@ export function AddBookTitleDialog() {
                 duration: 2000
             });
             setOpen(false);
-            reset(); // Reset form after successful submission
+            reset();
         } catch (error) {
             toast({
                 title: <p className=" text-error">{error.response.data}</p>,
-                status: "success",
+                status: "error",
                 duration: 2000
             });
             console.error("Lỗi khi thêm tựa sách:", error);
