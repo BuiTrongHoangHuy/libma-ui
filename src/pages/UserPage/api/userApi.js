@@ -9,5 +9,23 @@ export const userApi ={
         }catch (error){
             console.log(error)
         }
+    },
+    addUser: async(userData) =>{
+        try{
+            const response = await axiosInstance.post("/users/add", userData);
+            return response.data
+        }
+        catch (error) {
+            console.log(error)
+        }
+    },
+    deleteUser: async(email) => {
+        try{
+            const respone = await axiosInstance.put("/users/delete", {email});
+            return respone.data
+        }
+        catch (error){
+            console.log(error)
+        }
     }
 }

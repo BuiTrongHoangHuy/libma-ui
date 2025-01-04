@@ -5,12 +5,16 @@ import router from "./router/Router";
 import {store} from './store/store.js'
 import {Provider} from 'react-redux'
 import {Toaster} from "@/components/ui/toaster.jsx";
+import Provider from "./components/provider/provider";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
     <Provider store={store}>
         <>
-            <RouterProvider router={router}/>
-            <Toaster/>
+            
+              <Provider>
+                <RouterProvider router={router} />
+                <Toaster/>
+              </Provider>
         </>
     </Provider>
 );
