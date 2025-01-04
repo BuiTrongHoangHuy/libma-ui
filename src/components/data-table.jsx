@@ -33,17 +33,13 @@ export const DataTable = ({ data, columns, addButton, onDeleteRows }) => {
     const [columnVisibility, setColumnVisibility] = React.useState({})
     const [rowSelection, setRowSelection] = React.useState({})
 
-    // useEffect(() => {
-    //     setTableData(data);
-    //     console.log("TableData:" + tableData);
-    // }, [data]);
-
     useEffect(() => {
-        console.log(data);
+        setTableData(data);
+        // console.log("TableData:" + tableData);
     }, [data]);
 
     const table = useReactTable({
-        data: data,
+        data: tableData,
         columns: columns,
         onSortingChange: setSorting,
         onColumnFiltersChange: setColumnFilters,
@@ -71,14 +67,18 @@ export const DataTable = ({ data, columns, addButton, onDeleteRows }) => {
 
         const rowsToDelete = selectedRows.map((row) => row.original);
 
+        const selectedRowIds = new Set(
+            selectedRows.map((row) => row.id)
+        );
+
         if (onDeleteRows) {
             try {
                 await onDeleteRows(rowsToDelete); // Gọi callback xóa
-                const updatedData = tableData.filter(
-                    (row) => !rowsToDelete.some((selected) => selected.id === row.id)
-                );
+                const updatedData = tableData.filter((_, index) => !selectedRowIds.has(index.toString()));
+
                 setTableData(updatedData); // Cập nhật lại dữ liệu bảng
                 setRowSelection({}); // Reset selection
+                
             } catch (error) {
                 console.error("Error during deletion:", error);
                 alert("Failed to delete selected items. Please try again.");

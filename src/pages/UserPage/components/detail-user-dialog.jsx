@@ -1,28 +1,27 @@
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/button";
 import {
     Dialog,
     DialogContent,
     DialogHeader,
     DialogTitle,
     DialogTrigger,
-} from "@/components/ui/dialog"
-import { Input } from "@/components/ui/input"
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
 import {
     Select,
     SelectContent,
     SelectItem,
     SelectTrigger,
     SelectValue,
-} from "@/components/ui/select"
+} from "@/components/ui/select";
 import { useForm, Controller } from "react-hook-form";
-import { useState } from "react"
-import { userApi } from "../api/userApi"
+import { useState, useEffect } from "react";
+import { userApi } from "../api/userApi";
 import { useToast } from "@/hooks/use-toast";
 
-
-export function AddUserDialog({ onUserAdded }) {
-    const [open, setOpen] = useState(false)
+export function DetailUserDialog({ id, open, setOpen }) {
     const { toast } = useToast();
+    const [userData, setUserData] = useState(null);
 
     const {
         handleSubmit,
@@ -41,23 +40,62 @@ export function AddUserDialog({ onUserAdded }) {
         },
     });
 
+    // Lấy thông tin người dùng khi id thay đổi
+    useEffect(() => {
+        if (id && open) {
+            const fetchUserData = async () => {
+                try {
+                    const response = await userApi.getUserById(id);
+                    console.log(response);
+                    // Kiểm tra nếu response có dữ liệu hợp lệ
+                    if (response.code === 200 && response.data) {
+                        // Đặt dữ liệu vào form
+                        setUserData(response.data);
+                        reset({
+                            email: response.data.email,
+                            fullName: response.data.full_name,
+                            role: response.data.role.toLowerCase(),  // Giả sử API trả về "Admin" cần chuyển thành "admin"
+                            password: response.data.password,
+                            status: response.data.status,
+                            phoneNumber: response.data.phone_number,
+                            address: "",  // Địa chỉ có thể không có trong response này
+                        });
+                    } else {
+                        // Hiển thị thông báo lỗi nếu không có dữ liệu hợp lệ
+                        toast({
+                            title: "Lỗi",
+                            description: "Không tìm thấy người dùng.",
+                            status: "error",
+                        });
+                    }
+                } catch (error) {
+                    console.error("Error fetching user data:", error);
+                    toast({
+                        title: "Lỗi",
+                        description: "Không thể lấy thông tin người dùng.",
+                        status: "error",
+                    });
+                }
+            };
+            fetchUserData();
+        }
+    }, [id, open, reset, toast]);
+
     const onSubmit = async (data) => {
         try {
-            const users = await userApi.addUser(data);
-            console.log(users);
+            const updatedUser = await userApi.updateUser(id, data);  // Cập nhật thông tin người dùng
+            console.log(updatedUser);
             toast({
-                title: <p className="text-success">Thêm người dùng thành công</p>,
-                description: "Người dùng đã được thêm thành công.",
+                title: <p className="text-success">Cập nhật thông tin thành công</p>,
+                description: "Thông tin người dùng đã được cập nhật.",
                 status: "success",
                 duration: 2000,
-              });
-              setOpen(false);
-              reset();
-              onUserAdded();
+            });
+            setOpen(false);
         } catch (error) {
-            console.error("Error adding user:", error);
+            console.error("Error updating user:", error);
             toast({
-                title: <p className="text-error">Thêm dữ liệu thất bại</p>,
+                title: <p className="text-error">Cập nhật thông tin thất bại</p>,
                 description: "Lỗi hệ thống",
                 status: "error",
                 duration: 2000,
@@ -66,22 +104,13 @@ export function AddUserDialog({ onUserAdded }) {
     };
 
     return (
-        <Dialog open={open} onOpenChange={(openState) => { 
-            setOpen(openState); 
-            if (!openState) {
-                reset(); // Reset form khi đóng dialog
-            }
-        }}>
-            <DialogTrigger asChild>
-                <Button>+ Thêm mới</Button>
-            </DialogTrigger>
+        <Dialog open={open} onOpenChange={(openState) => setOpen(openState)}>
             <DialogContent className="max-w-3xl">
                 <DialogHeader>
-                    <DialogTitle className="text-xl font-bold">Thêm mới người dùng</DialogTitle>
+                    <DialogTitle className="text-xl font-bold">Thông tin người dùng</DialogTitle>
                 </DialogHeader>
                 <form onSubmit={handleSubmit(onSubmit)}>
-                    <div className="grid grid-cols-2 gap-8"
-                    >
+                    <div className="grid grid-cols-2 gap-8">
                         {/* Account Information Section */}
                         <div className="space-y-4">
                             <h3 className="text-lg font-semibold">Thông tin tài khoản</h3>
@@ -148,7 +177,7 @@ export function AddUserDialog({ onUserAdded }) {
                                         <>
                                             <Select
                                                 onValueChange={field.onChange}
-                                                defaultValue={field.value}
+                                                value={field.value}
                                             >
                                                 <SelectTrigger>
                                                     <SelectValue placeholder="Chọn nhóm" />
@@ -226,7 +255,6 @@ export function AddUserDialog({ onUserAdded }) {
                                     name="phoneNumber"
                                     control={control}
                                     rules={{
-                                        required: "Số điện thoại là bắt buộc",
                                         pattern: {
                                             value: /^[0-9]{10}$/,
                                             message: "Số điện thoại không hợp lệ",
@@ -253,36 +281,23 @@ export function AddUserDialog({ onUserAdded }) {
                                 <Controller
                                     name="address"
                                     control={control}
-                                    rules={{ required: "Địa chỉ là bắt buộc" }}
                                     render={({ field }) => (
                                         <>
                                             <Input {...field} id="address" placeholder="Địa chỉ" />
-                                            {errors.address && (
-                                                <p className="text-red-500 text-sm">
-                                                    {errors.address.message}
-                                                </p>
-                                            )}
                                         </>
-
                                     )}
                                 />
                             </div>
                         </div>
                     </div>
                     <div className="flex justify-end space-x-2 mt-6">
-                        <Button
-                            variant="default"
-                            type="submit"
-                        >
+                        <Button variant="default" type="submit">
                             Lưu
                         </Button>
                         <Button
                             variant="secondary"
                             type="button"
-                            onClick={() => {
-                                setOpen(false);
-                                reset();
-                            }}
+                            onClick={() => setOpen(false)}
                         >
                             Đóng
                         </Button>
@@ -290,6 +305,5 @@ export function AddUserDialog({ onUserAdded }) {
                 </form>
             </DialogContent>
         </Dialog>
-    )
+    );
 }
-
