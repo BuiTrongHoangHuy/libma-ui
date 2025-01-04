@@ -12,9 +12,9 @@ import {
     DropdownMenuContent,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import {Button} from "@/components/ui/button.jsx";
-import {ChevronDown} from "lucide-react"
-import React from "react";
+import { Button } from "@/components/ui/button.jsx";
+import { ChevronDown } from "lucide-react"
+import React, { useEffect } from "react";
 import {
     flexRender,
     getCoreRowModel,
@@ -23,16 +23,24 @@ import {
     getSortedRowModel,
     useReactTable
 } from "@tanstack/react-table";
-import {Input} from "@/components/ui/input"
-import {AddUserDialog} from "@/pages/UserPage/components/add-user-dialog.jsx";
-
+import { Input } from "@/components/ui/input"
 
 // eslint-disable-next-line react/prop-types
-export const DataTable = ({data, columns, addButton}) => {
+export const DataTable = ({ data, columns, addButton, onDeleteRows }) => {
+    const [tableData, setTableData] = React.useState(data);
     const [sorting, setSorting] = React.useState([])
     const [columnFilters, setColumnFilters] = React.useState([])
     const [columnVisibility, setColumnVisibility] = React.useState({})
     const [rowSelection, setRowSelection] = React.useState({})
+
+    // useEffect(() => {
+    //     setTableData(data);
+    //     console.log("TableData:" + tableData);
+    // }, [data]);
+
+    useEffect(() => {
+        console.log(data);
+    }, [data]);
 
     const table = useReactTable({
         data: data,
@@ -53,6 +61,33 @@ export const DataTable = ({data, columns, addButton}) => {
         },
     })
 
+    const handleDeleteSelected = async () => {
+        const selectedRows = table.getSelectedRowModel().rows;
+
+        if (selectedRows.length === 0) {
+            alert("Please select at least one item to delete.");
+            return;
+        }
+
+        const rowsToDelete = selectedRows.map((row) => row.original);
+
+        if (onDeleteRows) {
+            try {
+                await onDeleteRows(rowsToDelete); // Gọi callback xóa
+                const updatedData = tableData.filter(
+                    (row) => !rowsToDelete.some((selected) => selected.id === row.id)
+                );
+                setTableData(updatedData); // Cập nhật lại dữ liệu bảng
+                setRowSelection({}); // Reset selection
+            } catch (error) {
+                console.error("Error during deletion:", error);
+                alert("Failed to delete selected items. Please try again.");
+            }
+        } else {
+            console.warn("onDeleteRows callback is not provided.");
+        }
+    };
+
     return (
         <div className="w-full">
             <div className="flex items-center py-4">
@@ -67,13 +102,13 @@ export const DataTable = ({data, columns, addButton}) => {
                 <div className="ml-auto">
                     {addButton}
                 </div>
-                <Button className="ml-2">Xóa</Button>
+                <Button className="ml-2" onClick={handleDeleteSelected}>Xóa</Button>
                 <Button className="ml-2">Xuất file</Button>
 
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <Button variant="outline" className="ml-2">
-                            Columns <ChevronDown className="ml-2 h-4 w-4"/>
+                            Columns <ChevronDown className="ml-2 h-4 w-4" />
                         </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">

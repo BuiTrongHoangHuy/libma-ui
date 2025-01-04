@@ -18,5 +18,14 @@ export const userApi ={
         catch (error) {
             console.log(error)
         }
+    },
+    deleteUser: async(email) => {
+        try{
+            const respone = await axiosInstance.put("/users/delete", {email});
+            return respone.data
+        }
+        catch (error){
+            console.log(error)
+        }
     }
 }
