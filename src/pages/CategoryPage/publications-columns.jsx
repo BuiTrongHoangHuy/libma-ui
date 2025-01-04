@@ -5,7 +5,7 @@ import {ArrowUpDown} from "lucide-react";
 export const publicationsColumns = [
     {
         id: "select",
-        header: ({ table }) => (
+        header: ({table}) => (
             <Checkbox
                 checked={
                     table.getIsAllPageRowsSelected() ||
@@ -15,7 +15,7 @@ export const publicationsColumns = [
                 aria-label="Select all"
             />
         ),
-        cell: ({ row }) => (
+        cell: ({row}) => (
             <Checkbox
                 checked={row.getIsSelected()}
                 onCheckedChange={(value) => row.toggleSelected(!!value)}
@@ -26,51 +26,62 @@ export const publicationsColumns = [
         enableHiding: false,
     },
     {
-        accessorKey: "id",
-        header: "Mã loại",
+        accessorKey: "category_id",
+        header: ({column}) => (
+            <Button
+                variant="ghost"
+                onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+            >
+                Mã loại
+                <ArrowUpDown/>
+            </Button>
+        ),
+        cell: ({row}) => (
+            <div className="px-5">{row.getValue("category_id")}</div>
+        ),
     },
     {
-        accessorKey: "name",
-        header: ({ column }) => (
+        accessorKey: "categoryName",
+        header: ({column}) => (
             <Button
                 variant="ghost"
                 onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
             >
                 Tên loại
-                <ArrowUpDown />
+                <ArrowUpDown/>
             </Button>
         ),
-        cell: ({ row }) => (
-            <div className="px-5">{row.getValue("name")}</div>
+        cell: ({row}) => (
+            <div className="px-5">{row.getValue("categoryName")}</div>
         ),
     },
     {
         accessorKey: "createdAt",
-        header: ({ column }) => (
+        header: ({column}) => (
             <Button
                 variant="ghost"
                 onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
             >
                 Thời gian tạo
-                <ArrowUpDown />
+                <ArrowUpDown/>
             </Button>
         ),
-        cell: ({ row }) => (
+        cell: ({row}) => (
             <div className="px-5">{row.getValue("createdAt")}</div>
         ),
     },
     {
         accessorKey: "allowUse",
-        header: ({ column }) => (
+        header: ({column}) => (
             <Button
                 variant="ghost"
                 onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
             >
                 Được sử dụng
-                <ArrowUpDown />
+                <ArrowUpDown/>
             </Button>
         ),
-        cell: ({ row }) => {
+        cell: ({row}) => {
             return (
                 <Checkbox
                     className="ml-10"
