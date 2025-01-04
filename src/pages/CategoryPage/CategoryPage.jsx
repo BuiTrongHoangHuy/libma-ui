@@ -282,7 +282,7 @@ export const CategoryPage = () => {
                     <TabsTrigger className=" text-text/lg/semibold text-black-300 px-4 py-2 border-b border-gray-500
                                                 focus:outline-none focus:text-black-500 focus:border-b-4 focus:border-primary
                                                 aria-selected:border-primary aria-selected:border-b-4 aria-selected:text-black-500"
-                                 value="isbn_add">Thêm sách bằng isbn</TabsTrigger>
+                                 value="isbn_add">Thêm sách nhanh</TabsTrigger>
                 </TabsList>
 
                 <TabsContent className="py-5" value="publications">
