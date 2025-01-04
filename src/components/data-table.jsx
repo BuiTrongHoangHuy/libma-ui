@@ -24,7 +24,7 @@ import {
     useReactTable
 } from "@tanstack/react-table";
 import {Input} from "@/components/ui/input"
-import {AddUserDialog} from "@/pages/UserPage/components/add-user-dialog.jsx";
+import {ExportButton} from "@/components/export-button.jsx";
 
 
 // eslint-disable-next-line react/prop-types
@@ -68,8 +68,10 @@ export const DataTable = ({data, columns, addButton}) => {
                     {addButton}
                 </div>
                 <Button className="ml-2">Xóa</Button>
+                {/*
                 <Button className="ml-2">Xuất file</Button>
-
+*/}
+                <ExportButton data={data}></ExportButton>
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <Button variant="outline" className="ml-2">
