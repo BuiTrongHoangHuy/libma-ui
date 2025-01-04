@@ -11,6 +11,7 @@ import {bookCopyColumns} from "./book-copy-columns";
 import {AddBookCopyDialog} from "./components/add-book-copy-dialog";
 import BookForm from "./components/add-book-by-isbn";
 import {
+    useAddTitleMutation,
     useGetBookCopyQuery,
     useGetCategoryQuery,
     useGetEditionQuery,
@@ -217,6 +218,7 @@ export const CategoryPage = () => {
             skip: activeTab !== 'book_copy',
         }
     );
+
     const categoriesData = categoriesResponse?.data ? categoriesResponse.data : [];
     const titlesData = titlesResponse?.data ? titlesResponse.data : [];
     const editionsData = editionsResponse?.data ? editionsResponse.data : [];
@@ -285,7 +287,7 @@ export const CategoryPage = () => {
 
                 <TabsContent className="py-5" value="publications">
                     {isLoadingCategories ? (
-                        <p>Loading...</p>
+                        <p>Đang tải dữ liệu...</p>
                     ) : (
                         <DataTable data={categoriesData} columns={publicationsColumns}
                                    addButton={<AddPublicationDialog/>}/>)}
@@ -293,14 +295,14 @@ export const CategoryPage = () => {
                 </TabsContent>
                 <TabsContent className="py-5" value="book_title">
                     {isLoadingTitles ? (
-                        <p>Loading...</p>
+                        <p>Đang tải dữ liệu...</p>
                     ) : (
                         <DataTable data={transformedData} columns={bookTitleColumns} addButton={<AddBookTitleDialog/>}/>
                     )}
                 </TabsContent>
                 <TabsContent className="py-5" value="book_edition">
                     {isLoadingEditions ? (
-                        <p>Loading...</p>
+                        <p>Đang tải dữ liệu...</p>
                     ) : (
                         <DataTable data={transformedEditionData} columns={bookEditionColumns}
                                    addButton={<AddBookEditionDialog/>}/>
@@ -308,7 +310,7 @@ export const CategoryPage = () => {
                 </TabsContent>
                 <TabsContent className="py-5" value="book_copy">
                     {isLoadingBookCopy ? (
-                        <p>Loading...</p>
+                        <p>Đang tải dữ liệu...</p>
                     ) : (
                         <DataTable data={transformedBookCopyData} columns={bookCopyColumns}
                                    addButton={<AddBookCopyDialog/>}/>
