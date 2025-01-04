@@ -3,7 +3,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { DataTable } from "@/components/data-table.jsx";
 import { userColumns } from "@/pages/UserPage/user-columns.jsx";
 import { AddUserDialog } from "@/pages/UserPage/components/add-user-dialog.jsx";
-import { useToast } from "@/hooks/useToast.js";
+import { useToast } from "@/hooks/use-toast";
 import { useEffect, useState } from "react";
 import { userApi } from "@/pages/UserPage/api/userApi.js";
 import { number } from "zod";
@@ -59,9 +59,7 @@ export const UsersPage = () => {
         }
         )
       );
-      // queryClient.invalidateQueries({
-      //   queryKey: ["allUsers"], // Object form
-      // });
+
     } catch (error) {
       console.error("Failed to delete users:", error);
       throw error;

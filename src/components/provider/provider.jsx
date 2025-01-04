@@ -14,7 +14,7 @@ const queryClient = new QueryClient({
 });
 
 // Component Provider
-export default function Provider({ children }) {
+export default function ClientProvider({ children }) {
   return (
     // Bao bọc children bằng QueryClientProvider để cung cấp queryClient cho toàn bộ ứng dụng
     <QueryClientProvider client={queryClient}>

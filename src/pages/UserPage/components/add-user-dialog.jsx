@@ -17,7 +17,7 @@ import {
 import { useForm, Controller } from "react-hook-form";
 import { useState } from "react"
 import { userApi } from "../api/userApi"
-import {useToast} from "@/hooks/useToast.js";
+import { useToast } from "@/hooks/use-toast";
 
 
 export function AddUserDialog({ onUserAdded }) {
