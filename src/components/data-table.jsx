@@ -35,7 +35,7 @@ export const DataTable = ({ data, columns, addButton, onDeleteRows }) => {
 
     useEffect(() => {
         setTableData(data);
-        console.log("TableData:" + tableData);
+        // console.log("TableData:" + tableData);
     }, [data]);
 
     const table = useReactTable({

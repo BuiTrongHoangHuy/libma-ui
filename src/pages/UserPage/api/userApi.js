@@ -10,6 +10,14 @@ export const userApi ={
             console.log(error)
         }
     },
+    getUserById: async(id) => {
+        try {
+            const response = await axiosInstance.get(`/users/${id}`);
+            return response.data; 
+        } catch (error) {
+            console.log(error);
+        }
+    },
     addUser: async(userData) =>{
         try{
             const response = await axiosInstance.post("/users/add", userData);
@@ -26,6 +34,14 @@ export const userApi ={
         }
         catch (error){
             console.log(error)
+        }
+    },
+    updateUser: async(id, userData) => {
+        try {
+            const response = await axiosInstance.put(`/users/${id}`, userData);
+            return response.data; 
+        } catch (error) {
+            console.log(error);
         }
     }
 }

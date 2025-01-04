@@ -8,16 +8,19 @@ import { useEffect, useState } from "react";
 import { userApi } from "@/pages/UserPage/api/userApi.js";
 import { number } from "zod";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { DetailUserDialog } from "./components/detail-user-dialog";
 
 export const UsersPage = () => {
   const { toast } = useToast()
   const queryClient = useQueryClient();
+  const [open, setOpen] = useState(false); 
+  const [userId, setUserId] = useState(null);
 
   const { data: rawUserData = [], isLoading, isError } = useQuery({
     queryKey: ["allUsers"], // Object form
     queryFn: async () => {
       const response = await userApi.getAllUsers();
-      console.log(response.data);
+      // console.log(response.data);
       return response.data;
     },
     onError: () => {
@@ -54,7 +57,7 @@ export const UsersPage = () => {
     try {
       await Promise.all(
         rowsToDelete.map((user) => {
-          console.log(user.email);
+          // console.log(user.email);
           userApi.deleteUser(user.email);
         }
         )
@@ -65,6 +68,12 @@ export const UsersPage = () => {
       throw error;
     }
   };
+
+  const handleViewUserDetails = (id) => {
+    setUserId(id);
+    setOpen(true);
+};
+
   return (
     <div className="p-10 flex flex-col space-y-5">
       <div>
@@ -83,7 +92,8 @@ export const UsersPage = () => {
         </TabsList>
 
         <TabsContent className="py-5" value="user">
-          <DataTable data={allUser} columns={userColumns} addButton={<AddUserDialog onUserAdded={handleUserAdded} />} onDeleteRows={handleDeleteUsers} />
+          <DetailUserDialog id={userId} open={open} setOpen={setOpen} />
+          <DataTable data={allUser} columns={userColumns(handleViewUserDetails)} addButton={<AddUserDialog onUserAdded={handleUserAdded} />} onDeleteRows={handleDeleteUsers} />
         </TabsContent>
       </Tabs>
 
