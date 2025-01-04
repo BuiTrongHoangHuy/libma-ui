@@ -31,7 +31,7 @@ const bookTitlesData = [
 const editionSchema = z.object({
     titleId: z.number().min(1, "Chọn tựa sách"),
     editionNumber: z.string().min(1, "Nhập số phiên bản"),
-    isbn: z.string().optional(),
+    isbn: z.string().optional().transform((val) => (val.trim() === "" ? null : val)),
     publicationYear: z.string().optional(),
     publisher: z.string().optional(),
     pages: z.string().optional(),
@@ -51,7 +51,6 @@ export function AddBookEditionDialog() {
     const {toast} = useToast();
     const handleAddEdition = async (data) => {
         try {
-            console.log("add edit")
             await addEdition(data).unwrap();
             toast({
                 title: <p className=" text-success">Thêm thành công</p>,
@@ -62,8 +61,9 @@ export function AddBookEditionDialog() {
             setOpen(false);
             reset();
         } catch (error) {
+            console.log("loi", error);
             toast({
-                title: <p className=" text-error">{error.response.data}</p>,
+                title: <p className=" text-error">{error.data.message}</p>,
                 status: "error",
                 duration: 2000
             });
@@ -81,8 +81,6 @@ export function AddBookEditionDialog() {
     const filteredBookTitles = titlesData.filter((item) =>
         item.titleName.toLowerCase().includes(searchTerm.toLowerCase())
     );
-
-    console.log("edition", titlesData)
 
     const handleSearchFocus = () => {
         setIsSearching(true);
