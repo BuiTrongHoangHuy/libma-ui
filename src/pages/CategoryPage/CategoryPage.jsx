@@ -10,7 +10,11 @@ import {AddBookEditionDialog} from "./components/add-book-edition-dialog";
 import {bookCopyColumns} from "./book-copy-columns";
 import {AddBookCopyDialog} from "./components/add-book-copy-dialog";
 import BookForm from "./components/add-book-by-isbn";
-import {useGetCategoryQuery, useGetTitleQuery} from "@/store/rtk/book.service.js";
+import {
+    useGetCategoryQuery,
+    useGetEditionQuery,
+    useGetTitleQuery
+} from "@/store/rtk/book.service.js";
 import {useState} from "react";
 
 const publicationsData = [
@@ -204,12 +208,32 @@ export const CategoryPage = () => {
             skip: activeTab !== 'book_title',
         }
     );
+    const {data: editionsResponse, isLoading: isLoadingEditions} = useGetEditionQuery(undefined, {
+            skip: activeTab !== 'book_edition',
+        }
+    );
     const categoriesData = categoriesResponse?.data ? categoriesResponse.data : [];
     const titlesData = titlesResponse?.data ? titlesResponse.data : [];
-    const transformedData = titlesData.map((item) => ({
-        ...item,
-        categoryName: item.Category?.categoryName || "N/A",
-    }));
+    const editionsData = editionsResponse?.data ? editionsResponse.data : [];
+    let transformedData = []
+    let transformedEditionData = []
+
+    if (activeTab === "book_title") {
+        transformedData = titlesData.map((item) => ({
+            ...item,
+            categoryName: item.Category?.categoryName || "N/A",
+        }));
+    }
+    if (activeTab === "book_edition") {
+        transformedEditionData = editionsData.map((item) => ({
+            ...item,
+            titleName: item.Title?.titleName || "N/A",
+            categoryName: item.Title?.Category?.categoryName || "N/A",
+            author: item.Title?.author || "N/A",
+        }));
+        console.log("heheh", transformedEditionData)
+    }
+
     return (
         <div className="p-10 flex flex-col space-y-5">
             <div>
@@ -255,7 +279,12 @@ export const CategoryPage = () => {
                     )}
                 </TabsContent>
                 <TabsContent className="py-5" value="book_edition">
-                    <DataTable data={bookEditionData} columns={bookEditionColumns} addButton={<AddBookEditionDialog/>}/>
+                    {isLoadingEditions ? (
+                        <p>Loading...</p>
+                    ) : (
+                        <DataTable data={transformedEditionData} columns={bookEditionColumns}
+                                   addButton={<AddBookEditionDialog/>}/>
+                    )}
                 </TabsContent>
                 <TabsContent className="py-5" value="book_copy">
                     <DataTable data={bookCopyData} columns={bookCopyColumns} addButton={<AddBookCopyDialog/>}/>

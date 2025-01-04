@@ -44,6 +44,32 @@ export const bookRTKApi = createApi({
             }),
             invalidatesTags: ['Category'],
         }),
+        getEdition: builder.query({
+            query: () => 'editions/list',
+            providesTags: ['Edition'],
+        }),
+        addEdition: builder.mutation({
+            query: (payload) => ({
+                url: 'editions/add',
+                method: 'POST',
+                body: payload,
+            }),
+            invalidatesTags: ['Edition'],
+        }),
+        getEditionById: builder.query({
+            query: (editionId) => ({
+                url: `editions/${editionId}`,
+                method: 'GET',
+            }),
+            providesTags: ['Edition'],
+        }),
+        deleteEdition: builder.mutation({
+            query: (itemId) => ({
+                url: `editions/${itemId}`,
+                method: 'DELETE',
+            }),
+            invalidatesTags: ['Edition'],
+        }),
     }),
 });
 
@@ -54,4 +80,8 @@ export const {
     useGetCategoryQuery,
     useAddCategoryMutation,
     useDeleteCategoryMutation,
+    useGetEditionQuery,
+    useGetEditionByIdQuery,
+    useAddEditionMutation,
+    useDeleteEditionMutation,
 } = bookRTKApi;

@@ -67,7 +67,8 @@ export const publicationsColumns = [
             </Button>
         ),
         cell: ({row}) => (
-            <div className="px-5">{row.getValue("createdAt")}</div>
+
+            <div className="px-5">{new Date(row.getValue("createdAt")).toLocaleDateString()}</div>
         ),
     },
     {

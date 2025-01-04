@@ -5,7 +5,7 @@ import {ArrowUpDown} from "lucide-react";
 export const bookEditionColumns = [
     {
         id: "select",
-        header: ({ table }) => (
+        header: ({table}) => (
             <Checkbox
                 checked={
                     table.getIsAllPageRowsSelected() ||
@@ -15,13 +15,13 @@ export const bookEditionColumns = [
                 aria-label="Select all"
             />
         ),
-        cell: ({ row }) => (
+        cell: ({row}) => (
             <div className="w-[30px]">
                 <Checkbox
-                checked={row.getIsSelected()}
-                onCheckedChange={(value) => row.toggleSelected(!!value)}
-                aria-label="Select row"
-            />
+                    checked={row.getIsSelected()}
+                    onCheckedChange={(value) => row.toggleSelected(!!value)}
+                    aria-label="Select row"
+                />
             </div>
         ),
         enableSorting: false,
@@ -30,23 +30,23 @@ export const bookEditionColumns = [
     {
         accessorKey: "editionId",
         header: "Mã đầu sách",
-        cell: ({ row }) => (
+        cell: ({row}) => (
             <div className="w-[80px]">{row.getValue("editionId")}</div>
         ),
     },
     {
-        accessorKey: "title",
-        header: ({ column }) => (
+        accessorKey: "titleName",
+        header: ({column}) => (
             <Button
                 variant="ghost"
                 onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
             >
                 Tên sách
-                <ArrowUpDown />
+                <ArrowUpDown/>
             </Button>
         ),
-        cell: ({ row }) => (
-            <div className="px-5">{row.getValue("title")}</div>
+        cell: ({row}) => (
+            <div className="px-5">{row.getValue("titleName")}</div>
         ),
     },
     {
@@ -55,16 +55,16 @@ export const bookEditionColumns = [
     },
     {
         accessorKey: "publicationYear",
-        header: ({ column }) => (
+        header: ({column}) => (
             <Button
                 variant="ghost"
                 onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
             >
                 Năm xuất bản
-                <ArrowUpDown />
+                <ArrowUpDown/>
             </Button>
         ),
-        cell: ({ row }) => (
+        cell: ({row}) => (
             <div className="px-5">{row.getValue("publicationYear")}</div>
         ),
     },
