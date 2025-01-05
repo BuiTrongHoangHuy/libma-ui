@@ -17,6 +17,7 @@ import {useToast} from "@/hooks/use-toast.js";
 import {z} from "zod";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {useForm} from "react-hook-form";
+import {useAddBookFastMutation} from "@/store/rtk/book.service.js";
 
 
 const bookFormSchema = z.object({
@@ -25,11 +26,13 @@ const bookFormSchema = z.object({
     summary: z.string().optional(),
     publisher: z.string().min(1, "Nhà xuất bản không được để trống"),
     publishedDate: z.string().min(1, "Ngày xuất bản không được để trống"),
-    pageCount: z.number().optional()
+    isbn: z.string().min(1, "ISBN không được bỏ trống"),
+    pages: z.number().optional()
 });
 export default function BookForm() {
     const [imageUrl, setImageUrl] = useState(null)
 
+    const [addBookFast, {isLoading: isAddBookFastLoading}] = useAddBookFastMutation();
 
     const [isbn, setIsbn] = useState("")
     const [formData, setFormData] = useState({
@@ -40,7 +43,7 @@ export default function BookForm() {
         publisher: "",
         publishedDate: "",
         isbn: "",
-        pageCount: 0,
+        pages: 0,
     })
     const [searchType, setSearchType] = useState("isbn");
 
@@ -68,7 +71,7 @@ export default function BookForm() {
                     publisher: bookData.publishers?.[0] || "",
                     publishedDate: bookData.publish_date || "",
                     isbn: searchType === "isbn" ? bookData.isbn_10 : bookData.oclc_number || null,
-                    pageCount: bookData.number_of_pages || 0,
+                    pages: bookData.number_of_pages || 0,
                 })
 
                 setImageUrl(
@@ -111,6 +114,8 @@ export default function BookForm() {
         try {
 
             console.log(JSON.stringify({...data, imageUrl}))
+            console.log({...data, imageUrl})
+            await addBookFast({...data, imageUrl}).unwrap()
             /*const response = await fetch("/api/books", {
                 method: "POST",
                 headers: {
@@ -136,8 +141,9 @@ export default function BookForm() {
                 publisher: "",
                 isbn: "",
                 publishedDate: "",
-                pageCount: 0,
+                pages: 0,
             });
+            setIsbn(null)
             setImageUrl(null);
         } catch (error) {
             console.error(error);
@@ -247,10 +253,10 @@ export default function BookForm() {
                             <Input
                                 type="number"
                                 className="w-[150px]"
-                                value={formData.pageCount}
-                                onChange={(e) => setFormData({...formData, pageCount: +e.target.value})}
+                                value={formData.pages}
+                                onChange={(e) => setFormData({...formData, pages: +e.target.value})}
                             /></div>
-                        {errors.pageCount && <p className="text-red-500">{errors.pageCount?.message}</p>}
+                        {errors.pages && <p className="text-red-500">{errors.pages?.message}</p>}
 
                         <div className="flex-1">
                             <input
@@ -277,7 +283,7 @@ export default function BookForm() {
                                                 <img
                                                     src={imageUrl}
                                                     alt="Uploaded image"
-                                                    className="object-cover w-full h-full"
+                                                    className="object-cover w-full h-full "
                                                 />
                                             </div>
                                             <button
@@ -300,8 +306,11 @@ export default function BookForm() {
                     </div>
 
                     <div className="flex justify-end">
-                        <Button type={"submit"}>
-                            Thêm mới
+                        <Button type={"submit"} className="bg-primary hover:bg-primary/90 text-white"
+                                disabled={isAddBookFastLoading}
+
+                        >
+                            {isAddBookFastLoading ? 'Đang thêm...' : 'Thêm mới'}
                         </Button>
                     </div>
                 </form>

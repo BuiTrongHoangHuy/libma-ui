@@ -240,7 +240,6 @@ export const CategoryPage = () => {
             categoryName: item.Title?.Category?.categoryName || "N/A",
             author: item.Title?.author || "N/A",
         }));
-        console.log("heheh", transformedEditionData)
     }
     if (activeTab === "book_copy") {
         transformedBookCopyData = bookCopyData.map((item) => ({

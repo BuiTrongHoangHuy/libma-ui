@@ -1,25 +1,37 @@
 'use client'
 
-import { Book, Library, X } from 'lucide-react'
-import { useSearchParams } from 'react-router-dom';
+import {Library, X} from 'lucide-react'
+import {useParams} from 'react-router-dom';
+import {useGetEditionByIdQuery} from "@/store/rtk/book.service.js";
 
 export default function BookDetailPage() {
 
-    const [searchParams] = useSearchParams();
-    const id = searchParams.get('id');
+    //const [searchParams] = useSearchParams();
+    //const id = searchParams.get('id');
+    const {id} = useParams();
 
     const handleClose = () => {
-        window.history.back();  
+        window.history.back();
     };
+    const {data: editionsResponse, isLoading: isLoadingEditions} = useGetEditionByIdQuery(id);
 
+    const editionsData = editionsResponse?.data ? editionsResponse.data : {};
+    const transformedEditionData = editionsData ? {
+        ...editionsData,
+        titleName: editionsData.Title?.titleName || "N/A",
+        categoryName: editionsData.Title?.Category?.categoryName || "N/A",
+        author: editionsData.Title?.author || "N/A",
+        summary: editionsData.Title?.summary,
+    } : {};
+    console.log(transformedEditionData)
     return (
         <div className="p-10 mx-auto space-y-8">
             {/* Close Button */}
-            <button 
+            <button
                 onClick={handleClose}
                 className="absolute top-6 right-6 bg-white border-gray-600 border-[1.5px] text-black p-2 rounded-full hover:bg-gray-300 transition-all"
             >
-                <X className="h-5 w-5" />  {/* Close icon */}
+                <X className="h-5 w-5"/> {/* Close icon */}
             </button>
 
             <div className="flex flex-col md:flex-row gap-8">
@@ -27,9 +39,9 @@ export default function BookDetailPage() {
                 <div className="w-full md:w-72 shrink-0">
                     <div className="aspect-[3/4] relative shadow-lg rounded-lg overflow-hidden">
                         <img
-                            src="https://d23tvywehq0xq.cloudfront.net/ddc88f8888f794c4a4f4db0e030bf148.jpg"
-                            alt="1984 Book Cover"
-                            className="object-cover w-full h-full"
+                            src={transformedEditionData?.thumbnailUrl}
+                            alt={transformedEditionData?.titleName}
+                            className="object-cover w-full h-full transition-transform duration-300 transform hover:scale-105"
                         />
                     </div>
                 </div>
@@ -39,36 +51,32 @@ export default function BookDetailPage() {
                     {/* Header */}
                     <div className="flex items-center gap-3">
                         <div className="flex items-center gap-2 ">
-                            <Library className="h-5 w-5 text-[#5CD3E5]" />
+                            <Library className="h-5 w-5 text-[#5CD3E5]"/>
                             <span className='font-semibold'>Thể loại</span>
                         </div>
                         <span className="text-xs bg-gray-500 p-1  rounded-md text-muted-foreground">
-                            Book
+                              {transformedEditionData?.categoryName}
                         </span>
                     </div>
 
                     {/* Title and Author */}
                     <div className="space-y-2">
-                        <h1 className="text-3xl font-bold">1984 (Signet Classics)</h1>
-                        <h2 className="text-2xl text-muted-foreground">George Orwell</h2>
+                        <h1 className="text-3xl font-bold">{transformedEditionData?.titleName}</h1>
+                        <h2 className="text-2xl text-muted-foreground">{transformedEditionData?.author}</h2>
                     </div>
 
                     {/* Publication Details */}
                     <div className="space-y-1">
                         <div className="flex gap-2 items-center">
-                            <span className="font-semibold">1961</span>
-                            <span>328 pages</span>
+                            <span className="font-semibold">{transformedEditionData?.publicationYear}</span>
+                            <span>{transformedEditionData?.pages} pages</span>
                             <span className="text-muted-foreground">(Signet Classic)</span>
                         </div>
 
                         <div className="space-y-1 text-sm">
                             <div>
-                                <span className="font-semibold">EAN / ISBN13: </span>
-                                <span>9780451524935</span>
-                            </div>
-                            <div>
-                                <span className="font-semibold">UPC / ISBN10: </span>
-                                <span>0451524934</span>
+                                <span className="font-semibold">ISBN10 / OCLC: </span>
+                                <span>{transformedEditionData?.isbn}</span>
                             </div>
                         </div>
                     </div>
@@ -77,7 +85,7 @@ export default function BookDetailPage() {
                     <div className="space-y-1">
                         <div>
                             <span className="font-semibold">Added: </span>
-                            <span>2024-10-24</span>
+                            <span>{new Date(transformedEditionData?.createdAt).toLocaleDateString() || "N/A"}</span>
                         </div>
                         <div>
                             <span className="font-semibold">Copies: </span>
@@ -91,7 +99,7 @@ export default function BookDetailPage() {
                             Description
                         </h3>
                         <p className="text-muted-foreground leading-relaxed">
-                            View our feature on George Orwell's 1984. Written in 1948, 1984 was George Orwell's chilling prophecy about the future. And while 1984 has come and gone, Orwell's narrative is timelier than ever. 1984 presents a startling and haunting vision of the world, so powerful that it is completely convincing from start to finish. No one can deny the power of this novel, its hold on the imaginations of multiple generations of readers, or the resiliency of its admonitions—a legacy that seems only to grow with the passage of time.
+                            {transformedEditionData?.summary}
                         </p>
                     </div>
                 </div>

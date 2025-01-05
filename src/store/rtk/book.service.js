@@ -61,14 +61,14 @@ export const bookRTKApi = createApi({
                 url: `editions/${editionId}`,
                 method: 'GET',
             }),
-            providesTags: ['BookCopy'],
+            providesTags: ['Edition'],
         }),
         deleteEdition: builder.mutation({
             query: (itemId) => ({
                 url: `editions/delete/${itemId}`,
                 method: 'DELETE',
             }),
-            invalidatesTags: ['BookCopy'],
+            invalidatesTags: ['Edition'],
         }),
         getBookCopy: builder.query({
             query: () => 'bookCopies/list',
@@ -104,6 +104,14 @@ export const bookRTKApi = createApi({
             }),
             invalidatesTags: ['BookCopy'],
         }),
+        addBookFast: builder.mutation({
+            query: (payload) => ({
+                url: `editions/add-fast`,
+                method: "POST",
+                body: payload,
+            }),
+            invalidatesTags: ["Edition"],
+        })
     }),
 });
 
@@ -122,4 +130,5 @@ export const {
     useGetBookCopyByIdQuery,
     useAddBookCopyMutation,
     useDeleteBookCopyMutation,
+    useAddBookFastMutation,
 } = bookRTKApi;

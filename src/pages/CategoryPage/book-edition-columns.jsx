@@ -80,7 +80,7 @@ export const bookEditionColumns = [
     },
     {
         accessorKey: "isbn",
-        header: "ISNBN",
+        header: "ISBN/OCLC",
     },
     {
         id: "actions",
