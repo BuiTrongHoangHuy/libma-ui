@@ -2,10 +2,26 @@ import {Checkbox} from "@/components/ui/checkbox.jsx";
 import {Button} from "@/components/ui/button.jsx";
 import {ArrowUpDown} from "lucide-react";
 
+
+const statusMap = {
+    1: "Còn hạn",
+    0: "Đã hủy",
+    2: "Quá hạn",
+};
+const colorMap = {
+    1: "text-success",
+    2: "text-warning",
+    0: "text-error",
+};
+// eslint-disable-next-line react/prop-types
+const StatusLoanRecord = ({status}) => (
+    <div className={` ${colorMap[status]}`}>{statusMap[status]}</div>
+)
+
 export const borrowTicketColumns = [
     {
         id: "select",
-        header: ({ table }) => (
+        header: ({table}) => (
             <Checkbox
                 checked={
                     table.getIsAllPageRowsSelected() ||
@@ -15,20 +31,20 @@ export const borrowTicketColumns = [
                 aria-label="Select all"
             />
         ),
-        cell: ({ row }) => (
+        cell: ({row}) => (
             <div className="w-[25px]">
                 <Checkbox
-                checked={row.getIsSelected()}
-                onCheckedChange={(value) => row.toggleSelected(!!value)}
-                aria-label="Select row"
-            />
+                    checked={row.getIsSelected()}
+                    onCheckedChange={(value) => row.toggleSelected(!!value)}
+                    aria-label="Select row"
+                />
             </div>
         ),
         enableSorting: false,
         enableHiding: false,
     },
     {
-        accessorKey: "ticketId",
+        accessorKey: "transactionId",
         header: "Số phiếu mượn",
     },
     {
@@ -36,62 +52,62 @@ export const borrowTicketColumns = [
         header: "Số thẻ bạn đọc",
     },
     {
-        accessorKey: "readerName",
-        header: ({ column }) => (
+        accessorKey: "fullName",
+        header: ({column}) => (
             <Button
                 variant="ghost"
                 onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
             >
                 Tên bạn đọc
-                <ArrowUpDown />
+                <ArrowUpDown/>
             </Button>
         ),
-        cell: ({ row }) => (
-            <div className="px-5">{row.getValue("readerName")}</div>
+        cell: ({row}) => (
+            <div className="px-5">{row.getValue("fullName")}</div>
         ),
     },
     {
-        accessorKey: "createdAt",
-        header: ({ column }) => (
+        accessorKey: "loanDate",
+        header: ({column}) => (
             <Button
                 variant="ghost"
                 onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
             >
-                Ngày tạo
-                <ArrowUpDown />
+                Ngày mượn
+                <ArrowUpDown/>
             </Button>
         ),
-        cell: ({ row }) => (
-            <div className="px-5">{row.getValue("createdAt")}</div>
+        cell: ({row}) => (
+            <div className="px-5">{new Date(row.getValue("loanDate")).toLocaleDateString()}</div>
         ),
     },
     {
-        accessorKey: "expiredAt",
-        header: ({ column }) => (
+        accessorKey: "dueDate",
+        header: ({column}) => (
             <Button
                 variant="ghost"
                 onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
             >
                 Ngày hết hạn
-                <ArrowUpDown />
+                <ArrowUpDown/>
             </Button>
         ),
-        cell: ({ row }) => (
-            <div className="px-5">{row.getValue("expiredAt")}</div>
+        cell: ({row}) => (
+            <div className="px-5">{new Date(row.getValue("dueDate")).toLocaleDateString()}</div>
         ),
     },
     {
-        accessorKey: "borrowQuantity",
+        accessorKey: "countBook",
         header: "SL mượn",
-        cell: ({ row }) => (
-            <div className="capitalize">{row.getValue("borrowQuantity")}</div>
+        cell: ({row}) => (
+            <div className="capitalize">{row.getValue("countBook")}</div>
         ),
     },
     {
         accessorKey: "status",
         header: "Trạng thái",
-        cell: ({ row }) => (
-            <div className="capitalize">{row.getValue("status")}</div>
+        cell: ({row}) => (
+            <StatusLoanRecord status={row.getValue("status")}/>
         ),
     },
 ];
