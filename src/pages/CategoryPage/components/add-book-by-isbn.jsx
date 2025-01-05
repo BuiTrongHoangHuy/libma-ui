@@ -76,6 +76,14 @@ export default function BookForm() {
                     `https://covers.openlibrary.org/b/id/${bookData.covers?.[0]}-L.jpg` ||
                     null
                 );
+
+                toast({
+                    title: <p className=" text-success">Tìm thành công</p>,
+                    description: `Tìm thấy sách với ${searchType.toUpperCase()} đã nhập`,
+                    status: "success",
+                    duration: 2000
+                });
+
             } else {
                 toast({
                     title: <p className=" text-warning-500">Tìm không thành công</p>,
@@ -92,9 +100,50 @@ export default function BookForm() {
                 status: "error",
                 duration: 2000
             });
-            //alert("Đã xảy ra lỗi khi tìm kiếm sách.")
         }
     }
+    const {register, handleSubmit, formState: {errors}} = useForm({
+        resolver: zodResolver(bookFormSchema),
+        defaultValues: formData,
+        values: formData,
+    })
+    const onSubmit = async (data) => {
+        try {
+
+            console.log(JSON.stringify({...data, imageUrl}))
+            /*const response = await fetch("/api/books", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({...data, imageUrl}),
+            });*/
+
+            /*if (!response.ok) {
+                throw new Error("Không thể thêm sách.");
+            }*/
+
+            toast({
+                title: <p className=" text-success">Thêm thành công</p>,
+                description: "Thêm sách thành công",
+                status: "success",
+                duration: 2000
+            });
+            setFormData({
+                title: "",
+                author: "",
+                summary: "",
+                publisher: "",
+                isbn: "",
+                publishedDate: "",
+                pageCount: 0,
+            });
+            setImageUrl(null);
+        } catch (error) {
+            console.error(error);
+            alert("Đã xảy ra lỗi khi thêm sách.");
+        }
+    };
     const handleImageUpload = (e) => {
         const file = e.target.files?.[0]
         if (file) {
@@ -106,7 +155,7 @@ export default function BookForm() {
     return (
         <Card className="w-full  mx-auto">
             <CardContent className="p-6">
-                <form className="space-y-6">
+                <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
                     <div className="flex gap-4">
                         <div className="flex-1">
                             <Label>Chọn thể loại</Label>
@@ -141,6 +190,7 @@ export default function BookForm() {
                             <div className="flex gap-2">
                                 <Input placeholder={`Nhập ${searchType.toUpperCase()}`}
                                        value={isbn}
+                                       {...register("isbn")}
                                        onChange={(e) => setIsbn(e.target.value)}/>
                                 <Button type="button" onClick={handleSearch}>
                                     Tìm kiếm
@@ -153,12 +203,15 @@ export default function BookForm() {
                         <Label>Tựa sách</Label>
                         <Input value={formData.title}
                                onChange={(e) => setFormData({...formData, title: e.target.value})}/>
+                        {errors.title && <p className="text-red-500">{errors.title?.message}</p>}
                     </div>
 
                     <div>
                         <Label>Tác giả</Label>
                         <Input value={formData.author}
                                onChange={(e) => setFormData({...formData, author: e.target.value})}/>
+                        {errors.author && <p className="text-red-500">{errors.author?.message}</p>}
+
                     </div>
 
                     <div>
@@ -173,6 +226,8 @@ export default function BookForm() {
                         <Label>Nhà xuất bản</Label>
                         <Input value={formData.publisher}
                                onChange={(e) => setFormData({...formData, publisher: e.target.value})}/>
+                        {errors.publisher && <p className="text-red-500">{errors.publisher?.message}</p>}
+
                     </div>
 
                     <div>
@@ -182,6 +237,8 @@ export default function BookForm() {
                             value={formData.publishedDate}
                             onChange={(e) => setFormData({...formData, publishedDate: e.target.value})}
                         />
+                        {errors.publishedDate && <p className="text-red-500">{errors.publishedDate?.message}</p>}
+
                     </div>
 
                     <div className="flex gap-4 items-end">
@@ -193,6 +250,8 @@ export default function BookForm() {
                                 value={formData.pageCount}
                                 onChange={(e) => setFormData({...formData, pageCount: +e.target.value})}
                             /></div>
+                        {errors.pageCount && <p className="text-red-500">{errors.pageCount?.message}</p>}
+
                         <div className="flex-1">
                             <input
                                 type="file"
@@ -241,7 +300,7 @@ export default function BookForm() {
                     </div>
 
                     <div className="flex justify-end">
-                        <Button>
+                        <Button type={"submit"}>
                             Thêm mới
                         </Button>
                     </div>
