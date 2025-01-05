@@ -1,25 +1,24 @@
 'use client'
 
-import {Button} from "@/components/ui/button"
-import {Input} from "@/components/ui/input"
-import {Search, Power, ChevronDown, Edit} from 'lucide-react'
-import {useState} from 'react'
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Search, ChevronDown, Edit } from 'lucide-react'
+import { useState } from 'react'
 import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuItem,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import router from "@/router/Router"
-import {Link} from "react-router-dom"
-import {useGetEditionQuery} from "@/store/rtk/book.service.js";
+import { Link } from "react-router-dom"
+import { useGetEditionQuery, useGetCategoryQuery } from "@/store/rtk/book.service.js";
 
 export default function LibraryPage() {
     const alphabet = 'A B C D E F G H I J K L M N O P Q R S T U V W X Y Z # ALL'.split(' ');
-    const [selectedLetter, setSelectedLetter] = useState('ALL')
-    const [sortBy, setSortBy] = useState('Title')
-    const sortOptions = ['Title', 'Creator', 'Added', 'Published', 'Rating']
-    const {data: editionsResponse, isLoading: isLoadingEditions} = useGetEditionQuery();
+    const [selectedLetter, setSelectedLetter] = useState('ALL');
+    const [sortBy, setSortBy] = useState('Tất cả');
+    const [searchTerm, setSearchTerm] = useState('');
+    const { data: editionsResponse, isLoading: isLoadingEditions } = useGetEditionQuery();
     const editionsData = editionsResponse?.data ? editionsResponse.data : [];
     const transformedEditionData = editionsData.map((item) => ({
         ...item,
@@ -27,72 +26,62 @@ export default function LibraryPage() {
         categoryName: item.Title?.Category?.categoryName || "N/A",
         author: item.Title?.author || "N/A",
     }));
-    const books = [
-        {
-            id: '1',
-            title: '1984 (Signet Classics)',
-            author: 'George Orwell',
-            type: 'Book',
-            ean: '9780451524935',
-            upc: '0451524934'
-        },
-        {
-            id: '2',
-            title: "S'Ng Khoi Que Nha: Tap Van",
-            author: 'fgfg',
-            type: 'Book',
-            ean: '9786041016613',
-            upc: '6041016616'
-        },
-        {
-            id: '3',
-            title: '2000 (Signet Classics)',
-            author: 'George Orwell',
-            type: 'Book',
-            ean: '9780451524935',
-            upc: '0451524934'
-        },
-        {
-            id: '4',
-            title: "A'Ng Khoi Que Nha: Tap Van",
-            author: 'fgfg',
-            type: 'Book',
-            ean: '9786041016613',
-            upc: '6041016616'
-        },
-    ]
+
+    const { data: categoriesResponse, isLoading: isLoadingCategories } = useGetCategoryQuery();
+    const categoriesData = categoriesResponse?.data ? categoriesResponse.data : [];
+
+    const sortOptions = [
+        { name: "Tất cả", id: null },
+        ...categoriesData.map((category) => ({
+            name: category.categoryName,
+            id: category.category_id,
+        })),
+    ];
 
     const handleLetterClick = (letter) => {
-        setSelectedLetter(letter === selectedLetter ? 'ALL' : letter)
-    }
+        setSelectedLetter(letter === selectedLetter ? 'ALL' : letter);
+    };
 
-    // Group books by first letter
+    const handleSearchChange = (event) => {
+        setSearchTerm(event.target.value);
+    };
+
+    const filteredBooks = sortBy === "Tất cả"
+        ? transformedEditionData
+        : transformedEditionData.filter((book) => book.categoryName === sortBy);
+
     const groupBooksByLetter = () => {
-        const grouped = {}
-        transformedEditionData.forEach(book => {
-            const firstChar = book.titleName.charAt(0).toUpperCase()
-            const letter = /[A-Z]/.test(firstChar) ? firstChar : '#'
-            if (!grouped[letter]) {
-                grouped[letter] = []
-            }
-            grouped[letter].push(book)
-        })
-        return grouped
-    }
+        const grouped = {};
+        filteredBooks
+            .filter((book) =>
+                book.titleName.toLowerCase().includes(searchTerm.toLowerCase()) 
+            )
+            .forEach((book) => {
+                const firstChar = book.titleName.charAt(0).toUpperCase();
+                const letter = /[A-Z]/.test(firstChar) ? firstChar : '#';
+                if (!grouped[letter]) {
+                    grouped[letter] = [];
+                }
+                grouped[letter].push(book);
+            });
+        return grouped;
+    };
 
-    const groupedBooks = groupBooksByLetter()
+    const groupedBooks = groupBooksByLetter();
     const visibleLetters = selectedLetter === 'ALL'
         ? Object.keys(groupedBooks).sort()
-        : [selectedLetter].filter(letter => groupedBooks[letter]?.length > 0)
+        : [selectedLetter].filter(letter => groupedBooks[letter]?.length > 0);
 
     return (
         <div className="p-10 mx-auto space-y-8">
-            {/* Entertainment Section */}
+            {/* Search Section */}
             <div className="bg-muted p-4 rounded-lg flex items-center">
                 <div className="relative flex-1 max-w-screen-md">
-                    <Search className="absolute left-2 top-2.5 h-6 w-6 text-muted-foreground"/>
+                    <Search className="absolute left-2 top-2.5 h-6 w-6 text-muted-foreground" />
                     <Input
                         placeholder="Start Searching..."
+                        value={searchTerm}
+                        onChange={handleSearchChange}
                         className="pl-10 h-12 text-[24px]"
                     />
                 </div>
@@ -101,17 +90,17 @@ export default function LibraryPage() {
                         <DropdownMenuTrigger asChild>
                             <Button className="bg-[#5CD3E5] h-12 hover:bg-[#4bc0d2]">
                                 {sortBy}
-                                <ChevronDown className="h-6 w-6 ml-2"/>
+                                <ChevronDown className="h-6 w-6 ml-2" />
                             </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end" className="w-[200px]">
                             {sortOptions.map((option) => (
                                 <DropdownMenuItem
-                                    key={option}
-                                    onClick={() => setSortBy(option)}
-                                    className={sortBy === option ? "bg-[#5CD3E5] text-white" : ""}
+                                    key={option.id}
+                                    onClick={() => setSortBy(option.name)}
+                                    className={sortBy === option.name ? "bg-[#5CD3E5] text-white" : ""}
                                 >
-                                    {option}
+                                    {option.name}
                                 </DropdownMenuItem>
                             ))}
                         </DropdownMenuContent>
@@ -126,7 +115,7 @@ export default function LibraryPage() {
                         key={letter}
                         variant={selectedLetter === letter ? "default" : "ghost"}
                         className={`${selectedLetter === letter ? 'bg-[#5CD3E5] text-white' : ''
-                        } hover:bg-[#5CD3E5] hover:text-white`}
+                            } hover:bg-[#5CD3E5] hover:text-white`}
                         onClick={() => handleLetterClick(letter)}
                     >
                         {letter}
@@ -144,7 +133,7 @@ export default function LibraryPage() {
                         </div>
 
                         {/* Books for this letter */}
-                        {groupedBooks[letter].map((book) => (
+                        {groupedBooks[letter]?.map((book) => (
                             <div
                                 key={book.editionId}
                                 className="bg-background p-4 rounded-lg shadow-sm relative flex flex-row gap-2"
@@ -173,7 +162,7 @@ export default function LibraryPage() {
                                         size="icon"
                                         className="absolute right-2 top-2"
                                     >
-                                        <Edit className="h-4 w-4"/>
+                                        <Edit className="h-4 w-4" />
                                     </Button>
                                 </Link>
                                 <div className="space-y-1">
@@ -196,5 +185,5 @@ export default function LibraryPage() {
                 ))}
             </div>
         </div>
-    )
+    );
 }

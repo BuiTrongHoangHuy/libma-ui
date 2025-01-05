@@ -2,7 +2,7 @@ import {fetchBaseQuery} from '@reduxjs/toolkit/query/react';
 import config from '/config';
 
 export const baseQuery = fetchBaseQuery({
-    baseUrl: config.MOCK_URL,
+    baseUrl: config.BASE_URL,
     prepareHeaders: (headers) => {
         const auth = localStorage.getItem('auth');
         const token = JSON.parse(auth) || '';
