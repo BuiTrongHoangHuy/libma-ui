@@ -29,7 +29,7 @@ export default function BookDetailPage() {
             {/* Close Button */}
             <button
                 onClick={handleClose}
-                className="absolute top-6 right-6 bg-white border-gray-600 border-[1.5px] text-black p-2 rounded-full hover:bg-gray-300 transition-all"
+                className="absolute right-12 bg-white border-gray-600 border-[1.5px] text-black p-2 rounded-full hover:bg-gray-300 transition-all"
             >
                 <X className="h-5 w-5"/> {/* Close icon */}
             </button>

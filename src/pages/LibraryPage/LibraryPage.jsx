@@ -2,7 +2,7 @@
 
 import {Button} from "@/components/ui/button"
 import {Input} from "@/components/ui/input"
-import {Search, Power, ChevronDown, Edit} from 'lucide-react'
+import {Search, ChevronDown, Edit} from 'lucide-react'
 import {useState} from 'react'
 import {
     DropdownMenu,
@@ -10,15 +10,15 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import router from "@/router/Router"
 import {Link} from "react-router-dom"
 import {useGetEditionQuery} from "@/store/rtk/book.service.js";
 
 export default function LibraryPage() {
     const alphabet = 'A B C D E F G H I J K L M N O P Q R S T U V W X Y Z # ALL'.split(' ');
-    const [selectedLetter, setSelectedLetter] = useState('ALL')
-    const [sortBy, setSortBy] = useState('Title')
-    const sortOptions = ['Title', 'Creator', 'Added', 'Published', 'Rating']
+    const [selectedLetter, setSelectedLetter] = useState('ALL');
+    const [sortBy, setSortBy] = useState('Title');
+    const [searchTerm, setSearchTerm] = useState('');
+    const sortOptions = ['Title', 'Creator', 'Added', 'Published', 'Rating'];
     const {data: editionsResponse, isLoading: isLoadingEditions} = useGetEditionQuery();
     const editionsData = editionsResponse?.data ? editionsResponse.data : [];
     const transformedEditionData = editionsData.map((item) => ({
@@ -27,72 +27,48 @@ export default function LibraryPage() {
         categoryName: item.Title?.Category?.categoryName || "N/A",
         author: item.Title?.author || "N/A",
     }));
-    const books = [
-        {
-            id: '1',
-            title: '1984 (Signet Classics)',
-            author: 'George Orwell',
-            type: 'Book',
-            ean: '9780451524935',
-            upc: '0451524934'
-        },
-        {
-            id: '2',
-            title: "S'Ng Khoi Que Nha: Tap Van",
-            author: 'fgfg',
-            type: 'Book',
-            ean: '9786041016613',
-            upc: '6041016616'
-        },
-        {
-            id: '3',
-            title: '2000 (Signet Classics)',
-            author: 'George Orwell',
-            type: 'Book',
-            ean: '9780451524935',
-            upc: '0451524934'
-        },
-        {
-            id: '4',
-            title: "A'Ng Khoi Que Nha: Tap Van",
-            author: 'fgfg',
-            type: 'Book',
-            ean: '9786041016613',
-            upc: '6041016616'
-        },
-    ]
 
     const handleLetterClick = (letter) => {
-        setSelectedLetter(letter === selectedLetter ? 'ALL' : letter)
-    }
+        setSelectedLetter(letter === selectedLetter ? 'ALL' : letter);
+    };
 
-    // Group books by first letter
+    const handleSearchChange = (event) => {
+        setSearchTerm(event.target.value);
+    };
+
+    // Group and filter books
     const groupBooksByLetter = () => {
-        const grouped = {}
-        transformedEditionData.forEach(book => {
-            const firstChar = book.titleName.charAt(0).toUpperCase()
-            const letter = /[A-Z]/.test(firstChar) ? firstChar : '#'
-            if (!grouped[letter]) {
-                grouped[letter] = []
-            }
-            grouped[letter].push(book)
-        })
-        return grouped
-    }
+        const grouped = {};
+        transformedEditionData
+            .filter((book) =>
+                book.titleName.toLowerCase().includes(searchTerm.toLowerCase()) // Filter by search term
+            )
+            .forEach((book) => {
+                const firstChar = book.titleName.charAt(0).toUpperCase();
+                const letter = /[A-Z]/.test(firstChar) ? firstChar : '#';
+                if (!grouped[letter]) {
+                    grouped[letter] = [];
+                }
+                grouped[letter].push(book);
+            });
+        return grouped;
+    };
 
-    const groupedBooks = groupBooksByLetter()
+    const groupedBooks = groupBooksByLetter();
     const visibleLetters = selectedLetter === 'ALL'
         ? Object.keys(groupedBooks).sort()
-        : [selectedLetter].filter(letter => groupedBooks[letter]?.length > 0)
+        : [selectedLetter].filter(letter => groupedBooks[letter]?.length > 0);
 
     return (
         <div className="p-10 mx-auto space-y-8">
-            {/* Entertainment Section */}
+            {/* Search Section */}
             <div className="bg-muted p-4 rounded-lg flex items-center">
                 <div className="relative flex-1 max-w-screen-md">
                     <Search className="absolute left-2 top-2.5 h-6 w-6 text-muted-foreground"/>
                     <Input
                         placeholder="Start Searching..."
+                        value={searchTerm}
+                        onChange={handleSearchChange}
                         className="pl-10 h-12 text-[24px]"
                     />
                 </div>
@@ -144,7 +120,7 @@ export default function LibraryPage() {
                         </div>
 
                         {/* Books for this letter */}
-                        {groupedBooks[letter].map((book) => (
+                        {groupedBooks[letter]?.map((book) => (
                             <div
                                 key={book.editionId}
                                 className="bg-background p-4 rounded-lg shadow-sm relative flex flex-row gap-2"
@@ -196,5 +172,5 @@ export default function LibraryPage() {
                 ))}
             </div>
         </div>
-    )
+    );
 }
