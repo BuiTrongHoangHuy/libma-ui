@@ -181,8 +181,10 @@ export function AddBorrowingTicketPage() {
                 </Table>
             </div>
 
-            {/* Nút lưu phiếu mượn */}
-            <Button onClick={handleSubmit}>Lưu phiếu mượn</Button>
+            <div className="flex justify-end">
+                <Button onClick={handleSubmit}>Lưu phiếu mượn</Button>
+                
+            </div>
         </div>
     );
 }

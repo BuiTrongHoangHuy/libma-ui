@@ -4,7 +4,7 @@ import {baseQuery} from "./base.service.js"
 export const bookRTKApi = createApi({
     reducerPath: 'cartRTKApi',
     baseQuery,
-    tagTypes: ['Category', 'Title', 'Edition', 'BookCopy', 'LoanRecord', 'Reader'],
+    tagTypes: ['Category', 'Title', 'Edition', 'BookCopy', 'LoanRecord', 'Reader', "Violation"],
     endpoints: (builder) => ({
         getTitle: builder.query({
             query: () => 'titles/list',
@@ -130,6 +130,21 @@ export const bookRTKApi = createApi({
                 method: "GET",
             }),
             providesTags: ['Reader']
+        }),
+        getViolation: builder.query({
+            query: () => ({
+                url: `violations/list`,
+                method: "GET",
+            }),
+            providesTags: ['Violation']
+        }),
+        addViolation: builder.query({
+            query: (payload) => ({
+                url: `violations/add`,
+                method: "POST",
+                body: payload,
+            }),
+            invalidatesTags: ["Violation"]
         })
     }),
 });
@@ -152,5 +167,7 @@ export const {
     useAddBookFastMutation,
     useGetLoanRecordQuery,
     useAddLoanRecordMutation,
-    useGetReaderByIdQuery
+    useGetReaderByIdQuery,
+    useGetViolationQuery,
+    useAddViolationMutation
 } = bookRTKApi;
