@@ -15,13 +15,14 @@ import {
     SelectValue,
 } from "@/components/ui/select"
 import { useForm, Controller } from "react-hook-form";
-import { useState } from "react"
+import { useEffect } from "react"
 import { readerApi } from "../api/readerApi";
 import { useToast } from "@/hooks/use-toast";
 
-export function AddReaderCardDialog({ onReaderAdded}) {
-    const [open, setOpen] = useState(false)
+export function DetailReaderCardDialog({ id, open, setOpen }) {
     const { toast } = useToast();
+
+    // const [readerData, setReaderData] = useState(null);
 
     const {
         handleSubmit,
@@ -40,23 +41,62 @@ export function AddReaderCardDialog({ onReaderAdded}) {
         },
     });
 
+    useEffect(() => {
+        if (id && open) {
+            const fetchReaderData = async () => {
+                try {
+                    const response = await readerApi.getReaderById(id);
+                    console.log(response);
+                    // Kiểm tra nếu response có dữ liệu hợp lệ
+                    if (response.code === 200 && response.data) {
+                        // Đặt dữ liệu vào form
+                        // setReaderData(response.data);
+                        reset({
+                            email: response.data.email,
+                            fullName: response.data.full_name,
+                            type: response.data.type.toLowerCase(),  // Giả sử API trả về "Admin" cần chuyển thành "admin"
+                            password: response.data.password,
+                            status: response.data.status,
+                            phoneNumber: response.data.phone_number,
+                            address: response.data.address || "",  // Địa chỉ có thể không có trong response này
+                        });
+                    } else {
+                        // Hiển thị thông báo lỗi nếu không có dữ liệu hợp lệ
+                        toast({
+                            title: "Lỗi",
+                            description: "Không tìm thấy người dùng.",
+                            status: "error",
+                        });
+                    }
+                } catch (error) {
+                    console.error("Error fetching user data:", error);
+                    toast({
+                        title: "Lỗi",
+                        description: "Không thể lấy thông tin người dùng.",
+                        status: "error",
+                    });
+                }
+            };
+            fetchReaderData();
+        }
+    }, [id, open, reset, toast]);
+
+
     const onSubmit = async (data) => {
         try {
-            const readers = await readerApi.addReader(data)
+            const readers = await readerApi.updateReader(id, data)
             console.log(readers);
             toast({
-                title: <p className="text-success">Thêm bạn đọc thành công</p>,
+                title: <p className="text-success">Cập nhật thông tin thành công</p>,
                 description: "Người dùng đã được thêm thành công.",
                 status: "success",
                 duration: 2000,
             });
             setOpen(false);
-            reset();
-            onReaderAdded();
         } catch (error) {
             console.error("Error adding user:", error);
             toast({
-                title: <p className="text-error">Thêm dữ liệu thất bại</p>,
+                title: <p className="text-error">Cập nhật dữ liệu thất bại</p>,
                 description: "Lỗi hệ thống",
                 status: "error",
                 duration: 2000,
@@ -67,13 +107,7 @@ export function AddReaderCardDialog({ onReaderAdded}) {
     return (
         <Dialog open={open} onOpenChange={(openState) => {
             setOpen(openState);
-            if (!openState) {
-                reset(); // Reset form khi đóng dialog
-            }
         }}>
-            <DialogTrigger asChild>
-                <Button>+ Thêm mới</Button>
-            </DialogTrigger>
             <DialogContent className="max-w-3xl">
                 <DialogHeader>
                     <DialogTitle className="text-xl font-bold">Thêm mới thẻ bạn đọc</DialogTitle>
@@ -157,7 +191,6 @@ export function AddReaderCardDialog({ onReaderAdded}) {
                                     render={({ field }) => (
                                         <>
                                             <Select
-                                                disabled
                                                 onValueChange={(value) => field.onChange(Number(value))}
                                                 value={field.value?.toString()}
                                             >
@@ -212,7 +245,6 @@ export function AddReaderCardDialog({ onReaderAdded}) {
                                     name="password"
                                     control={control}
                                     rules={{
-                                        required: "Mật khẩu là bắt buộc",
                                         minLength: {
                                             value: 6,
                                             message: "Mật khẩu phải có ít nhất 6 ký tự",
@@ -252,8 +284,8 @@ export function AddReaderCardDialog({ onReaderAdded}) {
                                     render={({ field }) => (
                                         <>
                                             <Select
-                                            onValueChange={field.onChange}
-                                            defaultValue={field.value}>
+                                                onValueChange={field.onChange}
+                                                defaultValue={field.value}>
                                                 <SelectTrigger>
                                                     <SelectValue placeholder="Chọn loại thẻ" />
                                                 </SelectTrigger>
@@ -288,7 +320,6 @@ export function AddReaderCardDialog({ onReaderAdded}) {
                             type="button"
                             onClick={() => {
                                 setOpen(false);
-                                reset();
                             }}
                         >
                             Đóng

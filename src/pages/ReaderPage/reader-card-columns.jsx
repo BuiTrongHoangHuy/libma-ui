@@ -1,8 +1,14 @@
-import {Checkbox} from "@/components/ui/checkbox.jsx";
-import {Button} from "@/components/ui/button.jsx";
-import {ArrowUpDown} from "lucide-react";
+import { Checkbox } from "@/components/ui/checkbox.jsx";
+import { Button } from "@/components/ui/button.jsx";
+import { ArrowUpDown, MoreHorizontal } from "lucide-react";
+import {
+    DropdownMenu,
+    DropdownMenuContent, DropdownMenuItem,
+    DropdownMenuLabel, DropdownMenuSeparator,
+    DropdownMenuTrigger
+} from "@/components/ui/dropdown-menu.jsx";
 
-export const readerCardColumns = [
+export const readerCardColumns = (handleViewReaderDetails) => [
     {
         id: "select",
         header: ({ table }) => (
@@ -26,11 +32,12 @@ export const readerCardColumns = [
         enableHiding: false,
     },
     {
-        accessorKey: "id",
+        accessorKey: "reader_id",
         header: "ID",
+        cell: ({ row }) => <div className="capitalize">{row.getValue("reader_id")}</div>,
     },
     {
-        accessorKey: "readerName",
+        accessorKey: "fullName",
         header: ({ column }) => (
             <Button
                 variant="ghost"
@@ -41,7 +48,7 @@ export const readerCardColumns = [
             </Button>
         ),
         cell: ({ row }) => (
-            <div className="px-5">{row.getValue("readerName")}</div>
+            <div className="px-5">{row.getValue("fullName")}</div>
         ),
     },
     {
@@ -56,7 +63,7 @@ export const readerCardColumns = [
             </Button>
         ),
         cell: ({ row }) => (
-            <div className="px-5">{row.getValue("createdAt")}</div>
+            <div className="px-5">{new Date(row.getValue("createdAt")).toLocaleDateString()}</div>
         ),
     },
     {
@@ -71,14 +78,14 @@ export const readerCardColumns = [
             </Button>
         ),
         cell: ({ row }) => (
-            <div className="px-5">{row.getValue("expiredAt")}</div>
+            <div className="px-5">{new Date(row.getValue("expiredAt")).toLocaleDateString()}</div>
         ),
     },
     {
-        accessorKey: "cardType",
+        accessorKey: "type",
         header: "Loại thẻ",
         cell: ({ row }) => (
-            <div className="capitalize">{row.getValue("cardType")}</div>
+            <div className="capitalize">{row.getValue("type")}</div>
         ),
     },
     {
@@ -88,32 +95,35 @@ export const readerCardColumns = [
             <div className="capitalize">{row.getValue("status")}</div>
         ),
     },
-    // {
-    //     id: "actions",
-    //     enableHiding: false,
-    //     cell: ({ row }) => {
-    //         const user = row.original;
+    {
+        id: "actions",
+        enableHiding: false,
+        cell: ({ row }) => {
+            const reader = row.original;
 
-    //         return (
-    //             <DropdownMenu>
-    //                 <DropdownMenuTrigger asChild>
-    //                     <Button variant="ghost" className="h-8 w-8 p-0">
-    //                         <span className="sr-only">Open menu</span>
-    //                         <MoreHorizontal />
-    //                     </Button>
-    //                 </DropdownMenuTrigger>
-    //                 <DropdownMenuContent align="end">
-    //                     <DropdownMenuLabel>Actions</DropdownMenuLabel>
-    //                     <DropdownMenuItem
-    //                         onClick={() => navigator.clipboard.writeText(user.id)}
-    //                     >
-    //                         Copy user ID
-    //                     </DropdownMenuItem>
-    //                     <DropdownMenuSeparator />
-    //                     <DropdownMenuItem>View user details</DropdownMenuItem>
-    //                 </DropdownMenuContent>
-    //             </DropdownMenu>
-    //         );
-    //     },
-    // },
+            return (
+                <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                        <Button variant="ghost" className="h-8 w-8 p-0">
+                            <span className="sr-only">Open menu</span>
+                            <MoreHorizontal />
+                        </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end">
+                        <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                        <DropdownMenuItem
+                            onClick={() => navigator.clipboard.writeText(reader.reader_id)}
+                        >
+                            Copy reader ID
+                        </DropdownMenuItem>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuItem
+                            onClick={() => handleViewReaderDetails(reader.reader_id)}>
+                            View reader details
+                        </DropdownMenuItem>
+                    </DropdownMenuContent>
+                </DropdownMenu>
+            );
+        },
+    },
 ];

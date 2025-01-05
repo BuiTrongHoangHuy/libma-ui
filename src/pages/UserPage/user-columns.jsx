@@ -90,7 +90,7 @@ export const userColumns = (handleViewUserDetails) => [
         ),
     },
     {
-        accessorKey: "updatedAt",
+        accessorKey: "createdAt",
         header: ({ column }) => (
             <Button
                 variant="ghost"
@@ -101,7 +101,7 @@ export const userColumns = (handleViewUserDetails) => [
             </Button>
         ),
         cell: ({ row }) => (
-            <div className="px-5">{new Date(row.getValue("updatedAt")).toLocaleDateString()}</div>
+            <div className="px-5">{new Date(row.getValue("createdAt")).toLocaleDateString()}</div>
         ),
     },
     {

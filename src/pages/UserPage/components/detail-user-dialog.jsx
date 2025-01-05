@@ -15,13 +15,13 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 import { useForm, Controller } from "react-hook-form";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { userApi } from "../api/userApi";
 import { useToast } from "@/hooks/use-toast";
 
 export function DetailUserDialog({ id, open, setOpen }) {
     const { toast } = useToast();
-    const [userData, setUserData] = useState(null);
+    // const [userData, setUserData] = useState(null);
 
     const {
         handleSubmit,
@@ -50,7 +50,7 @@ export function DetailUserDialog({ id, open, setOpen }) {
                     // Kiểm tra nếu response có dữ liệu hợp lệ
                     if (response.code === 200 && response.data) {
                         // Đặt dữ liệu vào form
-                        setUserData(response.data);
+                        // setUserData(response.data);
                         reset({
                             email: response.data.email,
                             fullName: response.data.full_name,
@@ -58,7 +58,7 @@ export function DetailUserDialog({ id, open, setOpen }) {
                             password: response.data.password,
                             status: response.data.status,
                             phoneNumber: response.data.phone_number,
-                            address: "",  // Địa chỉ có thể không có trong response này
+                            address: response.data.address || "",  // Địa chỉ có thể không có trong response này
                         });
                     } else {
                         // Hiển thị thông báo lỗi nếu không có dữ liệu hợp lệ
@@ -144,7 +144,6 @@ export function DetailUserDialog({ id, open, setOpen }) {
                                     name="password"
                                     control={control}
                                     rules={{
-                                        required: "Mật khẩu là bắt buộc",
                                         minLength: {
                                             value: 6,
                                             message: "Mật khẩu phải có ít nhất 6 ký tự",
