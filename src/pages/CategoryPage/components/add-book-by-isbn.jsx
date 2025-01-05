@@ -147,7 +147,12 @@ export default function BookForm() {
             setImageUrl(null);
         } catch (error) {
             console.error(error);
-            alert("Đã xảy ra lỗi khi thêm sách.");
+            toast({
+                title: <p className=" text-error">Thêm thất bại</p>,
+                description: "Thêm sách thất bại",
+                status: "error",
+                duration: 2000
+            });
         }
     };
     const handleImageUpload = (e) => {
