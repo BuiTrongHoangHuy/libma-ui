@@ -1,5 +1,3 @@
-'use client'
-
 import {Button} from "@/components/ui/button"
 import {Card, CardContent} from "@/components/ui/card"
 import {Input} from "@/components/ui/input"
@@ -17,7 +15,7 @@ import {useToast} from "@/hooks/use-toast.js";
 import {z} from "zod";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {useForm} from "react-hook-form";
-import {useAddBookFastMutation} from "@/store/rtk/book.service.js";
+import {useAddBookFastMutation, useGetCategoryQuery} from "@/store/rtk/book.service.js";
 
 
 const bookFormSchema = z.object({
@@ -27,13 +25,14 @@ const bookFormSchema = z.object({
     publisher: z.string().min(1, "Nhà xuất bản không được để trống"),
     publishedDate: z.string().min(1, "Ngày xuất bản không được để trống"),
     isbn: z.string().min(1, "ISBN không được bỏ trống"),
-    pages: z.number().optional()
+    pages: z.number().optional(),
 });
 export default function BookForm() {
     const [imageUrl, setImageUrl] = useState(null)
 
     const [addBookFast, {isLoading: isAddBookFastLoading}] = useAddBookFastMutation();
-
+    const {data: categoriesResponse, isLoading: isLoadingCategories} = useGetCategoryQuery();
+    const categoriesData = categoriesResponse?.data ? categoriesResponse.data : [];
     const [isbn, setIsbn] = useState("")
     const [formData, setFormData] = useState({
         title: "",
@@ -46,6 +45,8 @@ export default function BookForm() {
         pages: 0,
     })
     const [searchType, setSearchType] = useState("isbn");
+    const [categoryId, setCategoryId] = useState()
+    const [isSyncing, setIsSyncing] = useState(false);
 
     const {toast} = useToast()
     const handleSearch = async () => {
@@ -63,6 +64,8 @@ export default function BookForm() {
             console.log("openlibrary", data)
             const bookData = data[queryKey]?.details;
             if (bookData) {
+                setIsSyncing(true);
+
                 setFormData({
                     title: bookData.title || "",
                     author: bookData.authors?.map((author) => author.name).join(", ") || "",
@@ -75,8 +78,9 @@ export default function BookForm() {
                 })
 
                 setImageUrl(
+                    // eslint-disable-next-line no-constant-binary-expression
+                    `https://covers.openlibrary.org/b/id/${bookData.covers?.[0]}-M.jpg` ||
                     data[queryKey]?.thumbnail_url ||
-                    `https://covers.openlibrary.org/b/id/${bookData.covers?.[0]}-L.jpg` ||
                     null
                 );
 
@@ -86,7 +90,7 @@ export default function BookForm() {
                     status: "success",
                     duration: 2000
                 });
-
+                setIsSyncing(false)
             } else {
                 toast({
                     title: <p className=" text-warning-500">Tìm không thành công</p>,
@@ -105,29 +109,16 @@ export default function BookForm() {
             });
         }
     }
-    const {register, handleSubmit, formState: {errors}} = useForm({
+    const {register, handleSubmit, formState: {errors},} = useForm({
         resolver: zodResolver(bookFormSchema),
         defaultValues: formData,
         values: formData,
     })
     const onSubmit = async (data) => {
         try {
-
-            console.log(JSON.stringify({...data, imageUrl}))
+            console.log(JSON.stringify({...data, imageUrl, categoryId}))
             console.log({...data, imageUrl})
-            await addBookFast({...data, imageUrl}).unwrap()
-            /*const response = await fetch("/api/books", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({...data, imageUrl}),
-            });*/
-
-            /*if (!response.ok) {
-                throw new Error("Không thể thêm sách.");
-            }*/
-
+            await addBookFast({...data, imageUrl, categoryId}).unwrap()
             toast({
                 title: <p className=" text-success">Thêm thành công</p>,
                 description: "Thêm sách thành công",
@@ -145,6 +136,7 @@ export default function BookForm() {
             });
             setIsbn(null)
             setImageUrl(null);
+            setCategoryId(null)
         } catch (error) {
             console.error(error);
             toast({
@@ -162,24 +154,29 @@ export default function BookForm() {
             setImageUrl(url)
         }
     }
-
     return (
         <Card className="w-full  mx-auto">
             <CardContent className="p-6">
-                <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
+                <form className="space-y-6">
                     <div className="flex gap-4">
                         <div className="flex-1">
                             <Label>Chọn thể loại</Label>
-                            <Select>
+                            <Select onValueChange={(value) => setCategoryId(value)}
+                            >
                                 <SelectTrigger>
-                                    <SelectValue placeholder="Thể loại"/>
+                                    <SelectValue placeholder="Thể loại">
+                                        {categoryId ? categoriesData.find(item => item.category_id == categoryId)?.categoryName : "Thể loại"}
+                                    </SelectValue>
                                 </SelectTrigger>
                                 <SelectContent>
-                                    <SelectItem value="fiction">Tiểu thuyết</SelectItem>
-                                    <SelectItem value="nonfiction">Phi hư cấu</SelectItem>
-                                    <SelectItem value="education">Giáo dục</SelectItem>
+                                    {categoriesData.map((item) => (
+                                        <SelectItem key={item.category_id} value={item.category_id}>
+                                            {item.categoryName}
+                                        </SelectItem>
+                                    ))}
                                 </SelectContent>
                             </Select>
+
                         </div>
                         <div className="flex-1">
                             <Label>Loại tìm kiếm</Label>
@@ -202,7 +199,9 @@ export default function BookForm() {
                                 <Input placeholder={`Nhập ${searchType.toUpperCase()}`}
                                        value={isbn}
                                        {...register("isbn")}
-                                       onChange={(e) => setIsbn(e.target.value)}/>
+                                       onChange={(e) => setIsbn(e.target.value)}
+                                       disabled={isSyncing}
+                                />
                                 <Button type="button" onClick={handleSearch}>
                                     Tìm kiếm
                                 </Button>
@@ -311,9 +310,9 @@ export default function BookForm() {
                     </div>
 
                     <div className="flex justify-end">
-                        <Button type={"submit"} className="bg-primary hover:bg-primary/90 text-white"
-                                disabled={isAddBookFastLoading}
-
+                        <Button className="bg-primary hover:bg-primary/90 text-white"
+                                disabled={isAddBookFastLoading || isSyncing}
+                                onClick={handleSubmit(onSubmit)}
                         >
                             {isAddBookFastLoading ? 'Đang thêm...' : 'Thêm mới'}
                         </Button>
