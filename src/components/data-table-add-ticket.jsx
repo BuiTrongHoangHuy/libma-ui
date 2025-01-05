@@ -1,4 +1,3 @@
-
 import {
     Table,
     TableBody,
@@ -7,17 +6,10 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table"
-import {
-    DropdownMenu,
-    DropdownMenuCheckboxItem,
-    DropdownMenuContent,
-    DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { Button } from "@/components/ui/button.jsx";
-import { Textarea } from "@/components/ui/textarea"
-import { ChevronDown } from "lucide-react"
-import React, { useState } from "react";
-import { useForm, Controller } from "react-hook-form";
+
+import {Button} from "@/components/ui/button.jsx";
+import React, {useState} from "react";
+import {useForm, Controller} from "react-hook-form";
 import {
     flexRender,
     getCoreRowModel,
@@ -26,17 +18,17 @@ import {
     getSortedRowModel,
     useReactTable
 } from "@tanstack/react-table";
-import { Input } from "@/components/ui/input"
-import { AddUserDialog } from "@/pages/UserPage/components/add-user-dialog.jsx";
+import {Input} from "@/components/ui/input"
+import {AddUserDialog} from "@/pages/UserPage/components/add-user-dialog.jsx";
 
 
 // eslint-disable-next-line react/prop-types
-export const DataTableAddTicket = ({ data, columns, addButton }) => {
+export const DataTableAddTicket = ({data, columns, addButton}) => {
     const [sorting, setSorting] = React.useState([])
     const [columnFilters, setColumnFilters] = React.useState([])
     const [columnVisibility, setColumnVisibility] = React.useState({})
     const [rowSelection, setRowSelection] = React.useState({})
-    const { control, handleSubmit } = useForm({
+    const {control, handleSubmit} = useForm({
         defaultValues: {
             borrowCode: "UIT001",
             cardCode: "US000048",
@@ -79,7 +71,7 @@ export const DataTableAddTicket = ({ data, columns, addButton }) => {
                         <Controller
                             name="borrowCode"
                             control={control}
-                            render={({ field }) => (
+                            render={({field}) => (
                                 <input
                                     {...field}
                                     id="borrowCode"
@@ -96,7 +88,7 @@ export const DataTableAddTicket = ({ data, columns, addButton }) => {
                         <Controller
                             name="cardCode"
                             control={control}
-                            render={({ field }) => (
+                            render={({field}) => (
                                 <input
                                     {...field}
                                     id="cardCode"
@@ -113,7 +105,7 @@ export const DataTableAddTicket = ({ data, columns, addButton }) => {
                         <Controller
                             name="fullName"
                             control={control}
-                            render={({ field }) => (
+                            render={({field}) => (
                                 <input
                                     {...field}
                                     id="fullName"
@@ -130,7 +122,7 @@ export const DataTableAddTicket = ({ data, columns, addButton }) => {
                         <Controller
                             name="creationDate"
                             control={control}
-                            render={({ field }) => (
+                            render={({field}) => (
                                 <input
                                     {...field}
                                     id="creationDate"
@@ -182,6 +174,7 @@ export const DataTableAddTicket = ({ data, columns, addButton }) => {
                             ))
                         ) : (
                             <TableRow>
+                                {/* eslint-disable-next-line react/prop-types */}
                                 <TableCell colSpan={columns.length} className="h-24 text-center">
                                     No results.
                                 </TableCell>

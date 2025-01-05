@@ -3,10 +3,8 @@ import {borrowTicketColumns} from "./borrow-ticket-columns";
 import {useState} from "react";
 import {DataTable} from "@/components/data-table";
 import {Button} from "@/components/ui/button"
-import {addTicketColumns} from "./add-ticket-columns";
-import {DataTableAddTicket} from "@/components/data-table-add-ticket";
-import {AddBorrowingTicketDialog} from "./components/add-borrowing-ticket-dialog";
-import {useGetLoanRecordQuery} from "@/store/rtk/loanRecord.service.js";
+import {useGetLoanRecordQuery} from "@/store/rtk/book.service.js";
+import {AddBorrowingTicketPage} from "@/pages/BookBorrowingPage/components/AddBorrowingTicketPage.jsx";
 
 
 const borrowTicketData = [
@@ -84,8 +82,9 @@ export const BookBorrowingPage = () => {
                                addButton={<Button onClick={handleAddButtonClick}>+ Thêm mới</Button>}/>
                 </TabsContent>
                 <TabsContent className="py-5" value="add_ticket">
-                    <DataTableAddTicket data={addTicketData} columns={addTicketColumns}
-                                        addButton={<AddBorrowingTicketDialog/>}/>
+                    {/*<DataTableAddTicket data={addTicketData} columns={addTicketColumns}
+                                        addButton={<AddBorrowingTicketDialog/>}/>*/}
+                    <AddBorrowingTicketPage/>
                 </TabsContent>
             </Tabs>
 
