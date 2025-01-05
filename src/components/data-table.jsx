@@ -23,7 +23,9 @@ import {
     getSortedRowModel,
     useReactTable
 } from "@tanstack/react-table";
-import { Input } from "@/components/ui/input"
+import {Input} from "@/components/ui/input"
+import {ExportButton} from "@/components/export-button.jsx";
+
 
 // eslint-disable-next-line react/prop-types
 export const DataTable = ({ data, columns, addButton, onDeleteRows }) => {
@@ -102,9 +104,13 @@ export const DataTable = ({ data, columns, addButton, onDeleteRows }) => {
                 <div className="ml-auto">
                     {addButton}
                 </div>
+                <Button className="ml-2">Xóa</Button>
+                {/*
+
                 <Button className="ml-2" onClick={handleDeleteSelected}>Xóa</Button>
                 <Button className="ml-2">Xuất file</Button>
-
+*/}
+                <ExportButton data={data}></ExportButton>
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <Button variant="outline" className="ml-2">
