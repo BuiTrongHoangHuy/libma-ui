@@ -19,13 +19,29 @@ export const readerApi ={
             console.log(error)
         }
     },
-    deleteReader: async(email) => {
+    deleteReader: async(id) => {
         try{
-            const respone = await axiosInstance.put("/readers/delete", {email});
-            return respone.data
+            const respone = await axiosInstance.put(`/readers/delete/${id}`);
+            return respone.data;
         }
         catch (error){
             console.log(error)
+        }
+    },
+    updateReader: async(id, readerData) => {
+        try {
+            const response = await axiosInstance.put(`/readers/${id}`, readerData);
+            return response.data; 
+        } catch (error) {
+            console.log(error);
+        }
+    },
+    getReaderById: async(id) => {
+        try {
+            const response = await axiosInstance.get(`/readers/${id}`);
+            return response.data; 
+        } catch (error) {
+            console.log(error);
         }
     }
 }

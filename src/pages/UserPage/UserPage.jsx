@@ -4,11 +4,10 @@ import { DataTable } from "@/components/data-table.jsx";
 import { userColumns } from "@/pages/UserPage/user-columns.jsx";
 import { AddUserDialog } from "@/pages/UserPage/components/add-user-dialog.jsx";
 import { useToast } from "@/hooks/use-toast";
-import { useEffect, useState } from "react";
 import { userApi } from "@/pages/UserPage/api/userApi.js";
-import { number } from "zod";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { DetailUserDialog } from "./components/detail-user-dialog";
+import { useState } from "react";
 
 export const UsersPage = () => {
   const { toast } = useToast()

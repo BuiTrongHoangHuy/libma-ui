@@ -177,6 +177,7 @@ export function AddUserDialog({ onUserAdded }) {
                                     render={({ field }) => (
                                         <>
                                             <Select
+                                                disabled
                                                 onValueChange={(value) => field.onChange(Number(value))}
                                                 value={field.value?.toString()}
                                             >

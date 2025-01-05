@@ -104,10 +104,10 @@ export const DataTable = ({ data, columns, addButton, onDeleteRows }) => {
                 <div className="ml-auto">
                     {addButton}
                 </div>
-                <Button className="ml-2">Xóa</Button>
+                <Button className="ml-2" onClick={handleDeleteSelected}>Xóa</Button>
                 {/*
 
-                <Button className="ml-2" onClick={handleDeleteSelected}>Xóa</Button>
+                
                 <Button className="ml-2">Xuất file</Button>
 */}
                 <ExportButton data={data}></ExportButton>
