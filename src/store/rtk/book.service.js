@@ -138,7 +138,7 @@ export const bookRTKApi = createApi({
             }),
             providesTags: ['Violation']
         }),
-        addViolation: builder.query({
+        addViolation: builder.mutation({
             query: (payload) => ({
                 url: `violations/add`,
                 method: "POST",

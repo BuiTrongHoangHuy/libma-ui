@@ -13,7 +13,7 @@ const colorMap = {
     2: "text-warning",
     0: "text-error",
 };
-// eslint-disable-next-line react/prop-types
+// eslint-disable-next-line react/prop-types,react-refresh/only-export-components
 const StatusLoanRecord = ({status}) => (
     <div className={` ${colorMap[status]}`}>{statusMap[status]}</div>
 )
@@ -78,7 +78,8 @@ export const borrowTicketColumns = [
             </Button>
         ),
         cell: ({row}) => (
-            <div className="px-5">{new Date(row.getValue("loanDate")).toLocaleDateString()}</div>
+            <div
+                className="px-5">{row.getValue("loanDate") ? new Date(row.getValue("loanDate")).toLocaleDateString() : ""}</div>
         ),
     },
     {
@@ -93,7 +94,8 @@ export const borrowTicketColumns = [
             </Button>
         ),
         cell: ({row}) => (
-            <div className="px-5">{new Date(row.getValue("dueDate")).toLocaleDateString()}</div>
+            <div
+                className="px-5">{row.getValue("dueDate") ? new Date(row.getValue("dueDate")).toLocaleDateString() : ""}</div>
         ),
     },
     {

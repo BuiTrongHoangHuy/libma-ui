@@ -32,6 +32,7 @@ export function AddBorrowingTicketPage() {
     const bookCopyData = bookCopyResponse?.data ? bookCopyResponse.data : [];
 
     const handleBlur = () => {
+        setFullName("")
         if (readerCard) {
             findReader(readerCard);
         }
@@ -183,7 +184,7 @@ export function AddBorrowingTicketPage() {
 
             <div className="flex justify-end">
                 <Button onClick={handleSubmit}>Lưu phiếu mượn</Button>
-                
+
             </div>
         </div>
     );
