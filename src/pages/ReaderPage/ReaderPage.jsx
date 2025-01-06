@@ -10,7 +10,7 @@ import {useToast} from "@/hooks/use-toast";
 import {useState} from "react";
 import {useQuery, useQueryClient} from "@tanstack/react-query";
 import {DetailReaderCardDialog} from "./components/detail-reader-dialog";
-import {useGetViolationQuery} from "@/store/rtk/book.service.js";
+import {useGetViolationQuery, useResolvedViolationMutation, useReturnBooksMutation} from "@/store/rtk/book.service.js";
 
 
 export const ReaderPage = () => {
@@ -91,7 +91,27 @@ export const ReaderPage = () => {
         setReaderId(id);
         setOpen(true);
     };
+    const [resolvedViolation, {isLoading: isUpdating}] = useResolvedViolationMutation()
 
+    const handleResolvedViolation = async (id) => {
+        try {
+            await resolvedViolation({itemId: id}).unwrap()
+            toast({
+                title: <p className="text-success">Xử lý thành công</p>,
+                description: "Xử lý thành công",
+                status: "success",
+                duration: 2000,
+            });
+        } catch (error) {
+            toast({
+                title: <p className="text-success">Xử lý thành công</p>,
+                description: "Xử lý thành công",
+                status: "success",
+                duration: 2000,
+            });
+            console.log(error)
+        }
+    }
     return (
         <div className="p-10 flex flex-col space-y-5">
             <div>
@@ -116,7 +136,7 @@ export const ReaderPage = () => {
                                onDeleteRows={handleDeleteReaders}/>
                 </TabsContent>
                 <TabsContent className="py-5" value="handle_violation">
-                    <DataTable data={transformedData} columns={handleViolationsColumns}
+                    <DataTable data={transformedData} columns={handleViolationsColumns(handleResolvedViolation)}
                                addButton={<AddHandleViolationDialog/>}/>
                 </TabsContent>
             </Tabs>

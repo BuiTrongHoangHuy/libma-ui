@@ -7,7 +7,6 @@ import {
     DropdownMenuLabel, DropdownMenuSeparator,
     DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu.jsx";
-import {useDeleteCategoryMutation} from "@/store/rtk/book.service.js";
 
 
 const statusMap = {
@@ -120,7 +119,8 @@ export const borrowTicketColumns = (handleReturnBooks) => [
         cell: ({row}) => (
             <StatusLoanRecord status={row.getValue("status")}/>
         ),
-    }, {
+    },
+    {
         id: "actions",
         enableHiding: false,
         cell: ({row}) => {
@@ -146,5 +146,5 @@ export const borrowTicketColumns = (handleReturnBooks) => [
                 </DropdownMenu>
             );
         }
-    }
+    },
 ];

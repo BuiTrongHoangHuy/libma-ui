@@ -98,7 +98,7 @@ export const BookBorrowingPage = () => {
                 </TabsList>
 
                 <TabsContent className="py-5" value="borrow_ticket">
-                    <DataTable data={transformedData} columns={borrowTicketColumns}
+                    <DataTable data={transformedData} columns={borrowTicketColumns(handleReturnBook)}
                                addButton={<Button onClick={handleAddButtonClick}>+ Thêm mới</Button>}/>
                 </TabsContent>
                 <TabsContent className="py-5" value="add_ticket">
