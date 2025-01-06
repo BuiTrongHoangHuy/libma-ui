@@ -177,6 +177,27 @@ export const bookRTKApi = createApi({
             }),
             providesTags: ['User']
         }),
+        getLoanReport: builder.query({
+            query: () => ({
+                url: `loanRecords/loanReport/report`,
+                method: "GET",
+            }),
+            providesTags: ['LoanRecord']
+        }),
+        getLoanReportByMonth: builder.query({
+            query: () => ({
+                url: `loanRecords/loanReport/reportByMonth`,
+                method: "GET",
+            }),
+            providesTags: ['LoanRecord']
+        }),
+        getCountBooksByCategory: builder.query({
+            query: () => ({
+                url: `categories/books/count`,
+                method: "GET",
+            }),
+            providesTags: ['LoanRecord']
+        }),
     }),
 });
 
@@ -206,5 +227,8 @@ export const {
     useGetReaderByIdQuery,
     useGetUserByIdQuery,
     useGetViolationQuery,
-    useAddViolationMutation
+    useAddViolationMutation,
+    useGetLoanReportQuery,
+    useGetLoanReportByMonthQuery,
+    useGetCountBooksByCategoryQuery
 } = bookRTKApi;

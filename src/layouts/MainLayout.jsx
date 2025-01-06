@@ -29,7 +29,7 @@ const MainLayout = () => {
                             <div
                                 className="flex items-center gap-4 group pl-4 py-4 cursor-pointer bg-gray-400 rounded-2xl transition-transform duration-200 ease-in-out hover:scale-105">
                                 <div className="flex flex-col">
-                                    <span className="font-bold text-black">{userResponse.data.full_name}</span>
+                                    <span className="font-bold text-black">{userResponse?.data?.full_name}</span>
                                     <span className="text-sm text-black">Account menu</span>
                                 </div>
                                 <div
