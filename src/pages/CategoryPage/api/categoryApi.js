@@ -16,5 +16,14 @@ export const categoryApi = {
         } catch (e) {
             console.log(e)
         }
+    },
+    getBookById: async (id) => {
+        try {
+            const response = await axiosInstance.get(`/bookCopies/${id}`);
+            return response.data
+        } catch (e) {
+            console.log(e)
+        }
     }
+
 }

@@ -110,9 +110,9 @@ export const bookRTKApi = createApi({
             providesTags: ['BookCopy'],
         }),
         updateBookCopy: builder.mutation({
-            query: (itemId, payload) => ({
-                url: `bookCopies/delete/${itemId}`,
-                method: 'DELETE',
+            query: ({itemId, payload}) => ({
+                url: `bookCopies/${itemId}`,
+                method: 'PUT',
                 body: payload,
             }),
             invalidatesTags: ['BookCopy'],
@@ -120,7 +120,7 @@ export const bookRTKApi = createApi({
         deleteBookCopy: builder.mutation({
             query: (itemId) => ({
                 url: `bookCopies/delete/${itemId}`,
-                method: 'DELETE',
+                method: 'PUT',
             }),
             invalidatesTags: ['BookCopy'],
         }),
@@ -186,6 +186,7 @@ export const {
     useGetBookCopyQuery,
     useGetBookCopyByIdQuery,
     useAddBookCopyMutation,
+    useUpdateBookCopyMutation,
     useDeleteBookCopyMutation,
     useAddBookFastMutation,
     useGetLoanRecordQuery,

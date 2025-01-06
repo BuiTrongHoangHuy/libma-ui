@@ -20,6 +20,7 @@ import {
 import {useState} from "react";
 import {UpdateBookTitleDialog} from "@/pages/CategoryPage/components/updateTitleModal.jsx";
 import {UpdateBookEditionDialog} from "@/pages/CategoryPage/components/updateEditionModal.jsx";
+import {UpdateBookCopyDialog} from "@/pages/CategoryPage/components/updateBookCopyModal.jsx";
 
 
 export const CategoryPage = () => {
@@ -146,8 +147,13 @@ export const CategoryPage = () => {
                     {isLoadingBookCopy ? (
                         <p>Đang tải dữ liệu...</p>
                     ) : (
-                        <DataTable data={transformedBookCopyData} columns={bookCopyColumns}
-                                   addButton={<AddBookCopyDialog/>}/>
+                        <>
+                            <DataTable data={transformedBookCopyData} columns={bookCopyColumns(handleViewTitleDetails)}
+                                       addButton={<AddBookCopyDialog/>}/>
+                            <UpdateBookCopyDialog id={readerId} open={open}
+                                                  setOpen={setOpen}></UpdateBookCopyDialog>
+                        </>
+
                     )}
                 </TabsContent>
                 <TabsContent className="py-5" value="isbn_add">
