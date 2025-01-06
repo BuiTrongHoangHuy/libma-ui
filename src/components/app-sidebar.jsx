@@ -23,7 +23,6 @@ const items = [
   { title: 'Bạn đọc', url: '/readers', icon: Calendar },
   { title: 'Mượn sách', url: '/borrowingbook', icon: SquareLibrary },
   { title: 'Danh mục', url: '/categories', icon: NotebookTabs },
-  { title: 'Cài đặt', url: '#', icon: Settings },
 ];
 
 export function AppSidebar() {
