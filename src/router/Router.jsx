@@ -10,27 +10,35 @@ import {SignUpPage} from "@/pages/SignUpPage/SignUpPage.jsx";
 import DefaultLayout from "@/layouts/DefaultLayout.jsx";
 import {HomePage} from "../pages/HomePage/HomePage.jsx";
 import {UsersPage} from "@/pages/UserPage/UserPage.jsx";
-import { ReaderPage } from "@/pages/ReaderPage/ReaderPage.jsx";
-import { BookBorrowingPage } from "@/pages/BookBorrowingPage/BookBorrowingPage.jsx";
-import { CategoryPage } from "@/pages/CategoryPage/CategoryPage.jsx";
+import {ReaderPage} from "@/pages/ReaderPage/ReaderPage.jsx";
+import {BookBorrowingPage} from "@/pages/BookBorrowingPage/BookBorrowingPage.jsx";
+import {CategoryPage} from "@/pages/CategoryPage/CategoryPage.jsx";
 import LibraryPage from "@/pages/LibraryPage/LibraryPage.jsx";
 import BookDetailPage from "@/pages/LibraryPage/components/BookDetailPage.jsx";
+import ProtectedRoute from "@/utils/protectedRoute.jsx";
+
+
+const isAuthenticated = () => {
+    return Boolean(localStorage.getItem("tokenLibma"));
+};
 
 const router = createBrowserRouter(
     createRoutesFromElements(
         <Route>
-            <Route path="/" element={<MainLayout />}>
-                <Route index element={<HomePage />} />
-                <Route path="/home" element={<HomePage />} />
-                <Route path="/library" element={<LibraryPage />} />
-                <Route path="/users" element={<UsersPage />} />
-                <Route path="/readers" element={<ReaderPage/>} />
-                <Route path="/borrowingbook" element={ <BookBorrowingPage/> }/>
-                <Route path="/categories" element={ <CategoryPage/> }/>
-                <Route path="/library/:id" element={<BookDetailPage />} />
+            <Route path="/"
+                   element={<ProtectedRoute isAuthenticated={isAuthenticated()}><MainLayout/></ProtectedRoute>}
+            >
+                <Route index element={<HomePage/>}/>
+                <Route path="/home" element={<HomePage/>}/>
+                <Route path="/library" element={<LibraryPage/>}/>
+                <Route path="/users" element={<UsersPage/>}/>
+                <Route path="/readers" element={<ReaderPage/>}/>
+                <Route path="/borrowingbook" element={<BookBorrowingPage/>}/>
+                <Route path="/categories" element={<CategoryPage/>}/>
+                <Route path="/library/:id" element={<BookDetailPage/>}/>
             </Route>
-            <Route path="/" element={<DefaultLayout />}>
-                <Route path="/login" element ={<LoginPage/>}/>
+            <Route path="/" element={<DefaultLayout/>}>
+                <Route path="/login" element={<LoginPage/>}/>
                 <Route path="/sign-up" element={<SignUpPage/>}/>
 
             </Route>
