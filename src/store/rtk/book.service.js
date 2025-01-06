@@ -95,7 +95,7 @@ export const bookRTKApi = createApi({
             providesTags: ['BookCopy'],
         }),
         getBookCopyAvailable: builder.query({
-            query: () => 'bookCopies/listAvailable',
+            query: () => 'bookCopies/list/available',
             providesTags: ['BookCopy'],
         }),
         addBookCopy: builder.mutation({
@@ -196,7 +196,7 @@ export const bookRTKApi = createApi({
                 url: `categories/books/count`,
                 method: "GET",
             }),
-            providesTags: ['LoanRecord']
+            providesTags: ['BookCopy']
         }),
     }),
 });
