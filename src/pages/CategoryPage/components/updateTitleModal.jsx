@@ -82,7 +82,7 @@ export function UpdateBookTitleDialog({id, setOpen, open}) {
     }, [id, open, reset, toast]);
     const handleUpdate = async (data) => {
         try {
-            console.log({titleId: id, ...data})
+            console.log(data)
             await update({id: id, payload: data}).unwrap()
             toast({
                 title: <p className="text-success">Cập nhật thành công</p>,

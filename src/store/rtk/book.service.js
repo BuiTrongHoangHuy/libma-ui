@@ -75,6 +75,14 @@ export const bookRTKApi = createApi({
             }),
             providesTags: ['Edition'],
         }),
+        updateEdition: builder.mutation({
+            query: ({id, payload}) => ({
+                url: `editions/${id}`,
+                method: 'PUT',
+                body: payload,
+            }),
+            invalidatesTags: ['Edition'],
+        }),
         deleteEdition: builder.mutation({
             query: (itemId) => ({
                 url: `editions/delete/${itemId}`,
@@ -172,6 +180,7 @@ export const {
     useDeleteCategoryMutation,
     useGetEditionQuery,
     useGetEditionByIdQuery,
+    useUpdateEditionMutation,
     useAddEditionMutation,
     useDeleteEditionMutation,
     useGetBookCopyQuery,

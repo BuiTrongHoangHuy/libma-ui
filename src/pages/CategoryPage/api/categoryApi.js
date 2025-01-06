@@ -8,5 +8,13 @@ export const categoryApi = {
         } catch (error) {
             console.log(error);
         }
+    },
+    getEditionById: async (id) => {
+        try {
+            const response = await axiosInstance.get(`/editions/${id}`);
+            return response.data
+        } catch (e) {
+            console.log(e)
+        }
     }
 }
