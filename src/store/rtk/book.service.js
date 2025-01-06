@@ -95,7 +95,7 @@ export const bookRTKApi = createApi({
             providesTags: ['BookCopy'],
         }),
         getBookCopyAvailable: builder.query({
-            query: () => 'bookCopies/listAvailable',
+            query: () => 'bookCopies/list/available',
             providesTags: ['BookCopy'],
         }),
         addBookCopy: builder.mutation({
@@ -134,7 +134,7 @@ export const bookRTKApi = createApi({
                 method: "POST",
                 body: payload,
             }),
-            invalidatesTags: ["Edition", "Title"],
+            invalidatesTags: ["Edition"],
         }),
         getLoanRecord: builder.query({
             query: () => 'loanRecords/list',
