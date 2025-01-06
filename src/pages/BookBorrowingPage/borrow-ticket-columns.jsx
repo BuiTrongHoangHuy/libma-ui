@@ -1,16 +1,24 @@
 import {Checkbox} from "@/components/ui/checkbox.jsx";
 import {Button} from "@/components/ui/button.jsx";
-import {ArrowUpDown} from "lucide-react";
+import {ArrowUpDown, MoreHorizontal} from "lucide-react";
+import {
+    DropdownMenu,
+    DropdownMenuContent, DropdownMenuItem,
+    DropdownMenuLabel, DropdownMenuSeparator,
+    DropdownMenuTrigger
+} from "@/components/ui/dropdown-menu.jsx";
+import {useDeleteCategoryMutation} from "@/store/rtk/book.service.js";
 
 
 const statusMap = {
     1: "Còn hạn",
-    0: "Đã hủy",
-    2: "Quá hạn",
+    2: "Đã Trả",
+    0: "Quá hạn",
+
 };
 const colorMap = {
-    1: "text-success",
-    2: "text-warning",
+    2: "text-success",
+    1: "text-warning-500",
     0: "text-error",
 };
 // eslint-disable-next-line react/prop-types,react-refresh/only-export-components
@@ -18,7 +26,8 @@ const StatusLoanRecord = ({status}) => (
     <div className={` ${colorMap[status]}`}>{statusMap[status]}</div>
 )
 
-export const borrowTicketColumns = [
+export const borrowTicketColumns = (handleReturnBooks) => [
+
     {
         id: "select",
         header: ({table}) => (
@@ -111,5 +120,31 @@ export const borrowTicketColumns = [
         cell: ({row}) => (
             <StatusLoanRecord status={row.getValue("status")}/>
         ),
-    },
+    }, {
+        id: "actions",
+        enableHiding: false,
+        cell: ({row}) => {
+            const user = row.original;
+            return (
+                <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                        <Button variant="ghost" className="h-8 w-8 p-0">
+                            <span className="sr-only">Open menu</span>
+                            <MoreHorizontal/>
+                        </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end">
+                        <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                        <DropdownMenuSeparator/>
+                        <DropdownMenuItem
+                            onClick={() => {
+                                handleReturnBooks(user.transactionId)
+                            }}
+                        >
+                            Trả sách</DropdownMenuItem>
+                    </DropdownMenuContent>
+                </DropdownMenu>
+            );
+        }
+    }
 ];

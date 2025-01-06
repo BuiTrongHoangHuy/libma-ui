@@ -3,8 +3,9 @@ import {borrowTicketColumns} from "./borrow-ticket-columns";
 import {useState} from "react";
 import {DataTable} from "@/components/data-table";
 import {Button} from "@/components/ui/button"
-import {useGetLoanRecordQuery} from "@/store/rtk/book.service.js";
+import {useGetLoanRecordQuery, useReturnBooksMutation} from "@/store/rtk/book.service.js";
 import {AddBorrowingTicketPage} from "@/pages/BookBorrowingPage/components/AddBorrowingTicketPage.jsx";
+import {useToast} from "@/hooks/use-toast.js";
 
 
 const borrowTicketData = [
@@ -48,9 +49,28 @@ export const BookBorrowingPage = () => {
     const handleAddButtonClick = () => {
         setSelectedTab("add_ticket");
     };
-
+    const {toast} = useToast()
     const {data: loanRecordResponse, isLoading: isLoadingLoanRecords} = useGetLoanRecordQuery();
-
+    const [returnBooks, {isLoading: isUpdating}] = useReturnBooksMutation()
+    const handleReturnBook = async (id) => {
+        try {
+            await returnBooks(id).unwrap()
+            toast({
+                title: <p className="text-success">Trả sách thành công</p>,
+                description: "Trả sách thành công",
+                status: "success",
+                duration: 2000,
+            });
+        } catch (error) {
+            toast({
+                title: <p className="text-error">Trả sách thất bại</p>,
+                description: "Trả sách thất bại",
+                status: "error",
+                duration: 2000,
+            });
+            console.log(error)
+        }
+    }
     const loanRecordData = loanRecordResponse?.data ? loanRecordResponse.data : [];
     let transformedData = []
     console.log(loanRecordData)
