@@ -93,7 +93,7 @@ export function AddPublicationDialog() {
                             {errors.note &&
                                 <span className="text-red-500 text-sm">{errors.note.message}</span>}
                         </div>
-                        <div className="flex items-center space-x-2">
+                        {/*<div className="flex items-center space-x-2">
                             <Checkbox id="isActive"/>
                             <label
                                 htmlFor="isActive"
@@ -101,7 +101,7 @@ export function AddPublicationDialog() {
                             >
                                 Được sử dụng
                             </label>
-                        </div>
+                        </div>*/}
                     </div>
                 </ScrollArea>
                 <div className="flex justify-end space-x-2 pt-4">

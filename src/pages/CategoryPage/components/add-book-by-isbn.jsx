@@ -29,6 +29,7 @@ const bookFormSchema = z.object({
 });
 export default function BookForm() {
     const [imageUrl, setImageUrl] = useState(null)
+    const [editionNumber, setEditionNumber] = useState("")
 
     const [addBookFast, {isLoading: isAddBookFastLoading}] = useAddBookFastMutation();
     const {data: categoriesResponse, isLoading: isLoadingCategories} = useGetCategoryQuery();
@@ -76,7 +77,7 @@ export default function BookForm() {
                     isbn: searchType === "isbn" ? bookData.isbn_10 : bookData.oclc_number || null,
                     pages: bookData.number_of_pages || 0,
                 })
-
+                setEditionNumber(bookData.revision || "")
                 setImageUrl(
                     // eslint-disable-next-line no-constant-binary-expression
                     `https://covers.openlibrary.org/b/id/${bookData.covers?.[0]}-M.jpg` ||
@@ -116,9 +117,9 @@ export default function BookForm() {
     })
     const onSubmit = async (data) => {
         try {
-            console.log(JSON.stringify({...data, imageUrl, categoryId}))
-            console.log({...data, imageUrl})
-            await addBookFast({...data, imageUrl, categoryId}).unwrap()
+            console.log({...data, imageUrl, categoryId, editionNumber})
+
+            await addBookFast({...data, imageUrl, categoryId, editionNumber}).unwrap()
             toast({
                 title: <p className=" text-success">Thêm thành công</p>,
                 description: "Thêm sách thành công",
@@ -129,6 +130,8 @@ export default function BookForm() {
                 title: "",
                 author: "",
                 summary: "",
+                editionNumber: "",
+                editionName: "",
                 publisher: "",
                 isbn: "",
                 publishedDate: "",
@@ -243,7 +246,7 @@ export default function BookForm() {
                     <div>
                         <Label>Năm xuất bản</Label>
                         <Input
-                            type="number"
+                            type="text"
                             value={formData.publishedDate}
                             onChange={(e) => setFormData({...formData, publishedDate: e.target.value})}
                         />

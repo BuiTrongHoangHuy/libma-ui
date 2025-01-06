@@ -6,5 +6,6 @@ export const store = configureStore({
         [bookRTKApi.reducerPath]: bookRTKApi.reducer,
     },
     middleware: (getDefaultMiddleware) =>
-        getDefaultMiddleware().concat(bookRTKApi.middleware),
+        getDefaultMiddleware()
+            .concat(bookRTKApi.middleware)
 })

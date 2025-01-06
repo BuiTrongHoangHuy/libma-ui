@@ -31,7 +31,10 @@ const MainLayout = () => {
                         >
                             <DropdownMenu.Item
                                 className="flex items-center gap-2 px-4 py-2 rounded-md hover:bg-gray-100 cursor-pointer text-gray-800"
-                                onClick={() => console.log("Log Out")}
+                                onClick={() => {
+                                    localStorage.removeItem("tokenLibma");
+                                    window.location.href = "/login";
+                                }}
                             >
                                 Log Out
                             </DropdownMenu.Item>

@@ -18,11 +18,14 @@ import {
     useGetTitleQuery
 } from "@/store/rtk/book.service.js";
 import {useState} from "react";
+import {UpdateBookTitleDialog} from "@/pages/CategoryPage/components/updateTitleModal.jsx";
+import {UpdateBookEditionDialog} from "@/pages/CategoryPage/components/updateEditionModal.jsx";
 
 
 export const CategoryPage = () => {
     const [activeTab, setActiveTab] = useState('publications');
-
+    const [open, setOpen] = useState(false);
+    const [readerId, setReaderId] = useState(null);
     const {data: categoriesResponse, isLoading: isLoadingCategories} = useGetCategoryQuery();
     const {data: titlesResponse, isLoading: isLoadingTitles} = useGetTitleQuery(undefined, {
             skip: activeTab !== 'book_title',
@@ -72,7 +75,10 @@ export const CategoryPage = () => {
         }));
     }
     console.log("book", bookCopyData)
-
+    const handleViewTitleDetails = (id) => {
+        setReaderId(id);
+        setOpen(true);
+    };
     return (
         <div className="p-10 flex flex-col space-y-5">
             <div>
@@ -114,15 +120,26 @@ export const CategoryPage = () => {
                     {isLoadingTitles ? (
                         <p>Đang tải dữ liệu...</p>
                     ) : (
-                        <DataTable data={transformedData} columns={bookTitleColumns} addButton={<AddBookTitleDialog/>}/>
+                        <>
+                            <DataTable data={transformedData} columns={bookTitleColumns(handleViewTitleDetails)}
+                                       addButton={<AddBookTitleDialog/>}/>
+                            <UpdateBookTitleDialog id={readerId} open={open} setOpen={setOpen}></UpdateBookTitleDialog>
+                        </>
+
                     )}
                 </TabsContent>
                 <TabsContent className="py-5" value="book_edition">
                     {isLoadingEditions ? (
                         <p>Đang tải dữ liệu...</p>
                     ) : (
-                        <DataTable data={transformedEditionData} columns={bookEditionColumns}
-                                   addButton={<AddBookEditionDialog/>}/>
+                        <>
+                            <DataTable data={transformedEditionData}
+                                       columns={bookEditionColumns(handleViewTitleDetails)}
+                                       addButton={<AddBookEditionDialog/>}/>
+                            <UpdateBookEditionDialog id={readerId} open={open}
+                                                     setOpen={setOpen}></UpdateBookEditionDialog>
+                        </>
+
                     )}
                 </TabsContent>
                 <TabsContent className="py-5" value="book_copy">

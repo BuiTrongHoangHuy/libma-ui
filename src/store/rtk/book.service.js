@@ -4,7 +4,7 @@ import {baseQuery} from "./base.service.js"
 export const bookRTKApi = createApi({
     reducerPath: 'cartRTKApi',
     baseQuery,
-    tagTypes: ['Category', 'Title', 'Edition', 'BookCopy'],
+    tagTypes: ['Category', 'Title', 'Edition', 'BookCopy', 'LoanRecord', 'Reader', "Violation"],
     endpoints: (builder) => ({
         getTitle: builder.query({
             query: () => 'titles/list',
@@ -17,6 +17,18 @@ export const bookRTKApi = createApi({
                 body: payload,
             }),
             invalidatesTags: ['Title'],
+        }),
+        updateTitle: builder.mutation({
+            query: ({id, payload}) => ({
+                url: `titles/${id}`,
+                method: "PUT",
+                body: payload,
+            }),
+            invalidatesTags: ['Title']
+        }),
+        getTitleById: builder.query({
+            query: (id) => `titles/${id}`,
+            providesTags: ['Title'],
         }),
         deleteTitle: builder.mutation({
             query: (itemId) => ({
@@ -62,6 +74,14 @@ export const bookRTKApi = createApi({
                 method: 'GET',
             }),
             providesTags: ['Edition'],
+        }),
+        updateEdition: builder.mutation({
+            query: ({id, payload}) => ({
+                url: `editions/${id}`,
+                method: 'PUT',
+                body: payload,
+            }),
+            invalidatesTags: ['Edition'],
         }),
         deleteEdition: builder.mutation({
             query: (itemId) => ({
@@ -111,6 +131,40 @@ export const bookRTKApi = createApi({
                 body: payload,
             }),
             invalidatesTags: ["Edition"],
+        }),
+        getLoanRecord: builder.query({
+            query: () => 'loanRecords/list',
+            providesTags: ['LoanRecord'],
+        }),
+        addLoanRecord: builder.mutation({
+            query: (payload) => ({
+                url: `loanRecords/add`,
+                method: "POST",
+                body: payload,
+            }),
+            invalidatesTags: ["LoanRecord"],
+        }),
+        getReaderById: builder.query({
+            query: (id) => ({
+                url: `readers/${id}`,
+                method: "GET",
+            }),
+            providesTags: ['Reader']
+        }),
+        getViolation: builder.query({
+            query: () => ({
+                url: `violations/list`,
+                method: "GET",
+            }),
+            providesTags: ['Violation']
+        }),
+        addViolation: builder.mutation({
+            query: (payload) => ({
+                url: `violations/add`,
+                method: "POST",
+                body: payload,
+            }),
+            invalidatesTags: ["Violation"]
         })
     }),
 });
@@ -118,12 +172,15 @@ export const bookRTKApi = createApi({
 export const {
     useGetTitleQuery,
     useAddTitleMutation,
+    useUpdateTitleMutation,
+    useGetTitleByIdQuery,
     useDeleteTitleMutation,
     useGetCategoryQuery,
     useAddCategoryMutation,
     useDeleteCategoryMutation,
     useGetEditionQuery,
     useGetEditionByIdQuery,
+    useUpdateEditionMutation,
     useAddEditionMutation,
     useDeleteEditionMutation,
     useGetBookCopyQuery,
@@ -131,4 +188,9 @@ export const {
     useAddBookCopyMutation,
     useDeleteBookCopyMutation,
     useAddBookFastMutation,
+    useGetLoanRecordQuery,
+    useAddLoanRecordMutation,
+    useGetReaderByIdQuery,
+    useGetViolationQuery,
+    useAddViolationMutation
 } = bookRTKApi;

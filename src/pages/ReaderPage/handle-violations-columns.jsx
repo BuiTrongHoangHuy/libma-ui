@@ -1,11 +1,32 @@
 import {Checkbox} from "@/components/ui/checkbox.jsx";
 import {Button} from "@/components/ui/button.jsx";
-import {ArrowUpDown} from "lucide-react";
+import {ArrowUpDown, MoreHorizontal} from "lucide-react";
+import {formatCurrency} from "@/utils/convert.js";
+import {
+    DropdownMenu,
+    DropdownMenuContent, DropdownMenuItem,
+    DropdownMenuLabel, DropdownMenuSeparator,
+    DropdownMenuTrigger
+} from "@/components/ui/dropdown-menu.jsx";
 
+const statusMap = {
+    1: "Hoàn thành",
+    0: "Chưa hoàn thành",
+    2: "Quá hạn",
+};
+const colorMap = {
+    1: "text-success",
+    2: "text-warning",
+    0: "text-error",
+};
+// eslint-disable-next-line react/prop-types,react-refresh/only-export-components
+const Resovled = ({status}) => (
+    <div className={` ${colorMap[status]}`}>{statusMap[status]}</div>
+)
 export const handleViolationsColumns = [
     {
         id: "select",
-        header: ({ table }) => (
+        header: ({table}) => (
             <Checkbox
                 checked={
                     table.getIsAllPageRowsSelected() ||
@@ -15,7 +36,7 @@ export const handleViolationsColumns = [
                 aria-label="Select all"
             />
         ),
-        cell: ({ row }) => (
+        cell: ({row}) => (
             <Checkbox
                 checked={row.getIsSelected()}
                 onCheckedChange={(value) => row.toggleSelected(!!value)}
@@ -26,101 +47,118 @@ export const handleViolationsColumns = [
         enableHiding: false,
     },
     {
-        accessorKey: "id",
+        accessorKey: "readerId",
         header: "Số thẻ",
     },
     {
-        accessorKey: "readerName",
-        header: ({ column }) => (
+        accessorKey: "fullName",
+        header: ({column}) => (
             <Button
                 variant="ghost"
                 onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
             >
                 Tên bạn đọc
-                <ArrowUpDown />
+                <ArrowUpDown/>
             </Button>
         ),
-        cell: ({ row }) => (
-            <div className="px-5">{row.getValue("readerName")}</div>
+        cell: ({row}) => (
+            <div className="px-5">{row.getValue("fullName")}</div>
         ),
     },
     {
-        accessorKey: "reason",
+        accessorKey: "description",
         header: "Lý do phạt",
-        cell: ({ row }) => (
-            <div className="capitalize">{row.getValue("reason")}</div>
+        cell: ({row}) => (
+            <div className="capitalize">{row.getValue("description")}</div>
         ),
     },
     {
-        accessorKey: "punishmentType",
+        accessorKey: "violationType",
         header: "Hình thức phạt",
-        cell: ({ row }) => (
-            <div className="capitalize">{row.getValue("punishmentType")}</div>
+        cell: ({row}) => (
+            <div className="capitalize">{row.getValue("violationType")}</div>
         ),
     },
     {
-        accessorKey: "expense",
+        accessorKey: "fineAmount",
         header: "Số tiền",
-        cell: ({ row }) => (
-            <div className="capitalize">{row.getValue("expense")}</div>
+        cell: ({row}) => (
+            <div className="capitalize">{formatCurrency(Number(row.getValue("fineAmount")))}</div>
         ),
     },
     {
-        accessorKey: "beginAt",
-        header: ({ column }) => (
+        accessorKey: "penaltyDate",
+        header: ({column}) => (
             <Button
                 variant="ghost"
                 onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
             >
                 Ngày phạt
-                <ArrowUpDown />
+                <ArrowUpDown/>
             </Button>
         ),
-        cell: ({ row }) => (
-            <div className="px-5">{row.getValue("beginAt")}</div>
+        cell: ({row}) => (
+            <div
+                className="px-5">{row.getValue("penaltyDate") ? new Date(row.getValue("penaltyDate")).toLocaleDateString() : ""}</div>
         ),
     },
     {
-        accessorKey: "endAt",
-        header: ({ column }) => (
+        accessorKey: "penaltyEndDate",
+        header: ({column}) => (
             <Button
                 variant="ghost"
                 onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
             >
                 Ngày kết thúc
-                <ArrowUpDown />
+                <ArrowUpDown/>
             </Button>
         ),
-        cell: ({ row }) => (
-            <div className="px-5">{row.getValue("beginAt")}</div>
+        cell: ({row}) => (
+            <div
+                className="px-5">{row.getValue("penaltyDate") ? new Date(row.getValue("penaltyEndDate")).toLocaleDateString() : ""}</div>
         ),
     },
-    // {
-    //     id: "actions",
-    //     enableHiding: false,
-    //     cell: ({ row }) => {
-    //         const user = row.original;
+    {
+        accessorKey: "resolved",
+        header: ({column}) => (
+            <Button
+                variant="ghost"
+                onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+            >
+                Xử lý
+                <ArrowUpDown/>
+            </Button>
+        ),
+        cell: ({row}) => (
+            <Resovled status={row.getValue("resolved")}/>
+        ),
+    },
+    {
+        id: "actions",
+        enableHiding: false,
+        cell: ({row}) => {
+            const user = row.original;
 
-    //         return (
-    //             <DropdownMenu>
-    //                 <DropdownMenuTrigger asChild>
-    //                     <Button variant="ghost" className="h-8 w-8 p-0">
-    //                         <span className="sr-only">Open menu</span>
-    //                         <MoreHorizontal />
-    //                     </Button>
-    //                 </DropdownMenuTrigger>
-    //                 <DropdownMenuContent align="end">
-    //                     <DropdownMenuLabel>Actions</DropdownMenuLabel>
-    //                     <DropdownMenuItem
-    //                         onClick={() => navigator.clipboard.writeText(user.id)}
-    //                     >
-    //                         Copy user ID
-    //                     </DropdownMenuItem>
-    //                     <DropdownMenuSeparator />
-    //                     <DropdownMenuItem>View user details</DropdownMenuItem>
-    //                 </DropdownMenuContent>
-    //             </DropdownMenu>
-    //         );
-    //     },
-    // },
+            return (
+                <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                        <Button variant="ghost" className="h-8 w-8 p-0">
+                            <span className="sr-only">Open menu</span>
+                            <MoreHorizontal/>
+                        </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end">
+                        <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                        <DropdownMenuItem
+                            onClick={() => navigator.clipboard.writeText(user.id)}
+                        >
+                            Copy user ID
+                        </DropdownMenuItem>
+                        <DropdownMenuSeparator/>
+                        <DropdownMenuItem>View violation details</DropdownMenuItem>
+                    </DropdownMenuContent>
+                </DropdownMenu>
+            );
+        },
+    },
 ];
