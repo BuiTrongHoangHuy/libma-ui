@@ -134,7 +134,7 @@ export const bookRTKApi = createApi({
                 method: "POST",
                 body: payload,
             }),
-            invalidatesTags: ["Edition"],
+            invalidatesTags: ["Edition", "Title"],
         }),
         getLoanRecord: builder.query({
             query: () => 'loanRecords/list',
@@ -196,7 +196,7 @@ export const bookRTKApi = createApi({
                 url: `categories/books/count`,
                 method: "GET",
             }),
-            providesTags: ['LoanRecord']
+            providesTags: ['BookCopy']
         }),
     }),
 });
