@@ -56,7 +56,6 @@ export function AddBookCopyDialog() {
         author: item.Title?.author || "N/A",
     }));
 
-    console.log("du lieu chuyen doi", transformedEditionData)
     const [addBookCopy, {isLoading: isAddBookCopyLoading}] = useAddBookCopyMutation();
 
     const {toast} = useToast();

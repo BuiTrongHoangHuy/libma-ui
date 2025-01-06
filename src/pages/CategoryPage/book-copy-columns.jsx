@@ -8,7 +8,29 @@ import {
     DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu.jsx";
 
-export const bookCopyColumns = [
+const statusMap = {
+    "Available": "Có sắn",
+    "Borrowed": "Đang mượn",
+};
+const colorMap = {
+    "Available": "text-success",
+    "Borrowed": "text-error",
+};
+// eslint-disable-next-line react/prop-types,react-refresh/only-export-components
+const StatusBookCopy = ({status}) => (
+    <div className={` ${colorMap[status]}`}>{statusMap[status]}</div>
+)
+
+const conditionMap = {
+    "New": "Mới",
+    "Good": "Tốt",
+    "Old": "Cũ"
+}
+// eslint-disable-next-line react/prop-types,react-refresh/only-export-components
+const ConditionBookCopy = ({status}) => (
+    <div>{conditionMap[status]}</div>
+)
+export const bookCopyColumns = (handleViewTitleDetails) => [
     {
         id: "select",
         header: ({table}) => (
@@ -62,10 +84,16 @@ export const bookCopyColumns = [
     {
         accessorKey: "condition",
         header: "Tình trạng",
+        cell: ({row}) => (
+            <ConditionBookCopy status={row.getValue("condition")}/>
+        )
     },
     {
-        accessorKey: "status",
+        accessorKey: "bookStatus",
         header: "Trạng thái",
+        cell: ({row}) => (
+            <StatusBookCopy status={row.getValue("bookStatus")}></StatusBookCopy>
+        ),
     },
     {
         id: "actions",
@@ -89,7 +117,10 @@ export const bookCopyColumns = [
                             Copy user ID
                         </DropdownMenuItem>
                         <DropdownMenuSeparator/>
-                        <DropdownMenuItem>View user details</DropdownMenuItem>
+                        <DropdownMenuItem
+                            onClick={() => handleViewTitleDetails(user.copyId)}
+
+                        >View book copy details</DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>
             );

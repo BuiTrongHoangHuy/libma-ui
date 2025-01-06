@@ -2,8 +2,22 @@ import {Outlet} from "react-router-dom";
 import {SidebarProvider} from "@/components/ui/sidebar"
 import {AppSidebar} from "@/components/app-sidebar"
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
+import {jwtDecode} from "jwt-decode";
+import {useGetUserByIdQuery} from "@/store/rtk/book.service.js";
 
 const MainLayout = () => {
+
+    const token = localStorage.getItem("tokenLibma");
+    let user = {}
+    if (token) {
+        const decoded = jwtDecode(token);
+        console.log("Decoded Token:", decoded);
+        user = decoded
+    } else {
+        console.log("No token found.");
+    }
+
+    const {data: userResponse, isLoading: isLoadingUser} = useGetUserByIdQuery(user.id);
     return (
         <SidebarProvider>
             <AppSidebar/>
@@ -15,7 +29,7 @@ const MainLayout = () => {
                             <div
                                 className="flex items-center gap-4 group pl-4 py-4 cursor-pointer bg-gray-400 rounded-2xl transition-transform duration-200 ease-in-out hover:scale-105">
                                 <div className="flex flex-col">
-                                    <span className="font-bold text-black">Huy Bui Trong Hoang</span>
+                                    <span className="font-bold text-black">{userResponse?.data?.full_name}</span>
                                     <span className="text-sm text-black">Account menu</span>
                                 </div>
                                 <div

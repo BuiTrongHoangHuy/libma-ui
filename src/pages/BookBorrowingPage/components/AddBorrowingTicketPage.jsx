@@ -4,7 +4,7 @@ import {Input} from "@/components/ui/input";
 import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from "@/components/ui/table";
 import Select from "react-select";
 import {
-    useAddLoanRecordMutation, useGetBookCopyQuery,
+    useAddLoanRecordMutation, useGetBookCopyAvailableQuery, useGetBookCopyQuery,
 } from "@/store/rtk/book.service.js";
 import {readerApi} from "@/pages/ReaderPage/api/readerApi.js";
 import {useToast} from "@/hooks/use-toast.js";  // Import React Select
@@ -28,7 +28,7 @@ export function AddBorrowingTicketPage() {
         }
     }
     const [addLoanRecord, {isLoading: isAddLoanRecordLoading}] = useAddLoanRecordMutation();
-    const {data: bookCopyResponse, isLoading: isLoadingBookCopy} = useGetBookCopyQuery();
+    const {data: bookCopyResponse, isLoading: isLoadingBookCopy} = useGetBookCopyAvailableQuery();
     const bookCopyData = bookCopyResponse?.data ? bookCopyResponse.data : [];
 
     const handleBlur = () => {

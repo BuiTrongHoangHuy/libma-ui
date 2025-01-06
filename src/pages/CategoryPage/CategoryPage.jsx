@@ -12,14 +12,21 @@ import {AddBookCopyDialog} from "./components/add-book-copy-dialog";
 import BookForm from "./components/add-book-by-isbn";
 import {
     useAddTitleMutation,
+    useDeleteBookCopyMutation,
+    useDeleteCategoryMutation,
+    useDeleteEditionMutation,
+    useDeleteTitleMutation,
     useGetBookCopyQuery,
     useGetCategoryQuery,
     useGetEditionQuery,
-    useGetTitleQuery
+    useGetTitleQuery,
+    useUpdateTitleMutation
 } from "@/store/rtk/book.service.js";
 import {useState} from "react";
 import {UpdateBookTitleDialog} from "@/pages/CategoryPage/components/updateTitleModal.jsx";
 import {UpdateBookEditionDialog} from "@/pages/CategoryPage/components/updateEditionModal.jsx";
+import {UpdateBookCopyDialog} from "@/pages/CategoryPage/components/updateBookCopyModal.jsx";
+import {userApi} from "@/pages/UserPage/api/userApi.js";
 
 
 export const CategoryPage = () => {
@@ -39,7 +46,10 @@ export const CategoryPage = () => {
             skip: activeTab !== 'book_copy',
         }
     );
-
+    const [deleteCategory, {isLoading: isUpdating}] = useDeleteCategoryMutation()
+    const [deleteTitle, {isLoading: isUpdatingTitle}] = useDeleteTitleMutation()
+    const [deleteEdition, {isLoading: isUpdatingEdition}] = useDeleteEditionMutation()
+    const [deleteCopy, {isLoading: isUpdatingCopy}] = useDeleteBookCopyMutation()
     const categoriesData = categoriesResponse?.data ? categoriesResponse.data : [];
     const titlesData = titlesResponse?.data ? titlesResponse.data : [];
     const editionsData = editionsResponse?.data ? editionsResponse.data : [];
@@ -47,7 +57,58 @@ export const CategoryPage = () => {
     let transformedData = []
     let transformedEditionData = []
     let transformedBookCopyData = []
-
+    const handleDeleteCategory = async (rowsToDelete) => {
+        try {
+            await Promise.all(
+                rowsToDelete.map((category) => {
+                        deleteCategory(category.category_id);
+                    }
+                )
+            );
+        } catch (error) {
+            console.error("Failed to delete category:", error);
+            throw error;
+        }
+    };
+    const handleDeleteTitle = async (rowsToDelete) => {
+        try {
+            await Promise.all(
+                rowsToDelete.map((title) => {
+                        deleteTitle(title.titleId);
+                    }
+                )
+            );
+        } catch (error) {
+            console.error("Failed to delete title:", error);
+            throw error;
+        }
+    };
+    const handleDeleteEdition = async (rowsToDelete) => {
+        try {
+            await Promise.all(
+                rowsToDelete.map((edition) => {
+                        deleteEdition(edition.editionId);
+                    }
+                )
+            );
+        } catch (error) {
+            console.error("Failed to edition category:", error);
+            throw error;
+        }
+    };
+    const handleDeleteBookCopy = async (rowsToDelete) => {
+        try {
+            await Promise.all(
+                rowsToDelete.map((copy) => {
+                        deleteCopy(copy.copyId);
+                    }
+                )
+            );
+        } catch (error) {
+            console.error("Failed to delete category:", error);
+            throw error;
+        }
+    };
     if (activeTab === "book_title") {
         transformedData = titlesData.map((item) => ({
             ...item,
@@ -113,7 +174,7 @@ export const CategoryPage = () => {
                         <p>Đang tải dữ liệu...</p>
                     ) : (
                         <DataTable data={categoriesData} columns={publicationsColumns}
-                                   addButton={<AddPublicationDialog/>}/>)}
+                                   addButton={<AddPublicationDialog/>} onDeleteRows={handleDeleteCategory}/>)}
 
                 </TabsContent>
                 <TabsContent className="py-5" value="book_title">
@@ -122,7 +183,7 @@ export const CategoryPage = () => {
                     ) : (
                         <>
                             <DataTable data={transformedData} columns={bookTitleColumns(handleViewTitleDetails)}
-                                       addButton={<AddBookTitleDialog/>}/>
+                                       addButton={<AddBookTitleDialog/>} onDeleteRows={handleDeleteTitle}/>
                             <UpdateBookTitleDialog id={readerId} open={open} setOpen={setOpen}></UpdateBookTitleDialog>
                         </>
 
@@ -135,7 +196,7 @@ export const CategoryPage = () => {
                         <>
                             <DataTable data={transformedEditionData}
                                        columns={bookEditionColumns(handleViewTitleDetails)}
-                                       addButton={<AddBookEditionDialog/>}/>
+                                       addButton={<AddBookEditionDialog/>} onDeleteRows={handleDeleteEdition}/>
                             <UpdateBookEditionDialog id={readerId} open={open}
                                                      setOpen={setOpen}></UpdateBookEditionDialog>
                         </>
@@ -146,8 +207,13 @@ export const CategoryPage = () => {
                     {isLoadingBookCopy ? (
                         <p>Đang tải dữ liệu...</p>
                     ) : (
-                        <DataTable data={transformedBookCopyData} columns={bookCopyColumns}
-                                   addButton={<AddBookCopyDialog/>}/>
+                        <>
+                            <DataTable data={transformedBookCopyData} columns={bookCopyColumns(handleViewTitleDetails)}
+                                       addButton={<AddBookCopyDialog/>} onDeleteRows={handleDeleteBookCopy}/>
+                            <UpdateBookCopyDialog id={readerId} open={open}
+                                                  setOpen={setOpen}></UpdateBookCopyDialog>
+                        </>
+
                     )}
                 </TabsContent>
                 <TabsContent className="py-5" value="isbn_add">

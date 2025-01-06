@@ -4,7 +4,7 @@ import {baseQuery} from "./base.service.js"
 export const bookRTKApi = createApi({
     reducerPath: 'cartRTKApi',
     baseQuery,
-    tagTypes: ['Category', 'Title', 'Edition', 'BookCopy', 'LoanRecord', 'Reader', "Violation"],
+    tagTypes: ['Category', 'Title', 'Edition', 'BookCopy', 'LoanRecord', 'Reader', "Violation", 'User'],
     endpoints: (builder) => ({
         getTitle: builder.query({
             query: () => 'titles/list',
@@ -33,7 +33,7 @@ export const bookRTKApi = createApi({
         deleteTitle: builder.mutation({
             query: (itemId) => ({
                 url: `titles/delete/${itemId}`,
-                method: 'DELETE',
+                method: 'PUT',
             }),
             invalidatesTags: ['Title'],
         }),
@@ -51,8 +51,8 @@ export const bookRTKApi = createApi({
         }),
         deleteCategory: builder.mutation({
             query: (itemId) => ({
-                url: `categories/${itemId}`,
-                method: 'DELETE',
+                url: `categories/delete/${itemId}`,
+                method: 'PUT',
             }),
             invalidatesTags: ['Category'],
         }),
@@ -86,12 +86,16 @@ export const bookRTKApi = createApi({
         deleteEdition: builder.mutation({
             query: (itemId) => ({
                 url: `editions/delete/${itemId}`,
-                method: 'DELETE',
+                method: 'PUT',
             }),
             invalidatesTags: ['Edition'],
         }),
         getBookCopy: builder.query({
             query: () => 'bookCopies/list',
+            providesTags: ['BookCopy'],
+        }),
+        getBookCopyAvailable: builder.query({
+            query: () => 'bookCopies/listAvailable',
             providesTags: ['BookCopy'],
         }),
         addBookCopy: builder.mutation({
@@ -110,9 +114,9 @@ export const bookRTKApi = createApi({
             providesTags: ['BookCopy'],
         }),
         updateBookCopy: builder.mutation({
-            query: (itemId, payload) => ({
-                url: `bookCopies/delete/${itemId}`,
-                method: 'DELETE',
+            query: ({itemId, payload}) => ({
+                url: `bookCopies/${itemId}`,
+                method: 'PUT',
                 body: payload,
             }),
             invalidatesTags: ['BookCopy'],
@@ -120,7 +124,7 @@ export const bookRTKApi = createApi({
         deleteBookCopy: builder.mutation({
             query: (itemId) => ({
                 url: `bookCopies/delete/${itemId}`,
-                method: 'DELETE',
+                method: 'PUT',
             }),
             invalidatesTags: ['BookCopy'],
         }),
@@ -165,7 +169,35 @@ export const bookRTKApi = createApi({
                 body: payload,
             }),
             invalidatesTags: ["Violation"]
-        })
+        }),
+        getUserById: builder.query({
+            query: (id) => ({
+                url: `users/${id}`,
+                method: "GET",
+            }),
+            providesTags: ['User']
+        }),
+        getLoanReport: builder.query({
+            query: () => ({
+                url: `loanRecords/loanReport/report`,
+                method: "GET",
+            }),
+            providesTags: ['LoanRecord']
+        }),
+        getLoanReportByMonth: builder.query({
+            query: () => ({
+                url: `loanRecords/loanReport/reportByMonth`,
+                method: "GET",
+            }),
+            providesTags: ['LoanRecord']
+        }),
+        getCountBooksByCategory: builder.query({
+            query: () => ({
+                url: `categories/books/count`,
+                method: "GET",
+            }),
+            providesTags: ['LoanRecord']
+        }),
     }),
 });
 
@@ -176,6 +208,7 @@ export const {
     useGetTitleByIdQuery,
     useDeleteTitleMutation,
     useGetCategoryQuery,
+    useGetBookCopyAvailableQuery,
     useAddCategoryMutation,
     useDeleteCategoryMutation,
     useGetEditionQuery,
@@ -186,11 +219,16 @@ export const {
     useGetBookCopyQuery,
     useGetBookCopyByIdQuery,
     useAddBookCopyMutation,
+    useUpdateBookCopyMutation,
     useDeleteBookCopyMutation,
     useAddBookFastMutation,
     useGetLoanRecordQuery,
     useAddLoanRecordMutation,
     useGetReaderByIdQuery,
+    useGetUserByIdQuery,
     useGetViolationQuery,
-    useAddViolationMutation
+    useAddViolationMutation,
+    useGetLoanReportQuery,
+    useGetLoanReportByMonthQuery,
+    useGetCountBooksByCategoryQuery
 } = bookRTKApi;
