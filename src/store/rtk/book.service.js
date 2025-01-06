@@ -33,7 +33,7 @@ export const bookRTKApi = createApi({
         deleteTitle: builder.mutation({
             query: (itemId) => ({
                 url: `titles/delete/${itemId}`,
-                method: 'DELETE',
+                method: 'PUT',
             }),
             invalidatesTags: ['Title'],
         }),
@@ -51,8 +51,8 @@ export const bookRTKApi = createApi({
         }),
         deleteCategory: builder.mutation({
             query: (itemId) => ({
-                url: `categories/${itemId}`,
-                method: 'DELETE',
+                url: `categories/delete/${itemId}`,
+                method: 'PUT',
             }),
             invalidatesTags: ['Category'],
         }),
@@ -86,7 +86,7 @@ export const bookRTKApi = createApi({
         deleteEdition: builder.mutation({
             query: (itemId) => ({
                 url: `editions/delete/${itemId}`,
-                method: 'DELETE',
+                method: 'PUT',
             }),
             invalidatesTags: ['Edition'],
         }),
