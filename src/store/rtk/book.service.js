@@ -198,6 +198,14 @@ export const bookRTKApi = createApi({
             }),
             providesTags: ['BookCopy']
         }),
+        returnBooks: builder.mutation({
+            query: ({itemId, payload}) => ({
+                url: `loanRecords/returnBooks/${itemId}`,
+                method: 'PUT',
+                body: payload,
+            }),
+            invalidatesTags: ['LoanRecord'],
+        }),
     }),
 });
 
@@ -230,5 +238,6 @@ export const {
     useAddViolationMutation,
     useGetLoanReportQuery,
     useGetLoanReportByMonthQuery,
-    useGetCountBooksByCategoryQuery
+    useGetCountBooksByCategoryQuery,
+    useReturnBooksMutation,
 } = bookRTKApi;

@@ -1,11 +1,17 @@
 import {Checkbox} from "@/components/ui/checkbox.jsx";
 import {Button} from "@/components/ui/button.jsx";
-import {ArrowUpDown} from "lucide-react";
+import {ArrowUpDown, MoreHorizontal} from "lucide-react";
+import {
+    DropdownMenu,
+    DropdownMenuContent, DropdownMenuItem,
+    DropdownMenuLabel, DropdownMenuSeparator,
+    DropdownMenuTrigger
+} from "@/components/ui/dropdown-menu.jsx";
 
 export const bookColumns = [
     {
         id: "select",
-        header: ({ table }) => (
+        header: ({table}) => (
             <Checkbox
                 checked={
                     table.getIsAllPageRowsSelected() ||
@@ -15,7 +21,7 @@ export const bookColumns = [
                 aria-label="Select all"
             />
         ),
-        cell: ({ row }) => (
+        cell: ({row}) => (
             <Checkbox
                 checked={row.getIsSelected()}
                 onCheckedChange={(value) => row.toggleSelected(!!value)}
@@ -31,32 +37,33 @@ export const bookColumns = [
     },
     {
         accessorKey: "bookTitle",
-        header: ({ column }) => (
+        header: ({column}) => (
             <Button
                 variant="ghost"
                 onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
             >
                 Nhan đề
-                <ArrowUpDown />
+                <ArrowUpDown/>
             </Button>
         ),
-        cell: ({ row }) => (
+        cell: ({row}) => (
             <div className="px-5">{row.getValue("bookTitle")}</div>
         ),
     },
     {
         accessorKey: "authorName",
-        header: ({ column }) => (
+        header: ({column}) => (
             <Button
                 variant="ghost"
                 onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
             >
                 Tác giả
-                <ArrowUpDown />
+                <ArrowUpDown/>
             </Button>
         ),
-        cell: ({ row }) => (
+        cell: ({row}) => (
             <div className="px-5">{row.getValue("authorName")}</div>
         ),
     },
+
 ];
