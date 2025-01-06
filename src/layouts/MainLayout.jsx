@@ -4,7 +4,6 @@ import {AppSidebar} from "@/components/app-sidebar"
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import {jwtDecode} from "jwt-decode";
 import {useGetUserByIdQuery} from "@/store/rtk/book.service.js";
-import { FiPower } from "react-icons/fi";
 
 const MainLayout = () => {
 
@@ -35,7 +34,6 @@ const MainLayout = () => {
                                 </div>
                                 <div
                                     className="flex items-center justify-center w-12 h-12 bg-primary-color text-white rounded-full transition-transform duration-200 ease-in-out group-hover:scale-110">
-                                        <FiPower className="w-full h-full p-2" />
                                 </div>
                             </div>
 

@@ -23,7 +23,7 @@ const colorMap = {
 const Resovled = ({status}) => (
     <div className={` ${colorMap[status]}`}>{statusMap[status]}</div>
 )
-export const handleViolationsColumns = [
+export const handleViolationsColumns = (handleResolvedViolation) => [
     {
         id: "select",
         header: ({table}) => (
@@ -45,6 +45,10 @@ export const handleViolationsColumns = [
         ),
         enableSorting: false,
         enableHiding: false,
+    },
+    {
+        accessorKey: "violationId",
+        header: "Mã phạt"
     },
     {
         accessorKey: "readerId",
@@ -149,13 +153,12 @@ export const handleViolationsColumns = [
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
                         <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                        <DropdownMenuItem
-                            onClick={() => navigator.clipboard.writeText(user.id)}
-                        >
-                            Copy user ID
-                        </DropdownMenuItem>
                         <DropdownMenuSeparator/>
-                        <DropdownMenuItem>View violation details</DropdownMenuItem>
+                        <DropdownMenuItem
+                            onClick={() => {
+                                handleResolvedViolation(user.violationId)
+                            }}
+                        >Xử lý</DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>
             );

@@ -206,6 +206,13 @@ export const bookRTKApi = createApi({
             }),
             invalidatesTags: ['LoanRecord'],
         }),
+        resolvedViolation: builder.mutation({
+            query: ({itemId}) => ({
+                url: `violations/${itemId}`,
+                method: 'PUT',
+            }),
+            invalidatesTags: ['Violation'],
+        }),
     }),
 });
 
@@ -240,4 +247,5 @@ export const {
     useGetLoanReportByMonthQuery,
     useGetCountBooksByCategoryQuery,
     useReturnBooksMutation,
+    useResolvedViolationMutation,
 } = bookRTKApi;
