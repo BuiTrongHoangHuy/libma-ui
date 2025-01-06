@@ -29,7 +29,9 @@ export function LoginForm() {
             localStorage.setItem("tokenLibma", token);
         }
         console.log('Login submitted:', response)
-        navigate("/library")
+        console.log("Login successful, navigating...");
+        window.location.href = "/library";
+        navigate(`/library`);
         setIsLoading(false)
         // Here you would typically send the data to your backend for authentication
     }
