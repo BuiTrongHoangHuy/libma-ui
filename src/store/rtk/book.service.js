@@ -18,6 +18,18 @@ export const bookRTKApi = createApi({
             }),
             invalidatesTags: ['Title'],
         }),
+        updateTitle: builder.mutation({
+            query: ({id, payload}) => ({
+                url: `titles/${id}`,
+                method: "PUT",
+                body: payload,
+            }),
+            invalidatesTags: ['Title']
+        }),
+        getTitleById: builder.query({
+            query: (id) => `titles/${id}`,
+            providesTags: ['Title'],
+        }),
         deleteTitle: builder.mutation({
             query: (itemId) => ({
                 url: `titles/delete/${itemId}`,
@@ -152,6 +164,8 @@ export const bookRTKApi = createApi({
 export const {
     useGetTitleQuery,
     useAddTitleMutation,
+    useUpdateTitleMutation,
+    useGetTitleByIdQuery,
     useDeleteTitleMutation,
     useGetCategoryQuery,
     useAddCategoryMutation,

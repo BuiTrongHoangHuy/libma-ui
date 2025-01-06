@@ -8,7 +8,7 @@ import {
     DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu.jsx";
 
-export const bookTitleColumns = [
+export const bookTitleColumns = (handleViewTitleDetails) => [
     {
         id: "select",
         header: ({table}) => (
@@ -97,7 +97,6 @@ export const bookTitleColumns = [
         enableHiding: false,
         cell: ({row}) => {
             const user = row.original;
-
             return (
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
@@ -114,7 +113,10 @@ export const bookTitleColumns = [
                             Copy user ID
                         </DropdownMenuItem>
                         <DropdownMenuSeparator/>
-                        <DropdownMenuItem>View user details</DropdownMenuItem>
+                        <DropdownMenuItem
+                            onClick={() => handleViewTitleDetails(user.titleId)}
+                        >
+                            View title details</DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>
             );

@@ -77,7 +77,7 @@ export const publicationsColumns = [
             <div className="px-5">{new Date(row.getValue("createdAt")).toLocaleDateString()}</div>
         ),
     },
-    {
+    /*{
         accessorKey: "allowUse",
         header: ({column}) => (
             <Button
@@ -97,7 +97,7 @@ export const publicationsColumns = [
                 />
             );
         },
-    },
+    },*/
     {
         accessorKey: "note",
         header: "Ghi chú",
@@ -124,7 +124,7 @@ export const publicationsColumns = [
                             Copy user ID
                         </DropdownMenuItem>
                         <DropdownMenuSeparator/>
-                        <DropdownMenuItem>View user details</DropdownMenuItem>
+                        <DropdownMenuItem>View category details</DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>
             );
