@@ -4,7 +4,7 @@ import {baseQuery} from "./base.service.js"
 export const bookRTKApi = createApi({
     reducerPath: 'cartRTKApi',
     baseQuery,
-    tagTypes: ['Category', 'Title', 'Edition', 'BookCopy', 'LoanRecord', 'Reader', "Violation"],
+    tagTypes: ['Category', 'Title', 'Edition', 'BookCopy', 'LoanRecord', 'Reader', "Violation", 'User'],
     endpoints: (builder) => ({
         getTitle: builder.query({
             query: () => 'titles/list',
@@ -94,6 +94,10 @@ export const bookRTKApi = createApi({
             query: () => 'bookCopies/list',
             providesTags: ['BookCopy'],
         }),
+        getBookCopyAvailable: builder.query({
+            query: () => 'bookCopies/listAvailable',
+            providesTags: ['BookCopy'],
+        }),
         addBookCopy: builder.mutation({
             query: (payload) => ({
                 url: 'bookCopies/add',
@@ -165,7 +169,14 @@ export const bookRTKApi = createApi({
                 body: payload,
             }),
             invalidatesTags: ["Violation"]
-        })
+        }),
+        getUserById: builder.query({
+            query: (id) => ({
+                url: `users/${id}`,
+                method: "GET",
+            }),
+            providesTags: ['User']
+        }),
     }),
 });
 
@@ -176,6 +187,7 @@ export const {
     useGetTitleByIdQuery,
     useDeleteTitleMutation,
     useGetCategoryQuery,
+    useGetBookCopyAvailableQuery,
     useAddCategoryMutation,
     useDeleteCategoryMutation,
     useGetEditionQuery,
@@ -192,6 +204,7 @@ export const {
     useGetLoanRecordQuery,
     useAddLoanRecordMutation,
     useGetReaderByIdQuery,
+    useGetUserByIdQuery,
     useGetViolationQuery,
     useAddViolationMutation
 } = bookRTKApi;
